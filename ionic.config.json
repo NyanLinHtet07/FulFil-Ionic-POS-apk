@@ -1,0 +1,7 @@
+{
+  "name": "FulFil",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
