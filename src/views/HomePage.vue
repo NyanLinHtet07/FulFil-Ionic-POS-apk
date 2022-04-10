@@ -1,40 +1,59 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true">
-      <ion-toolbar>
-        <ion-title>Blank</ion-title>
-      </ion-toolbar>
-    </ion-header>
+
+  
+
+  
+    <ion-content>
+   
+      <ion-tabs>
     
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Blank</ion-title>
-        </ion-toolbar>
-      </ion-header>
+        <ion-router-outlet id="main"></ion-router-outlet>
+      
+            <ion-tab-bar slot="bottom">
+              <ion-tab-button tab="home" href="/home"> <ion-icon :icon="homeOutline" /> Home </ion-tab-button>
+              <ion-tab-button tab="sales" href="/sales"> <ion-icon :icon="cartOutline" /> Sales</ion-tab-button>
+              <ion-tab-button tab="history" href="/history"> <ion-icon :icon="informationCircleOutline" /> History </ion-tab-button>
+            </ion-tab-bar>
+      </ion-tabs>
+    </ion-content>  
     
-      <div id="container">
-        <strong>Ready to create an app?</strong>
-        <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-      </div>
-    </ion-content>
+    
   </ion-page>
 </template>
 
-<script lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
-import { defineComponent } from 'vue';
+<script>
+import {  IonPage,  IonTabBar, IonTabButton, 
+          IonRouterOutlet, IonTabs, IonIcon, 
+          IonContent, 
+        } from '@ionic/vue';
+ import { defineComponent } from 'vue';
+ import { homeOutline , cartOutline, informationCircleOutline } from 'ionicons/icons';
+
 
 export default defineComponent({
   name: 'HomePage',
   components: {
-    IonContent,
-    IonHeader,
+   
     IonPage,
-    IonTitle,
-    IonToolbar
-  }
-});
+    IonTabBar,
+    IonTabButton,
+    IonRouterOutlet,
+    IonTabs,
+    IonIcon,
+    IonContent,
+  
+   
+  },
+
+  setup(){
+            return{
+                informationCircleOutline, homeOutline , cartOutline
+            }
+        },
+    
+  
+    });
 </script>
 
 <style scoped>
@@ -65,4 +84,6 @@ export default defineComponent({
 #container a {
   text-decoration: none;
 }
+
+
 </style>
