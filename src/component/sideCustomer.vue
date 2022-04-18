@@ -1,6 +1,6 @@
 <template>
-   
-            <ion-menu side="end" type="overlay" menu-id="custom" class=" my-custom-menu" content-id="main">
+    
+            <ion-menu side="end" type="overlay" menu-id="end" class=" my-custom-menu" content-id="main">
             <ion-header>
                 <ion-toolbar color=" tertiary">
                     <ion-title> Customer Info  </ion-title>
@@ -106,7 +106,7 @@ import {  IonHeader, IonContent,
          IonItem, IonLabel , IonList,
          IonText, IonGrid, IonRow, IonCol , 
          IonInput, IonIcon, IonTextarea,
-         IonTitle  } from '@ionic/vue'
+         IonTitle, IonButton  } from '@ionic/vue'
 
 import { person , locateSharp , callOutline } from 'ionicons/icons';
 //import { defineComponent} from 'vue';
@@ -129,6 +129,7 @@ export default  ({
         IonIcon,
         IonTextarea,
         IonTitle,
+        IonButton
     },
 
     setup(){

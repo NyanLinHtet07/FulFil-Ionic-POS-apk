@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "FulFil",
+	"webDir": "dist",
+	"bundledWebRuntime": "false"
+}

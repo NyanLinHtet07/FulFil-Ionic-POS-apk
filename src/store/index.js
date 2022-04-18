@@ -1,6 +1,14 @@
-import { createStore } from 'vuex'
+//import axios from 'axios';
+import { createStore } from 'vuex';
+import AuthModule from './modules/auth';
+
 
 const store = createStore({
+
+    modules:{
+        auth:AuthModule
+    },
+
     state(){
         return {
             customers: [ 
@@ -19,12 +27,44 @@ const store = createStore({
                 //'apple', 'orange'
             ],
 
+            items: [],
+
             cartItems: [],
 
             saleDatas:[],
 
             customer:{},
         };
+    },
+
+    getters: {
+
+        //api datas
+        items:state => {
+            return state.items;
+        },
+
+        customers(state) {
+            return state.customers;
+        },
+
+        products(state){
+            return state.products;
+        },
+
+        cartItems(state){
+            return state.cartItems;
+        },
+
+        getTotal : state => {
+            return state.cartItems.reduce((total, lineItem) => total + (lineItem.quantity * lineItem.price), 0);
+        },
+
+        saleRecord(state){
+            return(saleId) => {
+                return state.saleDatas.find((saleData) =>  saleData.id === saleId );
+            };
+        }
     },
 
     mutations: {
@@ -80,14 +120,16 @@ const store = createStore({
                 cartItems: saleData.cartItems,
                 tax: saleData.tax,
                 discount: saleData.discount,
+                deli:saleData.deli,
                 totalPrice: saleData.totalPrice,
+                grandTotal:saleData.grandtotal,
                 title: saleData.customer_title,
                 customer: saleData.customer_name,
                 phone: saleData.customer_phone,
                 address: saleData.customer_address,
                 shipping_address: saleData.customer_shipping,
                 description: saleData.customer_description,
-                created_at: new Date(),
+                created_at: new Date().toLocaleDateString(),
             };
 
             state.saleDatas.unshift(newSale);
@@ -105,35 +147,37 @@ const store = createStore({
             //};
 
             //state.customer.unshift(newCustomer);
+         },
+
+
+         //api datas
+         SET_Item (state,items){
+             state.items = items
          }
         
     },
 
-    getters: {
-        customers(state) {
-            return state.customers;
-        },
-
-        products(state){
-            return state.products;
-        },
-
-        cartItems(state){
-            return state.cartItems;
-        },
-
-        getTotal : state => {
-            return state.cartItems.reduce((total, lineItem) => total + (lineItem.quantity * lineItem.price), 0);
-        },
-
-        saleRecord(state){
-            return(saleId) => {
-                return state.saleDatas.find((saleData) =>  saleData.id === saleId )
-            };
-        }
-    },
+    
 
     actions: {
+
+        //api data 
+        
+        // loadItem ({commit}){
+        //     axios.get('http://54.169.124.45/api/auth/api_products' , {
+        //         headers: {
+        //             'Ocp-Apim-Subscription-Key' : localStorage.getItem('token'),
+        //         }
+        //     })
+        //     .then(response => response.data)
+        //     .then(items => {
+        //         console.log(items);
+
+        //         commit('SET_Items', items)
+        //     })
+        // },
+
+
         addToCart: (context, payload) => {
             context.commit("addToCart", payload)
         },

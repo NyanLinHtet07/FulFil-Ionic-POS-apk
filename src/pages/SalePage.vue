@@ -1,12 +1,26 @@
 <template>
    <ion-page>
-        <ion-content>
+    <Menu/>
+       
              
-            <ion-button @click="openCustom()" expand="half" class="icon" color="secondary" shape="round"> <ion-icon :icon="personOutline" />  
+           
+
+            <!-- <ion-button @click="clickMe" v-if="!view" expand="half" class="icon" shape="rounded">
+                Click
+            </ion-button>
+            <ion-button @click="closeMe" v-if="view" color="danger" class="icon" shape="rounded">
+                Close
+            </ion-button>
+
+            <ion-content v-if="view">
+                Hello
+            </ion-content> -->
+             <ion-content id="main">
+            <ion-button @click="openCustom()" expand="" class="icon" color="secondary" shape="round"> <ion-icon :icon="personOutline" />  
                    <!-- <ion-text> Customer </ion-text> -->
             </ion-button>
-                
-           <ion-toolbar>
+        
+           <ion-toolbar> 
                <ion-title> Sale DashBoard</ion-title>
            </ion-toolbar>
 
@@ -121,7 +135,8 @@ import { IonPage, IonContent, IonTitle ,
 import { personOutline, addCircleOutline, removeCircleOutline,
         barcodeOutline} from 'ionicons/icons';
 import { mapGetters } from "vuex";
-
+import Menu from '../component/sideCustomer.vue';
+//import Menu from './sideCustomer.vue';
 export default {
     components: {
         IonPage,
@@ -138,7 +153,8 @@ export default {
         IonCol,
         IonInput,
         IonText,
-        IonLabel
+        IonLabel,
+        Menu
     },
 
     setup(){
@@ -149,6 +165,8 @@ export default {
 
     data() {
         return {
+            view: false,
+
             state:'',
             filteredStates: [],
 
@@ -160,7 +178,9 @@ export default {
                 cartItems:'',
                 tax:'',
                 discount:'',
+                deli:'',
                 totalPrice:'',
+                grandtotal:'',
                 customer_name:'',
                 customer_address:'',
                 customer_phone:'',
@@ -173,10 +193,21 @@ export default {
 
 
     methods: {
-        openCustom(){
-        menuController.enable(true, 'custom');
-        menuController.open('custom');
+
+        clickMe(){
+            this.view = true;
         },
+
+        closeMe(){
+            this.view = false;
+        },
+
+        openCustom(){
+        //menuController.enable(true, 'custom');
+        menuController.open('end');
+        },
+
+       
 
         filterStates(){
             this.filteredStates = this.products.filter(state => {
@@ -206,7 +237,9 @@ export default {
                 this.saleData.cartItems = this.cartItems,
                 this.saleData.tax = this.addTax,
                 this.saleData.discount = this.addDis,
-                this.saleData.totalPrice = this.addTotal,
+                this.saleData.deli = this.deli,
+                this.saleData.totalPrice = this.getTotal,
+                this.saleData.grandtotal = this.addTotal,
                 this.saleData.customer_name = this.customer.name,
                 this.saleData.customer_address = this.customer.address,
                 this.saleData.customer_phone = this.customer.phone,
@@ -321,7 +354,7 @@ export default {
         margin:auto;
         padding: auto;
         font-weight: bold;
-        color: darkgrey;
+        color: rgb(122, 118, 118);
         display: block;
         text-align: center;
     }

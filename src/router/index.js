@@ -9,7 +9,7 @@ import Login from '../pages/Auth/LoginAdmin.vue';
 const routes = [
 {
   path:'/',
-  redirect:'/sales',
+  redirect:'/login',
 },
 {
   path:'/login',
@@ -19,10 +19,10 @@ const routes = [
   path:'/',
   component: HomePage,
   children : [
-  {
-      path:'',
-      redirect:'/sales',
-  },
+  // {
+  //     path:'',
+  //     redirect:'/sales',
+  // },
 
   {
     path:'/home',

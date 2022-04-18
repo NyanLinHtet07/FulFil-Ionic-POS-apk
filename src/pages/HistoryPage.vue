@@ -69,6 +69,8 @@
 import { IonPage, IonTitle, IonContent,
         IonToolbar , IonList ,IonLabel, IonItem,
         IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent} from '@ionic/vue';
+
+import axios from 'axios';
 export default {
     components:{
         IonPage,
@@ -85,10 +87,33 @@ export default {
         
     },
 
+    data() {
+        return {
+            products:[],
+        }
+    },
+
+    methods:{
+        view(){
+            axios.get(`http://54.169.124.45/api/auth/api_products`)
+                .then(response => {
+                    this.products = response.data
+                })
+        }
+    },
+
     computed:{
         records(){
             return this.$store.state.saleDatas;
         }
-    }
+    },
+
+     created() {
+    //   axios.get('http://54.169.124.45/api/auth/api_products')
+    //         .then( response => {
+    //           this.products = response.data
+    //         });
+    this.view();
+  },
 }
 </script>

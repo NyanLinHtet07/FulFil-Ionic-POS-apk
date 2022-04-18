@@ -1,31 +1,24 @@
 <template>
   <ion-page>
-
-  
-
-  
-    <ion-content>
-   
       <ion-tabs>
     
-        <ion-router-outlet id="main"></ion-router-outlet>
+       
       
             <ion-tab-bar slot="bottom">
               <ion-tab-button tab="home" href="/home"> <ion-icon :icon="homeOutline" /> Home </ion-tab-button>
               <ion-tab-button tab="sales" href="/sales"> <ion-icon :icon="cartOutline" /> Sales</ion-tab-button>
               <ion-tab-button tab="history" href="/history"> <ion-icon :icon="informationCircleOutline" /> History </ion-tab-button>
+               <!-- <ion-tab-button tab="logout" href="/history"> <ion-icon :icon="informationCircleOutline" /> History </ion-tab-button> -->
             </ion-tab-bar>
+            <ion-router-outlet></ion-router-outlet>
       </ion-tabs>
-    </ion-content>  
-    
-    
+  
   </ion-page>
 </template>
 
 <script>
 import {  IonPage,  IonTabBar, IonTabButton, 
           IonRouterOutlet, IonTabs, IonIcon, 
-          IonContent, 
         } from '@ionic/vue';
  import { defineComponent } from 'vue';
  import { homeOutline , cartOutline, informationCircleOutline } from 'ionicons/icons';
@@ -34,15 +27,12 @@ import {  IonPage,  IonTabBar, IonTabButton,
 export default defineComponent({
   name: 'HomePage',
   components: {
-   
     IonPage,
     IonTabBar,
     IonTabButton,
     IonRouterOutlet,
     IonTabs,
     IonIcon,
-    IonContent,
-  
    
   },
 
