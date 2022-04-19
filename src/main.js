@@ -2,7 +2,11 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
 import store from './store';
+import HighchartsVue from './chart';
 import './axios';
+//import './plugin/chart.js'
+//import 'vue3-highcharts';
+
 import { IonicVue } from '@ionic/vue';
 
 /* Core CSS required for Ionic components to work properly */
@@ -28,7 +32,8 @@ import './theme/core.css';
 const app = createApp(App)
   .use(IonicVue)
   .use(router)
-  .use(store);
+  .use(store)
+  .use(HighchartsVue);
   
 router.isReady().then(() => {
   app.mount('#app');

@@ -1,9 +1,6 @@
 <template>
   <ion-page>
       <ion-tabs>
-    
-       
-      
             <ion-tab-bar slot="bottom">
               <ion-tab-button tab="home" href="/home"> <ion-icon :icon="homeOutline" /> Home </ion-tab-button>
               <ion-tab-button tab="sales" href="/sales"> <ion-icon :icon="cartOutline" /> Sales</ion-tab-button>
