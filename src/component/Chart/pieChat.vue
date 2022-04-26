@@ -1,27 +1,37 @@
 <template>
-    <ion-card class="pieChart">
-        <ion-card-content>
+   
+        <div class="chart">
             <highcharts :options="chartOptions"></highcharts>
-        </ion-card-content>
-    </ion-card>
+            <!-- <ion-card-subtitle v-for="d in data" :key="d.id">
+                {{d.name}} {{d.y}}
+            </ion-card-subtitle> -->
+
+        </div>
+  
 </template>
 
 <script>
-import { IonCard, IonCardContent } from '@ionic/vue'
+//import { IonContent } from '@ionic/vue'
 export default {
     props: ["data", "title"],
   data() {
     return {
       chartOptions: {
         chart: {
-          plotBackgroundColor: null,
+          plotBackgroundColor:  'rgb(228 228 228 / 15%)',
           plotBorderWidth: null,
           plotShadow: false,
           type: "pie",
         },
-        exporting: {
-          enabled: false,
-        },
+         plotOptions: {
+                        column: {
+                          pointPadding: 0.2,
+                          borderWidth: 0
+                                }
+                      },
+        // exporting: {
+        //   enabled: false,
+        // },
         title: {
           text: "",
         },
@@ -60,16 +70,16 @@ export default {
 //   },
     
     components :{
-        IonCard,
-        IonCardContent,
+        //IonContent,
+     
     }
 }
 </script>
 <style>
-    .pieChart{
-       -webkit-backdrop-filter: blur(8px);  /* Safari 9+ */
-        backdrop-filter: blur(10px); /* Chrome and Opera */
-        box-shadow: 0px 5px 5px 5px rgb(0 0 0 / 15%);
-        background-color: rgb(228 228 228 / 15%); 
+    .chart{
+      max-width: 900px;
+      min-width: auto;
+      margin: auto;
+      padding: auto;
     }
 </style>

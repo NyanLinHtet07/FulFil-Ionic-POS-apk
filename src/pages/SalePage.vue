@@ -19,6 +19,7 @@
             <ion-button @click="openCustom()" expand="" class="icon" color="secondary" shape="round"> <ion-icon :icon="personOutline" />  
                    <!-- <ion-text> Customer </ion-text> -->
             </ion-button>
+           
         
            <ion-toolbar> 
                <ion-title> Sale DashBoard</ion-title>
@@ -134,8 +135,11 @@ import { IonPage, IonContent, IonTitle ,
         menuController} from '@ionic/vue';
 import { personOutline, addCircleOutline, removeCircleOutline,
         barcodeOutline} from 'ionicons/icons';
+
+
 import { mapGetters } from "vuex";
 import Menu from '../component/sideCustomer.vue';
+
 //import Menu from './sideCustomer.vue';
 export default {
     components: {
@@ -154,7 +158,8 @@ export default {
         IonInput,
         IonText,
         IonLabel,
-        Menu
+        Menu,
+    
     },
 
     setup(){

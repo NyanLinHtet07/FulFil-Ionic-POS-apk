@@ -1,6 +1,10 @@
 <template>
    <ion-page>
-       <ion-content>
+       <ion-content v-if="! this.records.length">
+           <img src="@/assets/empty_cart.svg" alt="" class="emptycart"/>
+           <ion-title> <h4 class="text"> Please Sale First. </h4></ion-title>
+       </ion-content>
+       <ion-content v-else>
             <ion-toolbar>
                     <ion-title class="ion-margin"> Sale History  </ion-title>
             </ion-toolbar>
@@ -70,7 +74,7 @@ import { IonPage, IonTitle, IonContent,
         IonToolbar , IonList ,IonLabel, IonItem,
         IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent} from '@ionic/vue';
 
-import axios from 'axios';
+//import axios from 'axios';
 export default {
     components:{
         IonPage,
@@ -83,7 +87,8 @@ export default {
         // IonGrid,
         // IonRow, IonCol,
         IonButton,
-        IonCard, IonCardHeader, IonCardSubtitle, IonCardContent, IonCardTitle
+        IonCard, IonCardHeader, IonCardSubtitle, IonCardContent, IonCardTitle,
+       
         
     },
 
@@ -94,12 +99,12 @@ export default {
     },
 
     methods:{
-        view(){
-            axios.get(`http://54.169.124.45/api/auth/api_products`)
-                .then(response => {
-                    this.products = response.data
-                })
-        }
+        // view(){
+        //     axios.get(`http://54.169.124.45/api/auth/api_products`)
+        //         .then(response => {
+        //             this.products = response.data
+        //         })
+        // }
     },
 
     computed:{
@@ -113,7 +118,19 @@ export default {
     //         .then( response => {
     //           this.products = response.data
     //         });
-    this.view();
+    //this.view();
   },
 }
 </script>
+
+<style scope>
+    .emptycart{
+      margin-top: 60px;
+    }
+    .text{
+        text-align: center;
+        font-weight: 400;
+        margin-top: 20px;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+</style>

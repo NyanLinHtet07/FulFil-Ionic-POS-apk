@@ -60,6 +60,10 @@ const store = createStore({
             return state.cartItems.reduce((total, lineItem) => total + (lineItem.quantity * lineItem.price), 0);
         },
 
+        TotalSale : state => {
+            return state.saleDatas.reduce((total, records) => total += Number(records.grandTotal) , 0);
+        },
+
         saleRecord(state){
             return(saleId) => {
                 return state.saleDatas.find((saleData) =>  saleData.id === saleId );

@@ -54,7 +54,7 @@
                                         <ion-icon :icon="locateSharp" />
                                     </ion-col>
                                     <ion-col>
-                                           <ion-text color="medium">{{theCustomer.address}}</ion-text>
+                                           <ion-text>{{theCustomer.address}}</ion-text>
                                     </ion-col>
                                 </ion-row>
                             </ion-grid>
@@ -193,7 +193,7 @@ export default  ({
 
 <style>
     .my-custom-menu{
-    --width: 500px;
+    --width: 60%;
     --transition-duration: 5s ease in;
 }
 

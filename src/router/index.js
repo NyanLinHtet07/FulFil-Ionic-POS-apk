@@ -9,7 +9,7 @@ import Login from '../pages/Auth/LoginAdmin.vue';
 const routes = [
 {
   path:'/',
-  redirect:'/login',
+  redirect:'/sales',
 },
 {
   path:'/login',
@@ -27,7 +27,7 @@ const routes = [
   {
     path:'/home',
     //component: IndexPage,
-    component: () => import('@/pages/IndexPage.vue'),
+    component: () => import('@/pages/testPage.vue'),
   },
 
   {
