@@ -1,5 +1,5 @@
 <template >
-  <div class="ion-page">
+  <ion-page>
     <ion-header>
       <ion-toolbar class="toolbar-md-primary">
         <ion-title>Capacitor - VueJS</ion-title>
@@ -7,26 +7,55 @@
     </ion-header>
     <ion-content padding>
       <img :src="imageUrl ? imageUrl : null" />
-      <ion-button @click="takePicture()">Take Picture Now</ion-button>
-      <ion-button @click="nextPage()">Next Page</ion-button>
+      <!-- <ion-button @click="takePicture()">Take Picture Now</ion-button> -->
       <ion-button @click="scan()">SCAN</ion-button>
+
     </ion-content>
-  </div>
+
+    <ion-content>
+      <ion-list>
+      <ion-item v-for=" item in bluetoothList" :key="item.id" @click="selectPrinter(item.id)">
+          {{item.name}}{{item.id}}
+      </ion-item>
+      </ion-list>
+
+      <div>
+        Selected Printer: {{selectPrinter}}
+      </div>
+
+      <ion-button expand="full" @click="printStuff()">
+            Print
+      </ion-button>
+    </ion-content>
+  </ion-page>
 </template> 
 
 <script>
-import { Plugins } from "@capacitor/core";
-const { Camera } = Plugins;
-//import { BarcodeScanner} from "@awesome-cordova-plugins/barcode-scanner"
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonItem, IonList } from '@ionic/vue'
+import { PrintService } from '../plugin/print/print' 
+// import {CameraResultType, CameraSource, Plugins } from "@capacitor/core";
+//const { Camera } = Plugins;
+
+
 export default {
   name: "CameraPage",
   data() {
     return {
       msg: "Welcome to Your Vue Capacitor App",
-      imageUrl: null
+      imageUrl: null,
+      filteredStates:[],
+      bluetoothList:[],
+      selectedPrinter:'',
+      //data : this.result.text
     };
   },
+
+  components: {
+      IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonItem, IonList
+  },
   methods: {
+
+    
     scan() {
       window.cordova.plugins.barcodeScanner.scan(
         result => {
@@ -42,6 +71,10 @@ export default {
               "Cancelled: " +
               result.cancelled
           );
+         
+          if( result == this.filterName.code){
+              this.$store.dispatch("addToCart", this.filterName);
+          }
         },
         error => {
           alert("Scanning failed: " + error);
@@ -59,33 +92,74 @@ export default {
         }
       );
     },
-    nextPage() {
-      this.$router.push("/geo-location-page");
+
+    // filterCode(){
+    //   this.filterCode = this.products.filter(state => {
+    //     return state.code ;
+    //   })
+    //}
+   
+    // async takePicture() {
+    //   let isAvailable = true;
+    //   if (!isAvailable) {
+    //     // Have the user upload a file instead
+    //     alert("No Camera Aailable");
+    //   } else {
+    //     // Otherwise, make the call:
+    //     try {
+    //       const image = await Camera.getPhoto({
+    //         quality: 90,
+    //         allowEditing: true,
+    //         resultType: CameraResultType.DataUrl,
+    //         source: CameraSource.Prompt
+    //       });
+    //       console.log("image", image);
+    //       // image.base64_data will contain the base64 encoded result as a JPEG, with the data-uri prefix added
+    //       this.imageUrl = image.dataUrl;
+    //       // can be set to the src of an image now
+    //       console.log(image);
+    //     } catch (e) {
+    //       console.log("error", e);
+    //     }
+    //   }
+    // }
+
+    listPrinter(){
+      let print = PrintService;
+      print.searchBluetoothPrinter()
+                  .then(res =>{
+                    this.bluetoothList = res;
+                  });
     },
-    async takePicture() {
-      let isAvailable = true;
-      if (!isAvailable) {
-        // Have the user upload a file instead
-        alert("No Camera Aailable");
-      } else {
-        // Otherwise, make the call:
-        try {
-          const image = await Camera.getPhoto({
-            quality: 90,
-            allowEditing: true,
-            resultType: CameraResultType.DataUrl,
-            source: CameraSource.Prompt
-          });
-          console.log("image", image);
-          // image.base64_data will contain the base64 encoded result as a JPEG, with the data-uri prefix added
-          this.imageUrl = image.dataUrl;
-          // can be set to the src of an image now
-          console.log(image);
-        } catch (e) {
-          console.log("error", e);
-        }
-      }
+
+    selectPrinter(macAddress)
+    {
+      this.selectedPrinter = macAddress
+    },
+
+    printStuff(){
+      var myText = "Hello hello hello \n \n \n This is a test \n \n";
+      let print = PrintService;
+
+      print.sendToBluetoothPrinter(this.selectedPrinter, myText);
     }
+
+  },
+  computed: {
+    products(){
+      return this.$store.getters.products;
+    },
+     filterName(){
+            return this.products.map ((product) => {
+                return product;
+            })
+        },
+    //  filteredStates(){
+    //    this.filteredStates = this.products.filter(state => {
+    //             return state.name.toLowerCase().startsWith(this.state.toLowerCase());
+    //         })
+    
+    // }
   },
   activated() {
     console.log("activated")

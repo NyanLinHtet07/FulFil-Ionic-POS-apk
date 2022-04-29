@@ -30,9 +30,10 @@
                    <ion-row>
                        <ion-col>
                         <ion-col class="ion-align-self-auto">
-                                <ion-button>
+                            <Barcode/>
+                                <!-- <ion-button>
                                     <ion-icon  :icon="barcodeOutline" />
-                                </ion-button>
+                                </ion-button> -->
                         </ion-col>
                         <ion-col class="ion-align-self-auto">
                                 <ion-button color="tertiary">
@@ -139,6 +140,7 @@ import { personOutline, addCircleOutline, removeCircleOutline,
 
 import { mapGetters } from "vuex";
 import Menu from '../component/sideCustomer.vue';
+import Barcode from '../component/Sale/BarCodeData.vue';
 
 //import Menu from './sideCustomer.vue';
 export default {
@@ -159,6 +161,7 @@ export default {
         IonText,
         IonLabel,
         Menu,
+        Barcode
     
     },
 

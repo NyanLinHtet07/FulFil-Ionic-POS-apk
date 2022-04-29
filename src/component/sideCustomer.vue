@@ -118,7 +118,7 @@ export default  ({
         IonToolbar,
         IonSelect,
         IonSelectOption,
-        IonItem,
+        IonItem, 
         IonLabel,
         IonList,
         IonText,

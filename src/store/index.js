@@ -19,11 +19,11 @@ const store = createStore({
             ],
 
             products: [
-                {id:'1' , name:'apple' , price:'280'},
-                {id:'2' , name:'orange' , price:'600'},
-                {id:'3', name:'mango' , price:'1000'},
-                {id:'4', name:'graps' , price:'1500'},
-                {id:'5', name:'coconut', price:'1600'}, 
+                {id:'1' , name:'apple' , price:'280', code:'978020137962'},
+                {id:'2' , name:'orange' , price:'600', code:'72527273070'},
+                {id:'3', name:'mango' , price:'1000', code:'0123456'},
+                {id:'4', name:'graps' , price:'1500',code:'1845678901001'},
+                {id:'5', name:'coconut', price:'1600',code:'9031101'}, 
                 //'apple', 'orange'
             ],
 

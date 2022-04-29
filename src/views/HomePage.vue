@@ -10,7 +10,7 @@
             <ion-router-outlet></ion-router-outlet>
       </ion-tabs>
   
-  </ion-page>
+  </ion-page> 
 </template>
 
 <script>
