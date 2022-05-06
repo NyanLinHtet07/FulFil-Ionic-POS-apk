@@ -1,10 +1,13 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
-import {BluetoothSerial} from '@ionic-native/bluetooth-serial';
+//import {BluetoothSerial} from '@ionic-native/bluetooth-serial';
 import store from './store';
 import HighchartsVue from './chart';
 import './axios';
+//import { File } from '@ionic-native/file';
+import './index.css';
+//import VSwitch from 'v-switch-case';
 //import './plugin/chart.js'
 //import 'vue3-highcharts';
 
@@ -34,7 +37,7 @@ const app = createApp(App)
   .use(IonicVue)
   .use(router)
   .use(store)
-  .use(BluetoothSerial)
+  //.use(BluetoothSerial)
   .use(HighchartsVue);
   
 router.isReady().then(() => {

@@ -8,33 +8,31 @@
     <ion-content padding>
       <img :src="imageUrl ? imageUrl : null" />
       <!-- <ion-button @click="takePicture()">Take Picture Now</ion-button> -->
-      <ion-button @click="scan()">SCAN</ion-button>
+      <ion-button @click="scan()" @input="filterCode">SCAN</ion-button>
+      <pdf></pdf>
 
     </ion-content>
 
     <ion-content>
-      <ion-list>
-      <ion-item v-for=" item in bluetoothList" :key="item.id" @click="selectPrinter(item.id)">
-          {{item.name}}{{item.id}}
-      </ion-item>
-      </ion-list>
+     
 
-      <div>
-        Selected Printer: {{selectPrinter}}
-      </div>
+     
 
       <ion-button expand="full" @click="printStuff()">
             Print
+      </ion-button>
+       <ion-button expand="full" @click="pdf()">
+            pdf
       </ion-button>
     </ion-content>
   </ion-page>
 </template> 
 
 <script>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonItem, IonList } from '@ionic/vue'
-import { PrintService } from '../plugin/print/print' 
-// import {CameraResultType, CameraSource, Plugins } from "@capacitor/core";
-//const { Camera } = Plugins;
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton} from '@ionic/vue'
+import {jsPDF} from 'jspdf'
+import pdf from '../component/pdfComponent.vue'
+
 
 
 export default {
@@ -43,15 +41,18 @@ export default {
     return {
       msg: "Welcome to Your Vue Capacitor App",
       imageUrl: null,
-      filteredStates:[],
-      bluetoothList:[],
-      selectedPrinter:'',
-      //data : this.result.text
+      
+      filteredStates:{},
+      state:'',
+
+      //bluetoothList:[],
+      //selectedPrinter:'',
     };
   },
 
   components: {
-      IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonItem, IonList
+      IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, pdf
+     
   },
   methods: {
 
@@ -60,23 +61,38 @@ export default {
       window.cordova.plugins.barcodeScanner.scan(
         result => {
           console.log(result);
-          alert(
-            "We got a barcode\n" +
-              "Result: " +
-              result.text +
-              "\n" +
-              "Format: " +
-              result.format +
-              "\n" +
-              "Cancelled: " +
-              result.cancelled
-          );
+          // alert(
+          //   "We got a barcode\n" +
+          //     "Result: " +
+          //     result.text +
+          //     "\n" +
+          //     "Format: " +
+          //     result.format +
+          //     "\n" +
+          //     "Cancelled: " +
+          //     result.cancelled
+          // );
+              this.state = result.text;
+    
+               this.filteredStates= this.products.filter(s => {
+                  return s.code === result.text;
+            })
+  
+            this.$store.dispatch("addToCart", this.filteredStates);
+
+          
+              
+                // if(this.filteredStates){
+            //   this.filteredStates.map((data) => {
+            //     this.$store.dispatch("addToCart", data);
+            //      alert(data);
+            //   })
+            // }
+            
+          
          
-          if( result == this.filterName.code){
-              this.$store.dispatch("addToCart", this.filterName);
-          }
         },
-        error => {
+        error => { 
           alert("Scanning failed: " + error);
         },
         {
@@ -93,73 +109,67 @@ export default {
       );
     },
 
-    // filterCode(){
-    //   this.filterCode = this.products.filter(state => {
-    //     return state.code ;
-    //   })
-    //}
-   
-    // async takePicture() {
-    //   let isAvailable = true;
-    //   if (!isAvailable) {
-    //     // Have the user upload a file instead
-    //     alert("No Camera Aailable");
-    //   } else {
-    //     // Otherwise, make the call:
-    //     try {
-    //       const image = await Camera.getPhoto({
-    //         quality: 90,
-    //         allowEditing: true,
-    //         resultType: CameraResultType.DataUrl,
-    //         source: CameraSource.Prompt
-    //       });
-    //       console.log("image", image);
-    //       // image.base64_data will contain the base64 encoded result as a JPEG, with the data-uri prefix added
-    //       this.imageUrl = image.dataUrl;
-    //       // can be set to the src of an image now
-    //       console.log(image);
-    //     } catch (e) {
-    //       console.log("error", e);
-    //     }
-    //   }
+    pdf(){
+          var pdf = new jsPDF();
+
+          pdf.text('hello' , 10, 10);
+          pdf.save("test.pdf");
+    }
+
+    
+    
+
+
+    // listPrinter(){
+     
+    //   PrintService.searchBluetoothPrinter()
+    //               .then(res =>{
+    //                 this.bluetoothList = res;
+    //               });
+    // },
+
+    // selectPrinter(macAddress)
+    // {
+    //   this.selectedPrinter = macAddress
+    // },
+
+    // printStuff(){
+    //   var myText = "Hello hello hello \n \n \n This is a test \n \n";
+      
+
+    //   PrintService.sendToBluetoothPrinter(this.selectedPrinter, myText);
     // }
 
-    listPrinter(){
-      let print = PrintService;
-      print.searchBluetoothPrinter()
-                  .then(res =>{
-                    this.bluetoothList = res;
-                  });
-    },
+    // pdf(){
+    //   var fileName = "myPdfFile.pdf";
+    
+    //   var options = {
+    //       documentSize: 'A4',
+    //       type: 'base64'                
+    //   };
 
-    selectPrinter(macAddress)
-    {
-      this.selectedPrinter = macAddress
-    },
-
-    printStuff(){
-      var myText = "Hello hello hello \n \n \n This is a test \n \n";
-      let print = PrintService;
-
-      print.sendToBluetoothPrinter(this.selectedPrinter, myText);
-    }
+    //   var pdfhtml = '<html><body style="font-size:120%">This is the pdf content</body></html>';
+              
+    //     pdf.fromData(pdfhtml , options)
+    //       .then(function(base64){               
+    //           // To define the type of the Blob
+    //           var contentType = "application/pdf";
+                  
+    //           // if cordova.file is not available use instead :
+    //           // var folderpath = "file:///storage/emulated/0/Download/";
+    //           var folderpath = cordova.file.externalRootDirectory + "Download/"; //you can select other folders
+    //           savebase64AsPDF(folderpath, fileName, base64, contentType);          
+    //       })  
+    //       .catch((err)=>console.err(err));
+    //       }
 
   },
   computed: {
     products(){
       return this.$store.getters.products;
     },
-     filterName(){
-            return this.products.map ((product) => {
-                return product;
-            })
-        },
-    //  filteredStates(){
-    //    this.filteredStates = this.products.filter(state => {
-    //             return state.name.toLowerCase().startsWith(this.state.toLowerCase());
-    //         })
-    
-    // }
+   
+   
   },
   activated() {
     console.log("activated")

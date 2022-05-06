@@ -21,7 +21,7 @@
                     <ion-list>
                         <ion-item>
                             <ion-grid>
-                                <form></form>
+                               
                                 <ion-row class="ion-justify-content-center">
                                     <ion-col>
                                         <ion-icon :icon="person" />
@@ -97,7 +97,7 @@
         </ion-menu>
   
 </template>
-
+ 
 <script>
 
 import {  IonHeader, IonContent, 

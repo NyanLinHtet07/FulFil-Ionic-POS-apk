@@ -1,6 +1,6 @@
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 
-let btSerial = BluetoothSerial;
+
 
 export class PrintProvider {
 
@@ -13,25 +13,25 @@ export class PrintProvider {
   searchBluetoothPrinter()
   {
   
-    return btSerial.list();
+    return BluetoothSerial.list();
   }
 
   connectToBluetoothPrinter(macAddress)
   {
-    return btSerial.connect(macAddress);
+    return BluetoothSerial.connect(macAddress);
 
   }
 
   disconnectBluetoothPrinter()
   {
-    return btSerial.disconnect();
+    return BluetoothSerial.disconnect();
   }
 
   sendToBluetoothPrinter(macAddress, data_string){
     //trying connecting to bluetooth printer
     this.connectToBluetoothPrinter(macAddress)
           .subscribe(
-              btSerial.write(data_string)
+              BluetoothSerial.write(data_string)
             .then (
                this.disconnectBluetoothPrinter() 
             )

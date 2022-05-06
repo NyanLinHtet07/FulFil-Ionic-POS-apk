@@ -12,5 +12,5 @@ export function jwtDecrypt(token){
             .join("")
     );
 
-    return JSON.parse(jsonPayload);
+    return JSON.parse(jsonPayload); 
 }

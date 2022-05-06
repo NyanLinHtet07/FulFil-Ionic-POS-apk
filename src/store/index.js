@@ -1,14 +1,18 @@
-//import axios from 'axios';
+import axios from 'axios';
+import '../axios';
 import { createStore } from 'vuex';
-import AuthModule from './modules/auth'; 
+//import AuthModule from './modules/auth'; 
+
+
 
 
 const store = createStore({
 
-    modules:{
-        auth:AuthModule
-    },
+    // modules: {
+    //     auth:AuthModule
+    // },
 
+  
     state(){
         return {
             customers: [ 
@@ -18,32 +22,25 @@ const store = createStore({
                 
             ],
 
-            products: [
-                {id:'1' , name:'apple' , price:'280', code:'978020137962'},
-                {id:'2' , name:'orange' , price:'600', code:'72527273070'},
-                {id:'3', name:'mango' , price:'1000', code:'0123456'},
-                {id:'4', name:'graps' , price:'1500',code:'1845678901001'},
-                {id:'5', name:'coconut', price:'1600',code:'9031101'}, 
-                //'apple', 'orange'
-            ],
+            product: [],
 
-            items: [],
+            cartItemCount: 0,
 
             cartItems: [],
 
             saleDatas:[],
 
             customer:{},
+
+            retails: [],
+
+            
         };
     },
 
     getters: {
 
-        //api datas
-        items:state => {
-            return state.items;
-        },
-
+      
         customers(state) {
             return state.customers;
         },
@@ -57,7 +54,7 @@ const store = createStore({
         },
 
         getTotal : state => {
-            return state.cartItems.reduce((total, lineItem) => total + (lineItem.quantity * lineItem.price), 0);
+            return state.cartItems.reduce((total, lineItem) => total + (lineItem.quantity * lineItem.variant.purchase_price), 0);
         },
 
         TotalSale : state => {
@@ -71,52 +68,89 @@ const store = createStore({
         }
     },
 
+    actions: {
+
+        async fetchUsers({ commit }) {
+            try {
+              const d = await axios.get("http://54.169.124.45/api/auth/retail/invoice");
+                commit('set_retails', d.data);
+              }
+              catch (error) {
+                  alert(error)
+                  console.log(error)
+              }
+          },
+
+
+
+          addToCart: (context, payload) => {
+            context.commit("addToCart", payload)
+        },
+    
+        removeItem: (context, payload) => {
+          context.commit("removeItem", payload)
+        },
+    
+        clearCart ({commit}){
+            commit('clearCart', []);
+        },
+
+         addSale( context, saleData){
+             context.commit('addSale', saleData);
+         },
+
+         customerData( context, theCustomer){
+             context.commit('customerData', theCustomer);
+         }
+    },
+
     mutations: {
-        addToCart( state, payload){
+        addToCart(state , payload){
+
             let item = payload;
-
-            item = { ...item, quantity:1}
-
-            if(state.cartItems.length > 0){
-                let bool = state.cartItems.some(i => i.id == item.id)
-
-                if(bool){
-                    let itemIndex = state.cartItems.findIndex( el => el.id === item.id)
-
-                    state.cartItems[itemIndex]["quantity"] += 1;
-                }
-
-                else {
-                    state.cartItems.push(item)
-                }
-            }
-
-            else{
+            item = { ...item, quantity:1 }
+  
+            if( state.cartItems.length > 0 ) {
+              let bool = state.cartItems.some (i => i.id == item.id)
+              if(bool) {
+                let itemIndex = state.cartItems.findIndex (el => el.id === item.id)
+                state.cartItems[itemIndex]["quantity"] += 1;
+               }
+               else{
+                 state.cartItems.push(item)
+               }
+            } 
+              else {
                 state.cartItems.push(item)
-            }
-        },
-
-        removeItem( state, payload){
-            if(state.cartItems.length > 0){
+              }
+            state.cartItemCount ++
+          },
+  
+          removeItem( state, payload){
+              if( state.cartItems.length > 0) {
                 let bool = state.cartItems.some(i => i.id === payload.id)
-
-                if(bool){
-                    let index = state.cartItems.findIndex(el => el.id === payload.id)
-
-                    if(state.cartItems[index]["quantity"] !== 0){
-                        state.cartItems[index]["quantity"] -= 1
-                    }
-
-                    if(state.cartItems[index]["quantity"] === 0){
-                        state.cartItems.splice(index,1)
-                    }
+  
+                if(bool) {
+                  let index = state.cartItems.findIndex(el => el.id === payload.id)
+  
+                  if(state.cartItems[index]["quantity"] !== 0){
+                    state.cartItems[index]["quantity"] -= 1
+                    state.cartItemCount --
+                  }
+  
+                  if( state.cartItems[index]["quantity"] === 0){
+                    state.cartItems.splice(index, 1)
+                  }
+   
+                
                 }
-            }
-        },
-
-        clearCart(state , cartItems){
-            state.cartItems = cartItems;
-        },
+              }
+          },
+  
+          clearCart(state, cartItems){
+              state.cartItems = cartItems;
+              state.cartItemCount =0;
+          },
 
         addSale(state, saleData){
             const newSale = {
@@ -155,52 +189,15 @@ const store = createStore({
 
 
          //api datas
-         SET_Item (state,items){
-             state.items = items
-         }
+         set_retails(state, data) {
+            state.products = data;
+        }
         
     },
 
     
 
-    actions: {
-
-        //api data 
-        
-        // loadItem ({commit}){
-        //     axios.get('http://54.169.124.45/api/auth/api_products' , {
-        //         headers: {
-        //             'Ocp-Apim-Subscription-Key' : localStorage.getItem('token'),
-        //         }
-        //     })
-        //     .then(response => response.data)
-        //     .then(items => {
-        //         console.log(items);
-
-        //         commit('SET_Items', items)
-        //     })
-        // },
-
-
-        addToCart: (context, payload) => {
-            context.commit("addToCart", payload)
-        },
-         removeItem: (context, payload) => {
-             context.commit("removeItem", payload)
-         },
-
-         clearCart({commit}){
-             commit('clearCart', [])
-         },
-
-         addSale( context, saleData){
-             context.commit('addSale', saleData);
-         },
-
-         customerData( context, theCustomer){
-             context.commit('customerData', theCustomer);
-         }
-    }
+    
 });
 
 export default store;

@@ -4,7 +4,7 @@ const state= () => ({
         refreashToken:"",
         tokenExp:"",
         userId:"",
-        userName:"",
+        userEmail:"",
     },
 
     loginStatus: 'success'
@@ -34,9 +34,9 @@ const mutations = {
    
 };
 
-import { Plugins} from "@capacitor/core";
+import { Plugins } from "@capacitor/core";
 
-const {Storage } = Plugins;
+const {Storage} = Plugins;
 
 const actions = {
     async loginUser({commit}, payload){

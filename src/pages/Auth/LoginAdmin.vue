@@ -32,6 +32,7 @@
 
 import { IonPage, IonContent,  IonCard, IonCardContent, IonCardTitle, 
          IonItem, IonLabel, IonInput, IonCardHeader, IonButton} from '@ionic/vue';
+//import { mapGetters,mapActions} from "vuex";
 import axios from "axios";
 export default {
     components:{
@@ -60,7 +61,30 @@ export default {
 
             console.log(response)
         }
+
+        // ...mapActions("auth", {
+        //     loginUser : "loginUser",
+        // }),
+
+        // async login(){
+        //     if(this.userInfo.email && this.userInfo.password){
+        //         await this.loginUser(this.userInfo);
+        //         if(this.loginStatus === "success"){
+        //             alert('login success');
+        //         }
+        //         else{
+        //             alert('failed to login')
+        //         }
+        //     }
+        // },
+    },
+
+    computed:{
+        // ...mapGetters("auth", {
+        //     loginStatus: "getLoginStatus",
+        // })
     }
+
 }
 </script>
 

@@ -9,7 +9,7 @@ import Login from '../pages/Auth/LoginAdmin.vue';
 const routes = [
 {
   path:'/',
-  redirect:'/sales',
+  redirect:'/login',
 },
 {
   path:'/login',
@@ -34,6 +34,17 @@ const routes = [
     path:'/sales',
     //component: SalePage,
     component:() => import('@/pages/SalePage.vue'),
+  },
+
+  {
+    path:'/sales_detail/:id',
+    component:() => import('@/pages/Sale/SaleDetail.vue'),
+
+  },
+
+  {
+    path:'/cart',
+    component:() => import('@/pages/Sale/CartAdd.vue'),
   },
 
   {

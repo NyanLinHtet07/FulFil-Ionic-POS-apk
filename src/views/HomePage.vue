@@ -4,6 +4,7 @@
             <ion-tab-bar slot="bottom">
               <ion-tab-button tab="home" href="/home"> <ion-icon :icon="homeOutline" /> Home </ion-tab-button>
               <ion-tab-button tab="sales" href="/sales"> <ion-icon :icon="cartOutline" /> Sales</ion-tab-button>
+               <ion-tab-button tab="cart" href="/cart"> <ion-icon :icon="cartOutline" /> Cart {{ count}}</ion-tab-button>
               <ion-tab-button tab="history" href="/history"> <ion-icon :icon="informationCircleOutline" /> History </ion-tab-button>
                <!-- <ion-tab-button tab="logout" href="/history"> <ion-icon :icon="informationCircleOutline" /> History </ion-tab-button> -->
             </ion-tab-bar>
@@ -38,7 +39,12 @@ export default defineComponent({
                 informationCircleOutline, homeOutline , cartOutline
             }
         },
-    
+
+    computed: {
+      count(){
+        return this.$store.state.cartItemCount;
+      }
+    }
   
     });
 </script>

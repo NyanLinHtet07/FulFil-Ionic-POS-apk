@@ -46,7 +46,7 @@
 
                             <ion-item>
                                 <ion-label> Phone - {{record.phone}}</ion-label>
-                            </ion-item>
+                            </ion-item> 
 
                             <ion-item>
                                 <ion-label> Shipping Address - {{record.shipping_address}}</ion-label>
@@ -74,7 +74,7 @@ import { IonPage, IonTitle, IonContent,
         IonToolbar , IonList ,IonLabel, IonItem,
         IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent} from '@ionic/vue';
 
-//import axios from 'axios';
+import axios from 'axios';
 export default {
     components:{
         IonPage,
@@ -95,15 +95,23 @@ export default {
     data() {
         return {
             products:[],
+            retails:[],
         }
     },
 
     methods:{
-        // view(){
-        //     axios.get(`http://54.169.124.45/api/auth/api_products`)
-        //         .then(response => {
-        //             this.products = response.data
-        //         })
+         view(){
+           axios.get(`http://54.169.124.45/api/auth/mobile_invoice/create`)
+                .then(response => (
+                    this.products = response.data
+                ))
+        },
+
+        // retail(){
+        //     axios.get(`http://54.169.124.45/api/auth/retail/invoice`)
+        //             .then(res => {
+        //                 this.retails = res.data
+        //             })
         // }
     },
 
@@ -113,12 +121,24 @@ export default {
         }
     },
 
+    mounted() {
+        axios.get(`http://54.169.124.45/api/auth/retail/invoice`)
+                .then( res => (
+                        this.retails = res.data
+                    ))
+        // axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+        // .then(response => (this.retails = response.data.bpi))
+        // .catch(error => console.log(error))
+               
+    },
+
      created() {
     //   axios.get('http://54.169.124.45/api/auth/api_products')
     //         .then( response => {
     //           this.products = response.data
     //         });
-    //this.view();
+    this.view();
+    //this.retail();
   },
 }
 </script>
