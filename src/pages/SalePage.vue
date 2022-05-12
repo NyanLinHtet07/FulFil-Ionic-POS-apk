@@ -1,22 +1,17 @@
 <template>
    <ion-page>
     <Menu/>
-       
-             
-           
-
-           
              <ion-content id="main">
-            <ion-button @click="openCustom()" expand="" class="icon" color="secondary" shape="round"> <ion-icon :icon="personOutline" />  
+            <ion-button @click="openCustom()" expand="" class="icon" color="secondary" shape="round"> <ion-icon :icon="personOutline" />
                    <!-- <ion-text> Customer </ion-text> -->
             </ion-button>
-           
-        
-           <ion-toolbar> 
+
+
+           <ion-toolbar>
                <ion-title> Sale DashBoard</ion-title>
            </ion-toolbar>
 
-          
+
                <ion-grid>
                    <ion-row>
                        <ion-col>
@@ -38,75 +33,82 @@
                                 </ion-list>
                         </ion-col>
                        </ion-col>
-                      
+
                    </ion-row>
                </ion-grid>
 
                <ion-content>
                    <ion-list>
                        <ion-item v-for=" data in retails" :key="data.id">
-                            <span class=" text-red-400"> {{ data .product_name }} </span> - {{ data.variant.product_code }} 
+                            <span class=" text-red-400"> {{ data .product_name }} </span> - {{ data.variant.product_code }}
                             <!-- <ion-item>
                                 <ion-label> Select Unit</ion-label>
                                     <ion-select v-model="unitId">
-                                        <ion-select-option v-for="u in data.unit" :key="u.id" :value="u.id"> 
-                                                    {{ u.unit}} 
+                                        <ion-select-option v-for="u in data.unit" :key="u.id" :value="u.id">
+                                                    {{ u.unit}}
                                         </ion-select-option>
                                     </ion-select>
 
-                                  
-                                                                    
+
+
                                  </ion-item> -->
-                               
+
                             </ion-item>
                             <ion-item>
                              <!-- <ion-label v-for="p in sellingPrices" :key="p.id">
-                                        <div v-if="p.unit_id == this.unitId" :value="p.id"> 
+                                        <div v-if="p.unit_id == this.unitId" :value="p.id">
                                             <h3> {{ p.price}} </h3>
                                         </div>
                              </ion-label> -->
                            <ul>
-                               <li v-for="(d, index) in result" :key="index"> 
+                               <li v-for="d in result" :key="d.id"> 
                                    {{d.variant.product_name}}
                                    <select name="" id="" v-model="uId">
                                        <option v-for="(u,index) in d.unit" :key="index" :value="u.id">
                                            {{u.unit}}
                                        </option>
                                    </select>
-                                     <input type="text" v-model="qty[index]" class="bg-slate-500">
+                                     <!-- <input type="text" v-model="qty[index]" class="bg-slate-500"> -->
                                  </li>
-                                  <li v-for="d in result" :key="d.id"> 
+                                  <li v-for="d in result" :key="d.id">
                                    <div v-for="p in price" :key="p.id">
-                                       <p v-if="d.variant.id == p.product_id"> 
+                                       <p v-if="d.variant.id == p.product_id">
                                            <span v-if="d.variant.pricing_type == p.multi_price">
-                                             
+
                                                <span v-if="p.unit_id == uId">
                                                        <!-- {{p.rule}} || {{p.min}} {{p.max}} ||{{p.price}} -->
                                                        {{p}}
                                                </span>
-                                             
-                                                 
-                
+
+
+
                                            </span>
-                                          
+
                                        </p>
                                    </div>
                                   </li>
-                              
+
+
                            </ul>
-                           
-                             
+
+                           <ul>
+                               <li v-for="(j,index) in p" :key="index">
+                                    {{ j.variant.product_name }}
+                               </li>
+                           </ul>
+
+
                             </ion-item>
-                            
+
                    </ion-list>
                </ion-content>
 
-             
-                 
-         
 
-        </ion-content>    
-   </ion-page>     
+
+
+
+        </ion-content>
+   </ion-page>
 </template>
 <script>
 
@@ -114,7 +116,7 @@ import { IonPage, IonContent, IonTitle ,
          IonButton , IonIcon,
         IonToolbar, IonSearchbar, IonList,
         IonItem, IonGrid, IonRow, IonCol,
-       
+
         menuController} from '@ionic/vue';
 import { personOutline,
         barcodeOutline} from 'ionicons/icons';
@@ -144,13 +146,13 @@ export default {
         IonRow,
         IonCol,
         // IonSelect, IonSelectOption,
-       
-       
-      
+
+
+
         Menu,
         Barcode,
         //Sale
-    
+
     },
 
     setup(){
@@ -161,26 +163,21 @@ export default {
 
     data() {
         return {
-            view: false, 
-          
+            view: false,
 
-            qty:{
-                nest:'',
-            },
             state:'',
             filteredStates: [],
             retails:[],
-
-
             sellingPrices:[],
+            p:[],
 
             uId:[],
             //unitId:[],
             priceId:'',
 
-           
 
-          
+
+
         }
     },
 
@@ -204,7 +201,7 @@ export default {
         menuController.open('end');
         },
 
-       
+
 
         filterStates(){
             this.filteredStates = this.retails.filter(state => {
@@ -217,19 +214,35 @@ export default {
             this.$store.dispatch("addToCart", data);
         },
 
-        //  finals(){
-        //     if( this.result.id == this.price.product_id ){
-        //          hello
-        //     }
-        // }
 
-      
+
+         finals(){
+           const t = "hello"
+           return t ;
+        }
+
+
 
     },
 
     computed: {
         products(){
-        return this.$store.getters.products;
+        var r
+        //return this.$store.getters.product
+        this.retails.map( x => {
+            this.sellingPrices.map( y => {
+                if(x.variant_id === y.product_id) {
+                    if(x.variant.pricing_type === y.multi_price){
+                         this.r =  this.p.push(Object.assign(x,y));
+                        //  if(x.unit_id === y.unit_id) {
+                        //      y.map(object => object.children = [{object}, {object}])
+                        //  }
+                    }
+                }
+            })
+        })
+
+        return r ;
         },
 
         customer(){
@@ -248,12 +261,12 @@ export default {
             })
         },
 
-        
-       
+
+
 
 
         //for cart system
-       
+
 
         //name filter
         // filterName(){
@@ -263,14 +276,18 @@ export default {
         // }
     },
 
+    created() {
+        this.finals();
+    },
+
     async mounted() {
        await axios.get(api_url)
                     .then(res => {
                         this.retails = res.data.aval_product;
                         this.sellingPrices = res.data.prices
                     })
-        
-        
+
+
     },
 }
 </script>
@@ -287,7 +304,7 @@ export default {
 
     .cell{
         border-color: aliceblue;
-        border-width: .01em; 
+        border-width: .01em;
         border-style:solid; margin-bottom : -1px;
         background-color: rgb(241, 238, 238)
     }
@@ -300,7 +317,7 @@ export default {
         color: white;
         background-color: rgb(179, 41, 41);
         margin-left: 15px;
-     
+
         font-size: 20px;
         border-radius: 50%;
     }
@@ -312,7 +329,7 @@ export default {
         margin: auto;
         padding: auto;
         text-align: center;
-        
+
     }
 
     .inputText{
@@ -327,5 +344,5 @@ export default {
     /* ion-icon{
         font-size: 20px;
     } */
-   
+
 </style>
