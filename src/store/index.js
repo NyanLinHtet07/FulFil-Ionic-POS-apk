@@ -32,7 +32,7 @@ const store = createStore({
 
             customer:{},
 
-            retails: [],
+            foc: [],
 
             
         };
@@ -53,8 +53,12 @@ const store = createStore({
             return state.cartItems;
         },
 
+        focs(state){
+            return state.foc;
+        },
+
         getTotal : state => {
-            return state.cartItems.reduce((total, lineItem) => total + (lineItem.quantity * lineItem.variant.purchase_price), 0);
+            return state.cartItems.reduce((total, lineItem) => total + (lineItem.quantity * lineItem.price), 0);
         },
 
         TotalSale : state => {
@@ -83,12 +87,20 @@ const store = createStore({
 
 
 
-          addToCart: (context, payload) => {
+        addToCart: (context, payload) => {
             context.commit("addToCart", payload)
         },
     
         removeItem: (context, payload) => {
           context.commit("removeItem", payload)
+        },
+
+        addFoc: ( context, payload) => {
+            context.commit("addFoc" , payload)
+        },
+
+        removeFoc: (context, payload) => {
+            context.commit("removeFoc", payload)
         },
     
         clearCart ({commit}){
@@ -108,7 +120,7 @@ const store = createStore({
         addToCart(state , payload){
 
             let item = payload;
-            item = { ...item, quantity:1 }
+            item = { ...item, quantity:1 , unitId:0, price:0 }
   
             if( state.cartItems.length > 0 ) {
               let bool = state.cartItems.some (i => i.id == item.id)
@@ -146,10 +158,47 @@ const store = createStore({
                 }
               }
           },
+
+          addFoc(state, payload){
+                let item = payload;
+                item = {...item, quantity:1}
+
+                if(state.foc.length > 0){
+                    let bool = state.foc.some(i => i.id == item.id)
+                    if(bool) {
+                        let itemIndex = state.foc.findIndex ( el => el.id === item.id)
+                        state.foc[itemIndex]["quantity"] += 1;
+                    }
+                    else{
+                        state.foc.push(item)
+                    }
+                }
+                else{
+                    state.foc.push(item)
+                }
+          },
+
+          removeFoc( state, payload){
+              if(state.foc.length > 0){
+                  let bool = state.foc.some( i => i.id === payload.id)
+
+                  if(bool){
+                      let index = state.foc.findIndex( el => el.id === payload.id)
+
+                      if(state.foc[index]["quantity"] !== 0 ){
+                          state.foc[index]["quantity"] -= 1
+    
+                      }
+                      if(state.foc[index]["qunatity"] === 0){
+                          state.foc.splice(index, 1)
+                      }
+                  }
+              }
+          },
   
           clearCart(state, cartItems){
               state.cartItems = cartItems;
-              state.cartItemCount =0;
+              state.cartItemCount = 0;
           },
 
         addSale(state, saleData){

@@ -174,6 +174,7 @@ export default {
             uId:[],
             //unitId:[],
             priceId:'',
+            //t:'',
 
 
 
@@ -213,13 +214,23 @@ export default {
         addToCart(data){
             this.$store.dispatch("addToCart", data);
         },
+ 
 
 
+        //  finals(){
+        //    //this.t = "hello"
+        //    this.retails.map( x => {
+        //        this.sellingPrices.map(y => {
+        //            if(x.variant_id === y.product_id){
+        //                if(x.variant.pricing_type === y.multi_price){
+        //                    return this.p.push(Object.assign(x,y));
+        //                }
+        //            }
+        //        })
+        //    })
+          
+        // }
 
-         finals(){
-           const t = "hello"
-           return t ;
-        }
 
 
 
@@ -277,7 +288,7 @@ export default {
     },
 
     created() {
-        this.finals();
+        //this.finals();
     },
 
     async mounted() {

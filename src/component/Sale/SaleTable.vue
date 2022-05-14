@@ -1,11 +1,15 @@
 <template>
      <ion-content>
-            <!-- <ion-list>
-                <ion-item v-for="data in products" :key="data.id" @click="addToCart(data)">
-                    <ion-button> {{data.name}} </ion-button>
-                </ion-item>
-            </ion-list> -->
+         
+             <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off"></ion-searchbar>
+                                <ion-list>
+                                    <ion-item v-for=" data in filteredStates" :key="data.id" @click="addFoc(data)">
+                                            <ion-label> {{ data.variant.product_name }} </ion-label>
+                                    </ion-item>
+                                </ion-list>
+        
 
+           
             <ion-grid class="ion-margin w-full">
                 <ion-row class="ion-text-center tableHead font-extrabold">
                     <ion-col> Name </ion-col>
@@ -20,42 +24,71 @@
                         <ion-col> 
                                <ion-item>
                                     <ion-label> Select Unit</ion-label>
-                                        <ion-select v-model="unitId">
+                                        <ion-select v-model="product.unitId">
                                             <ion-select-option v-for="u in product.unit" :key="u.id" :value="u.id"> 
                                                     {{ u.unit}} 
                                             </ion-select-option>
                                         </ion-select>
 
                                 </ion-item>    
-                            <!-- <ion-item>
-                                <select v-model="unitId">
-                                    <option v-for="u in product.unit" :key="u.id" :value="u.id"> {{u.unit}}</option>
-                                </select>
-                            </ion-item> -->
+                           
                                 
                         </ion-col>
                         <ion-col>
-                                <p v-for="(p,index) in prices" :key="index">
-                                    <span v-if="p.unit_id === unitId"> 
-                                        {{p.price}}
-                                    </span>
-                                </p>
+                                <div v-for="(p,index) in prices" :key="index">
+                                    <!-- <p v-if="product.variant.id == p.product_id"> -->
+                                         <span v-if="p.unit_id === product.unitId"> 
+                                            <span v-if="product.variant.pricing_type == p.multi_price">
+                                            
+                                                    <span v-if=" p.multi_price == 0">
+                                                         <select name="" id="" v-model="product.price">
+                                                             <option :value="p.price">{{p.price}}</option>
+                                                        </select>
+                                                      
+                                                        
+                                                    </span>
+                                                    <span v-else>
+                                                        <span v-if="p.min <= product.quantity && ( p.max >= product.quantity || p.max == null ) "> 
+                                                            <ion-input v-model="product.price">
+                                                                <p :value="p.price">{{p.price}}</p>
+                                                            </ion-input>
+                                                        </span>
+                                                        <!-- <span v-if="p.max >= product.quantity"> {{p.price}}</span> -->
+                                                            <!-- <span v-if="p.slice(-1)[0]">
+                                                                <span v-if="p.min <= product.quantity"> {{p.price }}</span>
+                                                            </span>
+                                                            <span v-else>
+                                                                <span v-if="p.min <= product.quantity && p.max >= product.quantity"> {{p.price}}</span>
+                                                            </span> -->
+                                                    </span>
+                                                
+                                                
+                                                    <!-- {{p.price}} -->
+                                                </span>
+                                        </span>
+                                          
+                                    <!-- </p> -->
+                                  
+                                </div>
                         </ion-col>
                         <ion-col> 
-                            <ion-button @click="add(product)" shape="round" size="small" class="native"> <ion-icon :icon="addCircleOutline" /> </ion-button>   
-                            <ion-text> {{ product.quantity}} </ion-text>
-                            <ion-button @click="remove(product)" shape="round" size="small" class="native" color="danger"> <ion-icon :icon="removeCircleOutline" />  </ion-button> 
+                            <!-- <ion-button @click="add(product)" shape="round" size="small" class="native"> <ion-icon :icon="addCircleOutline" /> </ion-button>    -->
+                            <ion-text> <ion-input v-model="product.quantity" class=" bg-slate-300"></ion-input> </ion-text>
+                            <!-- <ion-button @click="remove(product)" shape="round" size="small" class="native" color="danger"> <ion-icon :icon="removeCircleOutline" />  </ion-button>  -->
                         </ion-col>
                         <ion-col>
-                              <p v-for="(p,index) in prices" :key="index">
-                                    <span v-if="p.unit_id === unitId"> 
-                                        {{p.price * product.quantity}}
-                                    </span>
-                                </p>
+                             {{product.price * product.quantity}}
                            
                         </ion-col>
                    
                 </ion-row> 
+                <ion-row v-for="foc in focItems" :key="foc.id" class="ion-text-center cell">
+                        <ion-col> {{ foc.variant.product_name}}</ion-col>
+                        <ion-col> FOC Item </ion-col>
+                        <ion-col> 00.00 </ion-col>
+                        <ion-col>{{ foc.quantity }}</ion-col>
+                        <ion-col> 00.00 </ion-col>
+                </ion-row>
                 <ion-row>
                    
                         <ion-col offset-4 class="ion-text-end"> Total </ion-col>
@@ -101,7 +134,8 @@
 </template>
 
 <script>
-import {IonContent,IonGrid,IonRow,IonCol, IonButton, IonText, IonInput, IonLabel, IonSelect, IonSelectOption } from '@ionic/vue'
+import {IonContent,IonGrid,IonRow,IonCol, IonButton, IonText, IonInput, IonLabel, IonSelect, IonSelectOption,
+        IonSearchbar, IonList, IonItem } from '@ionic/vue'
 import { mapGetters } from "vuex";
 import { addCircleOutline, removeCircleOutline} from 'ionicons/icons';
 import axios from 'axios';
@@ -113,7 +147,8 @@ export default {
         IonContent,
         IonGrid,IonRow,IonCol,
         IonButton,IonText,IonInput,
-        IonLabel,IonSelect,IonSelectOption
+        IonLabel,IonSelect,IonSelectOption,
+        IonSearchbar, IonList, IonItem
     },
 
     data() {
@@ -122,7 +157,10 @@ export default {
             tax:'',
             deli:'',
             discount:'',
+            state:'',
+            filteredStates:[],
             prices:[],
+            focs:[],
 
             saleData: {
                 cartItems:'',
@@ -162,6 +200,16 @@ export default {
             this.$store.dispatch("clearCart" , cartItems);
         },
 
+        addFoc(data){
+            this.$store.dispatch("addFoc", data)
+        },
+
+        filterStates(){
+            this.filteredStates = this.focs.filter( state => {
+                return state.variant.product_name.toLowerCase().startsWith(this.state.toLowerCase());
+            })
+        },
+
         saveData(){
 
                 this.saleData.cartItems = this.cartItems,
@@ -185,11 +233,12 @@ export default {
                 this.deli = '';
         },
 
-         async wholesale(){
+         async retails(){
               await axios.get(url)
                     .then(res => {
                         //this.retails = res.data.aval_product;
-                        this.prices = res.data.prices
+                        this.prices = res.data.prices,
+                        this.focs = res.data.focs
                     })
         }
         
@@ -204,6 +253,10 @@ export default {
          cartItems(){
             return this.$store.getters.cartItems;
         },
+
+            focItems(){
+                return this.$store.getters.focs;
+            },
 
         ...mapGetters(["getTotal"]),
 
@@ -232,11 +285,13 @@ export default {
             return dis.toFixed(2);
         },
 
+       
+
 
     },
 
     created() {
-        this.wholesale();
+        this.retails();
     },
     
 }
