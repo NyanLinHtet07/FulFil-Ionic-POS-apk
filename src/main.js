@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
+import MasterLayout from './component/MasterLayout.vue'
 //import {BluetoothSerial} from '@ionic-native/bluetooth-serial';
 import store from './store';
 import HighchartsVue from './chart';
@@ -36,9 +37,11 @@ import './theme/core.css';
 const app = createApp(App)
   .use(IonicVue)
   .use(router)
-  .use(store)
   //.use(BluetoothSerial)
   .use(HighchartsVue);
+
+    app.use(store);
+    app.component('master-layout' , MasterLayout);
   
 router.isReady().then(() => {
   app.mount('#app');

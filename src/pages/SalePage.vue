@@ -1,129 +1,81 @@
 <template>
-   <ion-page>
-    <Menu/>
-             <ion-content id="main">
-            <ion-button @click="openCustom()" expand="" class="icon" color="secondary" shape="round"> <ion-icon :icon="personOutline" />
-                   <!-- <ion-text> Customer </ion-text> -->
-            </ion-button>
-
-
-           <ion-toolbar>
-               <ion-title> Sale DashBoard</ion-title>
-           </ion-toolbar>
-
+  
+    <master-layout pageTitle = "Sale DashBoard">
+             <ion-content>
+            <!-- <ion-button @click="openCustom()" expand="" class="icon" color="secondary" shape="round"> <ion-icon :icon="personOutline" />
+                   <ion-text> Customer </ion-text>
+            </ion-button> -->
 
                <ion-grid>
                    <ion-row>
-                       <ion-col>
+                      
                         <ion-col class="ion-align-self-auto">
                             <Barcode/>
                         </ion-col>
-                        <ion-col class="ion-align-self-auto">
-                                <ion-button color="tertiary">
-                                    <ion-label> FOC </ion-label>
-                                </ion-button>
-
-                        </ion-col>
-                        <ion-col class="ion-align-self-auto">
+                       
+                        <!-- <ion-col class="ion-align-self-auto">
                                 <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off"></ion-searchbar>
+                              
                                 <ion-list>
                                     <ion-item v-for=" data in filteredStates" :key="data.id" @click="addToCart(data)">
                                             <ion-label> {{ data.product_name }} </ion-label>
                                     </ion-item>
                                 </ion-list>
-                        </ion-col>
-                       </ion-col>
+                        </ion-col> -->
+                    
+                   
+                         <ion-searchbar debounce="500" v-model="search" placeholder=" search products ..."/>                          
+                              <div class=" grid grid-cols-2 gap-4 w-full">
+                                 
+                                      <button @click="addToCart(data)"  v-for=" data in filterProducts" :key="data.id" 
+                                            class=" px-3 py-2 rounded-lg my-3 mx-2 bg-white text-sky-600 shadow-lg
+                                                 ring-1 ring-sky-300
+                                                  hover:bg-sky-500 hover:text-white hover:shadow-inner
+                                                 transition-colors duration-300">
+                                                <ion-label> 
+                                                    <h4> {{ data.product_name }} </h4>
+                                                    <h5> {{ data.variant.product_code}} </h5>
+
+                                                </ion-label>
+                                               
+                                      </button>
+                                 
+                              </div>
+                  
+
+                                   
+                       
 
                    </ion-row>
                </ion-grid>
-
-               <ion-content>
-                   <ion-list>
-                       <ion-item v-for=" data in retails" :key="data.id">
-                            <span class=" text-red-400"> {{ data .product_name }} </span> - {{ data.variant.product_code }}
-                            <!-- <ion-item>
-                                <ion-label> Select Unit</ion-label>
-                                    <ion-select v-model="unitId">
-                                        <ion-select-option v-for="u in data.unit" :key="u.id" :value="u.id">
-                                                    {{ u.unit}}
-                                        </ion-select-option>
-                                    </ion-select>
-
-
-
-                                 </ion-item> -->
-
-                            </ion-item>
-                            <ion-item>
-                             <!-- <ion-label v-for="p in sellingPrices" :key="p.id">
-                                        <div v-if="p.unit_id == this.unitId" :value="p.id">
-                                            <h3> {{ p.price}} </h3>
-                                        </div>
-                             </ion-label> -->
-                           <ul>
-                               <li v-for="d in result" :key="d.id"> 
-                                   {{d.variant.product_name}}
-                                   <select name="" id="" v-model="uId">
-                                       <option v-for="(u,index) in d.unit" :key="index" :value="u.id">
-                                           {{u.unit}}
-                                       </option>
-                                   </select>
-                                     <!-- <input type="text" v-model="qty[index]" class="bg-slate-500"> -->
-                                 </li>
-                                  <li v-for="d in result" :key="d.id">
-                                   <div v-for="p in price" :key="p.id">
-                                       <p v-if="d.variant.id == p.product_id">
-                                           <span v-if="d.variant.pricing_type == p.multi_price">
-
-                                               <span v-if="p.unit_id == uId">
-                                                       <!-- {{p.rule}} || {{p.min}} {{p.max}} ||{{p.price}} -->
-                                                       {{p}}
-                                               </span>
-
-
-
-                                           </span>
-
-                                       </p>
-                                   </div>
-                                  </li>
-
-
-                           </ul>
-
-                           <ul>
-                               <li v-for="(j,index) in p" :key="index">
-                                    {{ j.variant.product_name }}
-                               </li>
-                           </ul>
-
-
-                            </ion-item>
-
-                   </ion-list>
-               </ion-content>
-
-
-
-
-
+                
         </ion-content>
-   </ion-page>
+
+        <ion-footer class="ion-no-border" id="foot">
+            <!-- <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <ion-title class=" text-white text-center"> Cart Items </ion-title>
+                </div>
+                <div>
+                    <p class=" text-2xl text-white"> {{item}} <ion-icon :icon="arrowUpCircleOutline"></ion-icon>  </p>
+                </div>
+            </div> -->
+
+            <ion-button shape="round" expand=" block" class="text-center text-white" router-link="/cart">
+                   <ion-title> Cart Items | {{item}} </ion-title>
+            </ion-button>
+            
+               
+        </ion-footer>
+        </master-layout>
+
+ 
 </template>
 <script>
 
-import { IonPage, IonContent, IonTitle ,
-         IonButton , IonIcon,
-        IonToolbar, IonSearchbar, IonList,
-        IonItem, IonGrid, IonRow, IonCol,
-
-        menuController} from '@ionic/vue';
-import { personOutline,
-        barcodeOutline} from 'ionicons/icons';
-
-
-
-import Menu from '../component/sideCustomer.vue';
+import { IonContent, IonSearchbar,
+         IonGrid, IonRow, IonCol, IonFooter,IonTitle,  IonButton } from '@ionic/vue';
+import { arrowUpCircleOutline } from 'ionicons/icons';
 // import Sale from '../component/Sale/SaleTable.vue'
 import Barcode from '../component/Sale/BarCodeData.vue';
 
@@ -133,31 +85,27 @@ import axios from 'axios';
 const api_url = "http://54.169.124.45/api/auth/mobile_invoice/create";
 export default {
     components: {
-        IonPage,
+       
         IonContent,
-        IonTitle,
-        IonButton,
-        IonIcon,
-        IonToolbar,
         IonSearchbar,
-        IonList,
-        IonItem,
         IonGrid,
         IonRow,
         IonCol,
+        IonFooter,
+        IonTitle,
+        //IonIcon,
         // IonSelect, IonSelectOption,
-
-
-
-        Menu,
+        //Menu,
         Barcode,
+        IonButton
+
         //Sale
 
     },
 
     setup(){
         return{
-            personOutline,barcodeOutline
+            arrowUpCircleOutline
         }
     },
 
@@ -167,15 +115,14 @@ export default {
 
             state:'',
             filteredStates: [],
-            retails:[],
-            sellingPrices:[],
-            p:[],
+            wholeSales:[],
+
+            search:"",
+            products:[],
 
             uId:[],
-            //unitId:[],
+            
             priceId:'',
-            //t:'',
-
 
 
 
@@ -185,9 +132,7 @@ export default {
 
     methods: {
 
-        // add(){
-        //     this.unitId.push(this.uId);
-        // },
+      
 
         clickMe(){
             this.view = true;
@@ -197,105 +142,63 @@ export default {
             this.view = false;
         },
 
-        openCustom(){
-        //menuController.enable(true, 'custom');
-        menuController.open('end');
-        },
+        // openCustom(){
+        // //menuController.enable(true, 'custom');
+        // menuController.open('end');
+        // },
 
 
-
-        filterStates(){
-            this.filteredStates = this.retails.filter(state => {
-                return state.product_name.toLowerCase().startsWith(this.state.toLowerCase());
-            })
-        },
+        //we will use in search  
+        // filterStates(){
+        //     this.filteredStates = this.wholeSales.filter(state => {
+        //         return state.product_name.toLowerCase().match(this.state.toLowerCase());
+        //     })
+        // },
 
         //cart System
         addToCart(data){
             this.$store.dispatch("addToCart", data);
         },
+
  
-
-
-        //  finals(){
-        //    //this.t = "hello"
-        //    this.retails.map( x => {
-        //        this.sellingPrices.map(y => {
-        //            if(x.variant_id === y.product_id){
-        //                if(x.variant.pricing_type === y.multi_price){
-        //                    return this.p.push(Object.assign(x,y));
-        //                }
-        //            }
-        //        })
-        //    })
-          
-        // }
-
-
-
 
     },
 
     computed: {
-        products(){
-        var r
-        //return this.$store.getters.product
-        this.retails.map( x => {
-            this.sellingPrices.map( y => {
-                if(x.variant_id === y.product_id) {
-                    if(x.variant.pricing_type === y.multi_price){
-                         this.r =  this.p.push(Object.assign(x,y));
-                        //  if(x.unit_id === y.unit_id) {
-                        //      y.map(object => object.children = [{object}, {object}])
-                        //  }
-                    }
-                }
-            })
-        })
-
-        return r ;
-        },
+      
 
         customer(){
             return this.$store.state.customer;
         },
 
-        result(){
-            return this.retails.map((data) => {
-                return data;
+
+        filterProducts(){
+            return this.wholeSales.filter((wholeSale) => {
+                return wholeSale.product_name.toLowerCase().match(this.search.toLowerCase())
             })
         },
 
-        price(){
-            return this.sellingPrices.map((data) => {
-                return data;
-            })
-        },
+        item(){
+            return this.$store.state.cartItemCount;
+        }
+
+       
 
 
 
 
 
-        //for cart system
-
-
-        //name filter
-        // filterName(){
-        //     return this.products.map ((product) => {
-        //         return product;
-        //     })
-        // }
     },
 
     created() {
-        //this.finals();
+       
     },
 
     async mounted() {
        await axios.get(api_url)
                     .then(res => {
-                        this.retails = res.data.aval_product;
-                        this.sellingPrices = res.data.prices
+                        this.wholeSales = res.data.aval_product;
+                        
                     })
 
 
@@ -350,6 +253,13 @@ export default {
         color: rgb(122, 118, 118);
         display: block;
         text-align: center;
+    }
+    #foot{
+         position: fixed;
+        bottom: 33px;
+        width: 100%;
+        justify-content : center;
+      
     }
 
     /* ion-icon{

@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
-import HomePage from '../views/HomePage.vue';
+//import HomePage from '../views/HomePage.vue';
 import Detail from '../pages/HistoryDetail.vue';
 import Login from '../pages/Auth/LoginAdmin.vue';
 // import SalePage from '../pages/SalePage.vue';
@@ -16,18 +16,24 @@ const routes = [
   component: Login,
 },
 {
-  path:'/',
-  component: HomePage,
-  children : [
+  path:'/select-sales',
+  component: () => import('@/pages/SelectSale.vue'),
+},
+
+
+// {
+//   path:'/',
+//   component: HomePage,
+//   children : [
   // {
   //     path:'',
   //     redirect:'/sales',
   // },
-
+ 
   {
     path:'/home',
     //component: IndexPage,
-    component: () => import('@/pages/testPage.vue'),
+    component: () => import('@/pages/HomePage.vue'),
   },
 
   {
@@ -47,6 +53,7 @@ const routes = [
     component:() => import('@/pages/Sale/CartAdd.vue'),
   },
 
+
   {
     path:'/history',
     //component: HistoryPage,
@@ -58,9 +65,9 @@ const routes = [
     component: Detail,
     //component:() => import('../pages/HistoryDetail.vue'),
   }
-]
+// ]
 
-}
+// }
   
 ]
 

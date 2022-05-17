@@ -1,5 +1,15 @@
 <template>
     <ion-page>
+        <ion-header>
+              
+                  <ion-toolbar>
+                     <ion-buttons slot="start">
+                     <ion-back-button default-href="cart"></ion-back-button>
+                     </ion-buttons>
+                     <ion-title>Cart Detail</ion-title>
+                  </ion-toolbar>
+                
+            </ion-header>
         <ion-content>
             <Sale/>
         </ion-content>
@@ -7,11 +17,12 @@
 </template>
 <script>
 
-import {IonPage, IonContent} from '@ionic/vue'
+import {IonPage, IonContent, IonHeader, IonButtons, IonBackButton, IonTitle} from '@ionic/vue'
 import Sale from '../../component/Sale/SaleTable.vue'
 export default {
     components:{
-        IonPage, IonContent, Sale
-    }    
+        IonPage, IonContent, Sale, 
+        IonHeader, IonButtons, IonBackButton, IonTitle
+    }     
 }
 </script>

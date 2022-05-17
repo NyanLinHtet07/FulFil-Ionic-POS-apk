@@ -1,16 +1,18 @@
-import axios from 'axios';
-import '../axios';
+
+//import '../axios';
 import { createStore } from 'vuex';
 //import AuthModule from './modules/auth'; 
+import SaleModule from './modules/sale';
 
 
 
 
 const store = createStore({
 
-    // modules: {
-    //     auth:AuthModule
-    // },
+    modules: {
+        //auth:AuthModule
+        sales:SaleModule
+    },
 
   
     state(){
@@ -22,7 +24,7 @@ const store = createStore({
                 
             ],
 
-            product: [],
+          
 
             cartItemCount: 0,
 
@@ -34,6 +36,7 @@ const store = createStore({
 
             foc: [],
 
+         
             
         };
     },
@@ -45,13 +48,11 @@ const store = createStore({
             return state.customers;
         },
 
-        products(state){
-            return state.products;
-        },
-
         cartItems(state){
             return state.cartItems;
         },
+
+       
 
         focs(state){
             return state.foc;
@@ -74,16 +75,18 @@ const store = createStore({
 
     actions: {
 
-        async fetchUsers({ commit }) {
-            try {
-              const d = await axios.get("http://54.169.124.45/api/auth/retail/invoice");
-                commit('set_retails', d.data);
-              }
-              catch (error) {
-                  alert(error)
-                  console.log(error)
-              }
-          },
+        // async fetchUsers({ commit }) {
+        //     try {
+        //       const d = await axios.get("http://54.169.124.45/api/auth/retail/invoice");
+        //         commit('set_retails', d.data);
+        //       }
+        //       catch (error) {
+        //           alert(error)
+        //           console.log(error)
+        //       }
+        //   },
+
+       
 
 
 
@@ -238,9 +241,11 @@ const store = createStore({
 
 
          //api datas
-         set_retails(state, data) {
-            state.products = data;
-        }
+        //  set_retails(state, data) {
+        //     state.products = data;
+        // }
+
+       
         
     },
 

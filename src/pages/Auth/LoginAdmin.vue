@@ -1,42 +1,40 @@
 <template>
-   <ion-page>
-       <ion-content>
-          <ion-card class="center ion-justify-content-center ion-align-self-center">
-              <ion-card-header>
+   <ion-page class=" mt-5">
+       <ion-content class=" bg-red-600">
+         
                     
-                 <ion-card-title> Login Here </ion-card-title>
-            
-              </ion-card-header>
+                 <ion-title class=" text-gray-700 font-bold text-2xl"> Login Here </ion-title>
              
-              <ion-card-content>
+              
                 <form @submit.prevent="login">
-                 <ion-item>
+                 <ion-item class="my-5 px-2">
                     <ion-label position="floating">Email</ion-label>
                     <ion-input type="email" v-model="userInfo.email"></ion-input>
                 </ion-item>
-                 <ion-item>
+                 <ion-item class="my-5 px-2">
                     <ion-label position="floating">Password</ion-label>
                     <ion-input type="password" v-model="userInfo.password"></ion-input>
                 </ion-item>
-                  <ion-button expand="block" color="secondary" shape="round" type="submit"> 
+                  <ion-button expand="block" color="secondary" shape="round" type="submit" class="my-10"> 
                                Login
                 </ion-button>
                 </form>
-              </ion-card-content>
-          </ion-card>
+
        </ion-content>
+              
+      
    </ion-page>
 </template>
 
 <script>
 
-import { IonPage, IonContent,  IonCard, IonCardContent, IonCardTitle, 
-         IonItem, IonLabel, IonInput, IonCardHeader, IonButton} from '@ionic/vue';
+import { IonPage, IonContent,  
+         IonItem, IonLabel, IonInput,IonButton} from '@ionic/vue';
 //import { mapGetters,mapActions} from "vuex";
 import axios from "axios";
 export default {
     components:{
-        IonPage, IonContent ,  IonCard, IonCardContent, IonCardTitle, IonCardHeader,
+        IonPage, IonContent , 
         IonItem, IonLabel, IonInput, IonButton 
     },
 
@@ -57,7 +55,9 @@ export default {
             });
 
             localStorage.setItem('token', response.data.access_token);
-            this.$router.push('/sales');
+            //this.$router.go();
+            this.$router.push('/select-sales');
+           
 
             console.log(response)
         }

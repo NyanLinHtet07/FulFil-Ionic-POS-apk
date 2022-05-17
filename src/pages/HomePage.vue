@@ -1,6 +1,8 @@
 <template >
-  <ion-page>
-    <ion-header>
+  
+  <master-layout pageTitle="Home Page">
+       <ion-header>
+     
       <ion-toolbar class="toolbar-md-primary">
         <ion-title>Capacitor - VueJS</ion-title>
       </ion-toolbar>
@@ -25,11 +27,13 @@
             pdf
       </ion-button>
     </ion-content>
-  </ion-page>
+  </master-layout>
+   
+ 
 </template> 
 
 <script>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton} from '@ionic/vue'
+import {  IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue'
 import {jsPDF} from 'jspdf'
 import pdf from '../component/pdfComponent.vue'
 
@@ -51,7 +55,7 @@ export default {
   },
 
   components: {
-      IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, pdf
+      IonHeader, IonToolbar, IonTitle, IonContent, IonButton, pdf
      
   },
   methods: {
@@ -76,6 +80,7 @@ export default {
     
                this.filteredStates= this.products.filter(s => {
                   return s.code === result.text;
+  
             })
   
             this.$store.dispatch("addToCart", this.filteredStates);
@@ -114,7 +119,10 @@ export default {
 
           pdf.text('hello' , 10, 10);
           pdf.save("test.pdf");
-    }
+    },
+
+  
+
 
     
     

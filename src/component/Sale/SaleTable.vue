@@ -1,7 +1,7 @@
 <template>
-     <ion-content>
+     <ion-content v-if="! visiable">
          
-             <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off"></ion-searchbar>
+             <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off" placeholder="search foc ..."></ion-searchbar>
                                 <ion-list>
                                     <ion-item v-for=" data in filteredStates" :key="data.id" @click="addFoc(data)">
                                             <ion-label> {{ data.variant.product_name }} </ion-label>
@@ -49,9 +49,7 @@
                                                     </span>
                                                     <span v-else>
                                                         <span v-if="p.min <= product.quantity && ( p.max >= product.quantity || p.max == null ) "> 
-                                                            <ion-input v-model="product.price">
-                                                                <p :value="p.price">{{p.price}}</p>
-                                                            </ion-input>
+                                                                <p>{{p.price}}</p>
                                                         </span>
                                                         <!-- <span v-if="p.max >= product.quantity"> {{p.price}}</span> -->
                                                             <!-- <span v-if="p.slice(-1)[0]">
@@ -124,13 +122,18 @@
             </ion-grid>
 
             <ion-item>
-                <ion-button @click="saveData" expand="block" color="secondary" shape="round" 
-                 slot="end" size="" name="star"> 
-                    Save 
+                <ion-button  expand="block" color="secondary" shape="round" 
+                 slot="end" size="" name="star" @click="hide()"> 
+                    Continue
                  </ion-button>
             </ion-item>
 
            </ion-content>
+
+
+
+           <Customer v-if="visiable" />
+              
 </template>
 
 <script>
@@ -139,6 +142,7 @@ import {IonContent,IonGrid,IonRow,IonCol, IonButton, IonText, IonInput, IonLabel
 import { mapGetters } from "vuex";
 import { addCircleOutline, removeCircleOutline} from 'ionicons/icons';
 import axios from 'axios';
+import Customer from '../../component/Sale/CustomerRecord.vue'
 
 const url = "http://54.169.124.45/api/auth/mobile_invoice/create";
 
@@ -148,11 +152,13 @@ export default {
         IonGrid,IonRow,IonCol,
         IonButton,IonText,IonInput,
         IonLabel,IonSelect,IonSelectOption,
-        IonSearchbar, IonList, IonItem
+        IonSearchbar, IonList, IonItem,
+        Customer
     },
 
     data() {
         return {
+            visiable:false,
             unitId:'',
             tax:'',
             deli:'',
@@ -163,7 +169,8 @@ export default {
             focs:[],
 
             saleData: {
-                cartItems:'',
+                cartItems:[],
+                focs:[],
                 tax:'',
                 discount:'',
                 deli:'',
@@ -210,28 +217,34 @@ export default {
             })
         },
 
-        saveData(){
-
-                this.saleData.cartItems = this.cartItems,
-                this.saleData.tax = this.addTax,
-                this.saleData.discount = this.addDis,
-                this.saleData.deli = this.deli,
-                this.saleData.totalPrice = this.getTotal,
-                this.saleData.grandtotal = this.addTotal,
-                this.saleData.customer_name = this.customer.name,
-                this.saleData.customer_address = this.customer.address,
-                this.saleData.customer_phone = this.customer.phone,
-                this.saleData.customer_title = this.customer.title,
-                this.saleData.customer_shipping = this.customer.shipping_address,
-                this.saleData.customer_description = this.customer.description,
-                
-                this.$store.dispatch('addSale', this.saleData);
-                this.clearCart();
-                this.addTotal = '' ;
-                this.tax = '' ;
-                this.discount = '' ;
-                this.deli = '';
+        hide(){
+            this.visiable = true;
         },
+
+
+        // saveData(){
+
+        //         this.saleData.cartItems = this.cartItems,
+        //         this.saleData.focs = this.focItems,
+        //         this.saleData.tax = this.addTax,
+        //         this.saleData.discount = this.addDis,
+        //         this.saleData.deli = this.deli,
+        //         this.saleData.totalPrice = this.getTotal,
+        //         this.saleData.grandtotal = this.addTotal,
+        //         this.saleData.customer_name = this.customer.name,
+        //         this.saleData.customer_address = this.customer.address,
+        //         this.saleData.customer_phone = this.customer.phone,
+        //         this.saleData.customer_title = this.customer.title,
+        //         this.saleData.customer_shipping = this.customer.shipping_address,
+        //         this.saleData.customer_description = this.customer.description,
+                
+        //         this.$store.dispatch('addSale', this.saleData);
+        //         this.clearCart();
+        //         this.addTotal = '' ;
+        //         this.tax = '' ;
+        //         this.discount = '' ;
+        //         this.deli = '';
+        // },
 
          async retails(){
               await axios.get(url)

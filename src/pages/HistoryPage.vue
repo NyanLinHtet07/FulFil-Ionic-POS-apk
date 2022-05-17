@@ -1,6 +1,6 @@
 <template>
-   <ion-page>
-       <ion-content v-if="! this.records.length">
+        <master-layout pageTitle=" Sales History">
+                 <ion-content v-if="! this.records.length">
            <img src="@/assets/empty_cart.svg" alt="" class="emptycart"/>
            <ion-title> <h4 class="text"> Please Sale First. </h4></ion-title>
        </ion-content>
@@ -66,18 +66,20 @@
         
 
        </ion-content>
+        </master-layout>
+      
 
-   </ion-page>
+  
 </template>
 <script>
-import { IonPage, IonTitle, IonContent,
+import {  IonTitle, IonContent,
         IonToolbar , IonList ,IonLabel, IonItem,
         IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent} from '@ionic/vue';
 
 import axios from 'axios';
 export default {
     components:{
-        IonPage,
+      
         IonTitle,
         IonContent,
         IonToolbar,
