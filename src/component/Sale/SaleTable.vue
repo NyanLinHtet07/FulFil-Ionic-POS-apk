@@ -23,7 +23,6 @@
                         <ion-col> {{ product.product_name }}</ion-col>
                         <ion-col> 
                                <ion-item>
-                                    <ion-label> Select Unit</ion-label>
                                         <ion-select v-model="product.unitId">
                                             <ion-select-option v-for="u in product.unit" :key="u.id" :value="u.id"> 
                                                     {{ u.unit}} 
@@ -40,24 +39,20 @@
                                          <span v-if="p.unit_id === product.unitId"> 
                                             <span v-if="product.variant.pricing_type == p.multi_price">
                                             
-                                                    <span v-if=" p.multi_price == 0">
+                                                    <!-- <span v-if=" p.multi_price == 0">
                                                          <select name="" id="" v-model="product.price">
                                                              <option :value="p.price">{{p.price}}</option>
                                                         </select>
                                                       
                                                         
+                                                    </span> -->
+                                                    <span v-if="p.multi_price == 0">
+                                                        <input type="text" :value="p.price">
                                                     </span>
                                                     <span v-else>
                                                         <span v-if="p.min <= product.quantity && ( p.max >= product.quantity || p.max == null ) "> 
-                                                                <p>{{p.price}}</p>
+                                                                <input type="text"  :value= "p.price" >
                                                         </span>
-                                                        <!-- <span v-if="p.max >= product.quantity"> {{p.price}}</span> -->
-                                                            <!-- <span v-if="p.slice(-1)[0]">
-                                                                <span v-if="p.min <= product.quantity"> {{p.price }}</span>
-                                                            </span>
-                                                            <span v-else>
-                                                                <span v-if="p.min <= product.quantity && p.max >= product.quantity"> {{p.price}}</span>
-                                                            </span> -->
                                                     </span>
                                                 
                                                 
@@ -133,6 +128,7 @@
 
 
            <Customer v-if="visiable" />
+           <Create v-if="visiable" />
               
 </template>
 
@@ -143,6 +139,7 @@ import { mapGetters } from "vuex";
 import { addCircleOutline, removeCircleOutline} from 'ionicons/icons';
 import axios from 'axios';
 import Customer from '../../component/Sale/CustomerRecord.vue'
+import Create from '../../component/Sale/CreateCustomer.vue'
 
 const url = "http://54.169.124.45/api/auth/mobile_invoice/create";
 
@@ -153,11 +150,12 @@ export default {
         IonButton,IonText,IonInput,
         IonLabel,IonSelect,IonSelectOption,
         IonSearchbar, IonList, IonItem,
-        Customer
+        Customer, Create
     },
 
     data() {
         return {
+            test:'',
             visiable:false,
             unitId:'',
             tax:'',

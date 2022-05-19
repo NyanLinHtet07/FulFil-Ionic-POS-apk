@@ -2,9 +2,7 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 //import HomePage from '../views/HomePage.vue';
 import Detail from '../pages/HistoryDetail.vue';
 import Login from '../pages/Auth/LoginAdmin.vue';
-// import SalePage from '../pages/SalePage.vue';
-// import HistoryPage from '../pages/HistoryPage.vue';
-// import IndexPage from '../pages/IndexPage.vue';
+
 
 const routes = [
 {
@@ -17,7 +15,7 @@ const routes = [
 },
 {
   path:'/select-sales',
-  component: () => import('@/pages/SelectSale.vue'),
+  component: () => import('@/pages/Sale/CartChoose.vue'),
 },
 
 
@@ -37,26 +35,25 @@ const routes = [
   },
 
   {
-    path:'/sales',
-    //component: SalePage,
-    component:() => import('@/pages/SalePage.vue'),
+    path:'/wholesales',
+    component:() => import('@/pages/Sale/WholeSale/SalePage.vue'),
   },
 
-  {
-    path:'/sales_detail/:id',
-    component:() => import('@/pages/Sale/SaleDetail.vue'),
-
-  },
-
+  
   {
     path:'/cart',
-    component:() => import('@/pages/Sale/CartAdd.vue'),
+    component:() => import('@/pages/Sale/WholeSale/CartAdd.vue'),
   },
+
+  // {
+  //   path:'/sales_detail/:id',
+  //   component:() => import('@/pages/Sale/SaleDetail.vue'),
+
+  // },
 
 
   {
     path:'/history',
-    //component: HistoryPage,
     component:() => import('@/pages/HistoryPage.vue'),
   },
 

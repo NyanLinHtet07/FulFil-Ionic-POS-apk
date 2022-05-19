@@ -3,9 +3,9 @@
         <ion-header>
             <ion-toolbar>
                 <ion-buttons @click="openMenu()" slot="start">
-                        <ion-icon :icon="menu" slot="start"></ion-icon>
+                        <ion-icon :icon="menu" slot="start" class=" text-gray-700"></ion-icon>
                 </ion-buttons>
-                <ion-title>{{pageTitle}}</ion-title>
+                <ion-title class=" text-right font-bold text-gray-600">{{pageTitle}}</ion-title>
             </ion-toolbar>
         </ion-header>
         <ion-content>

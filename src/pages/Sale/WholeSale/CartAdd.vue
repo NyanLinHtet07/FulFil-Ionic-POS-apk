@@ -4,7 +4,7 @@
               
                   <ion-toolbar>
                      <ion-buttons slot="start">
-                     <ion-back-button default-href="cart"></ion-back-button>
+                     <ion-back-button default-href="/wholesales"></ion-back-button>
                      </ion-buttons>
                      <ion-title>Cart Detail</ion-title>
                   </ion-toolbar>
@@ -18,7 +18,7 @@
 <script>
 
 import {IonPage, IonContent, IonHeader, IonButtons, IonBackButton, IonTitle} from '@ionic/vue'
-import Sale from '../../component/Sale/SaleTable.vue'
+import Sale from '../../../component/Sale/SaleTable.vue'
 export default {
     components:{
         IonPage, IonContent, Sale, 

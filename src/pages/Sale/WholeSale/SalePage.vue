@@ -1,11 +1,7 @@
 <template>
   
-    <master-layout pageTitle = "Sale DashBoard">
+    <master-layout pageTitle = "WholeSales DashBoard">
              <ion-content>
-            <!-- <ion-button @click="openCustom()" expand="" class="icon" color="secondary" shape="round"> <ion-icon :icon="personOutline" />
-                   <ion-text> Customer </ion-text>
-            </ion-button> -->
-
                <ion-grid>
                    <ion-row>
                       
@@ -61,7 +57,7 @@
                 </div>
             </div> -->
 
-            <ion-button shape="round" expand=" block" class="text-center text-white" router-link="/cart">
+            <ion-button shape="round" expand="full" size="large" class="text-center text-white" router-link="/cart">
                    <ion-title> Cart Items | {{item}} </ion-title>
             </ion-button>
             
@@ -77,7 +73,7 @@ import { IonContent, IonSearchbar,
          IonGrid, IonRow, IonCol, IonFooter,IonTitle,  IonButton } from '@ionic/vue';
 import { arrowUpCircleOutline } from 'ionicons/icons';
 // import Sale from '../component/Sale/SaleTable.vue'
-import Barcode from '../component/Sale/BarCodeData.vue';
+import Barcode from '../../../component/Sale/BarCodeData.vue';
 
 
 import axios from 'axios';

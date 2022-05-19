@@ -1,12 +1,7 @@
 <template >
   
   <master-layout pageTitle="Home Page">
-       <ion-header>
-     
-      <ion-toolbar class="toolbar-md-primary">
-        <ion-title>Capacitor - VueJS</ion-title>
-      </ion-toolbar>
-    </ion-header>
+       
     <ion-content padding>
       <img :src="imageUrl ? imageUrl : null" />
       <!-- <ion-button @click="takePicture()">Take Picture Now</ion-button> -->
@@ -33,7 +28,7 @@
 </template> 
 
 <script>
-import {  IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue'
+import { IonContent, IonButton } from '@ionic/vue'
 import {jsPDF} from 'jspdf'
 import pdf from '../component/pdfComponent.vue'
 
@@ -55,7 +50,7 @@ export default {
   },
 
   components: {
-      IonHeader, IonToolbar, IonTitle, IonContent, IonButton, pdf
+     IonContent, IonButton, pdf
      
   },
   methods: {
