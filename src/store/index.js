@@ -36,6 +36,8 @@ const store = createStore({
 
             foc: [],
 
+            finalFoc: [],
+
          
             
         };
@@ -59,7 +61,7 @@ const store = createStore({
         },
 
         getTotal : state => {
-            return state.cartItems.reduce((total, lineItem) => total + (lineItem.quantity * lineItem.price), 0);
+            return state.cartItems.reduce((total, lineItem) => total + (lineItem.price * lineItem.quantity)-(((lineItem.price*lineItem.quantity)/100)*lineItem.discount), 0);
         },
 
         TotalSale : state => {
@@ -70,6 +72,24 @@ const store = createStore({
             return(saleId) => {
                 return state.saleDatas.find((saleData) =>  saleData.id === saleId );
             };
+        },
+
+        finalFocs(state){
+            return  state.foc.map( f => ({
+                quantity: f.quantity,
+                variant_id: f.variant_id,
+                unit_id:f.unitId,
+            }));
+        },
+
+        finalItems(state){
+            return state.cartItems.map( c => ({
+                qty: c.quantity,
+                variant_id: c.variant_id,
+                unit_id: c.unitId,
+                price: c.price,
+                discount: c.discount
+            }))
         }
     },
 
@@ -86,16 +106,17 @@ const store = createStore({
         //       }
         //   },
 
-       
-
-
-
+   
         addToCart: (context, payload) => {
             context.commit("addToCart", payload)
         },
     
         removeItem: (context, payload) => {
           context.commit("removeItem", payload)
+        },
+
+        removeProduct: ({commit}, product) => {
+            commit('Remove_Product', product)
         },
 
         addFoc: ( context, payload) => {
@@ -123,7 +144,7 @@ const store = createStore({
         addToCart(state , payload){
 
             let item = payload;
-            item = { ...item, quantity:1 , unitId:0, price:0 }
+            item = { ...item, quantity:1 , unitId:0, price:0 , discount:0}
   
             if( state.cartItems.length > 0 ) {
               let bool = state.cartItems.some (i => i.id == item.id)
@@ -162,9 +183,15 @@ const store = createStore({
               }
           },
 
+          Remove_Product(state, product){
+                state.cartItems = state.cartItems.filter( item => {
+                    return item.id !== product.id;
+                })
+          },
+
           addFoc(state, payload){
                 let item = payload;
-                item = {...item, quantity:1}
+                item = {...item, quantity:1, unitId:0}
 
                 if(state.foc.length > 0){
                     let bool = state.foc.some(i => i.id == item.id)

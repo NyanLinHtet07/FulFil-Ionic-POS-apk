@@ -20,6 +20,8 @@
                     <ion-item v-for="data in filteredCustomer" :key="data.id" @click="addData(data)">
                             <ion-label :value="data"> {{data.name}}</ion-label>
                     </ion-item> 
+
+                    <hr>
                      <ion-item>
                          <ion-label> {{getCustomer.name}}</ion-label>
                      </ion-item>
@@ -86,7 +88,11 @@ export default {
 
     methods:{
        async customer(){
-           await axios.get('http://54.169.124.45/api/auth/mobile_invoice/create')
+           await axios.get('http://54.169.124.45/api/auth/mobile_invoice/create', { 
+                headers: {
+                'Authorization': "Bearer" + localStorage.getItem('token'),
+                 },
+                })
                         .then( res => {
                             this.customers = res.data.allcustomers
                         })
@@ -120,6 +126,7 @@ export default {
 
     created(){
         this.customer();
+        setInterval(this.customer, 5000);
     }
     
     }

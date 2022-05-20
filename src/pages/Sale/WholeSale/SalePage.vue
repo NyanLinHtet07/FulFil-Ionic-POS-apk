@@ -57,7 +57,7 @@
                 </div>
             </div> -->
 
-            <ion-button shape="round" expand="full" size="large" class="text-center text-white" router-link="/cart">
+            <ion-button  class="text-center text-white" router-link="/cart">
                    <ion-title> Cart Items | {{item}} </ion-title>
             </ion-button>
             
@@ -80,7 +80,7 @@ import axios from 'axios';
 
 const api_url = "http://54.169.124.45/api/auth/mobile_invoice/create";
 export default {
-    components: {
+    components: { 
        
         IonContent,
         IonSearchbar,

@@ -21,6 +21,7 @@
        <ion-button expand="full" @click="pdf()">
             pdf
       </ion-button>
+      <test></test>
     </ion-content>
   </master-layout>
    
@@ -31,6 +32,7 @@
 import { IonContent, IonButton } from '@ionic/vue'
 import {jsPDF} from 'jspdf'
 import pdf from '../component/pdfComponent.vue'
+import test from '../component/testComponent.vue'
 
 
 
@@ -50,7 +52,7 @@ export default {
   },
 
   components: {
-     IonContent, IonButton, pdf
+     IonContent, IonButton, pdf, test
      
   },
   methods: {
@@ -73,8 +75,8 @@ export default {
           // );
               this.state = result.text;
     
-               this.filteredStates= this.products.filter(s => {
-                  return s.code === result.text;
+               this.filteredStates = this.products.filter(s => {
+                  return s.code.match(result.text);
   
             })
   

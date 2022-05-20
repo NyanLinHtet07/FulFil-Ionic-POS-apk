@@ -44,7 +44,7 @@ export default {
             region:[],
         }
     },
-
+ 
     methods:{
         async getData(){
             await axios.get(`http://54.169.124.45/api/auth/mobile_invoice/create`)
