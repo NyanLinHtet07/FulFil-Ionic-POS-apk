@@ -47,7 +47,7 @@
                 
         </ion-content>
 
-        <ion-footer class="ion-no-border" id="foot">
+        <ion-footer class="ion-no-border text-center" id="foot">
             <!-- <div class="grid grid-cols-2 gap-4">
                 <div>
                     <ion-title class=" text-white text-center"> Cart Items </ion-title>
@@ -156,6 +156,19 @@ export default {
             this.$store.dispatch("addToCart", data);
         },
 
+        async getData(){
+             await axios.get(api_url,  { 
+                         headers: {
+                                    'Authorization': "Bearer" + localStorage.getItem('token'),
+                                    },
+                                    })
+                    .then(res => {
+                        this.wholeSales = res.data.aval_product;
+                        
+                    })
+
+        }
+
  
 
     },
@@ -187,18 +200,10 @@ export default {
     },
 
     created() {
-       
+       this.getData();
+         setInterval(this.getData, 5000);
     },
 
-    async mounted() {
-       await axios.get(api_url)
-                    .then(res => {
-                        this.wholeSales = res.data.aval_product;
-                        
-                    })
-
-
-    },
 }
 </script>
 

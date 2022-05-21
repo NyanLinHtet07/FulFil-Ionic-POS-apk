@@ -198,73 +198,90 @@
 
             <!----------------------- customer filed start ------------------->
            <ion-content v-if="visiable">
-
-                <div>
-                 <input type="text" v-model="search"  @input="filterCustomer" autocomplete="off" class=" bg-rose-200">
-                        <ion-item v-for="data in filteredCustomer" :key="data.id" @click="addData(data)">
+            <div class="flex justify-center items-center">
+                 <ion-card class=" w-full rounded-lg mx-3 my-4  px-2 py-3 bg-gradient-to-t from-sky-300 to to-blue-50">
+                    <ion-card-header>
+                        <ion-card-title>
+                           <h3 class=" font-semibold text-gray-800"> Add Customer Data </h3>
+                        </ion-card-title>
+                        <ion-searchbar debounce="500" v-model="search" @input="filterCustomer" autocomplete="off" placeholder="search customer ..."></ion-searchbar>
+               
+                        <ion-item v-for="data in filteredCustomer" class=" my-2 rounded" :key="data.id" @click="addData(data)">
                                 <ion-label :value="data"> {{data.name}}</ion-label>
                         </ion-item> 
+                    </ion-card-header>
 
-                        <hr>
-                       
-                        <ion-item>
-                            <!-- <ion-label> {{saleData.customer_name}}</ion-label> -->
+                    <ion-card-content>
+                           <ion-item class="my-2 mx-3 rounded-lg ring ring-sky-100">
                              <ion-label position="floating"> Add Customer Name </ion-label>
                             <ion-input input="text" v-model="saleData.customer_name"></ion-input>
                         </ion-item>
-                        <ion-item>
-                            <!-- <ion-label>{{saleData.customer_email}}</ion-label> -->
+
+                        <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100"> 
                              <ion-label position="floating"> Add Customer Email </ion-label>
                             <ion-input input="text" v-model="saleData.customer_email"></ion-input>
                         </ion-item>
-                        <ion-item>
+
+                        <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100">
                              <ion-label position="floating"> Add Customer Phone </ion-label>
-                            <ion-input input="text" v-model="saleData.customer_phone"></ion-input>
-                            <!-- <ion-label>{{saleData.customer_phone}}</ion-label> -->
+                            <ion-input input="text" v-model="saleData.customer_phone"></ion-input> 
                         </ion-item>
-                        <ion-item>
+
+                        <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100">
                              <ion-label position="floating"> Add Customer Address </ion-label>
                             <ion-input input="text" v-model="saleData.customer_address"></ion-input>
                         </ion-item>
 
-                        <ion-item>
-                            <ion-label position="floating"> Add Title </ion-label>
-                            <ion-input input="text" v-model="saleData.customer_title"></ion-input>
-                        </ion-item>
-                        <ion-item>
+                        <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100">
                             <ion-label position="floating"> Add Shipping Address </ion-label>
                             <ion-input input="text" v-model="saleData.customer_shipping"></ion-input>
                         </ion-item>
 
-                        
-
-                            <ion-item>
+                            <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100">
                                 <ion-label position="floating"> Add Description </ion-label>
-                                <!-- <ion-textarea v-model="saleData.description"></ion-textarea> -->
                                  <ion-input input="text" v-model="saleData.description"></ion-input>
                             </ion-item>
+                 
+                        <div class="flex justify-center items-center">
 
-                            <ion-item>
-                            <select v-model="saleData.payment_method">
-                                <option value="Cash"> Cash</option>
-                            </select>
-                        </ion-item>
+                            <div class=" px-3 py-2 rounded-xl w-9/12 mt-2 bg-white">
+                                <ion-card-title>
+                                   <h4 class="font-bold text-gray-800"> Add On </h4>
+                                </ion-card-title>
+                                <ion-item>
+                                        <ion-label position="floating"> Add Title </ion-label>
+                                        <ion-input input="text" v-model="saleData.customer_title"></ion-input>
+                                    </ion-item>
+                                    <ion-item>
+                                      <ion-label> Select Payment Method </ion-label>
+                                    <ion-select v-model="saleData.payment_method">
+                                        <ion-select-option value="Cash"> Cash</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
 
-                         <ion-item>
-                            <select v-model="saleData.invoice_type">
-                                <option value="General Invoice"> General Invoice</option>
-                                <option value=" Cash On Delivery"> Cash On Delivery</option>
-                            </select>
-                        </ion-item>
+                                <ion-item>
+                                     <ion-label> Select Invoice Type</ion-label>
+                                    <ion-select v-model="saleData.invoice_type">
+                                        <ion-select-option value="General Invoice"> General Invoice</ion-select-option>
+                                        <ion-select-option value=" Cash On Delivery"> Cash On Delivery</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
 
-                         <ion-item>
-                            <select v-model="zone_id">
-                                <option v-for="z in zones" :key="z.id" :value="z.id"> {{z.name}}</option>
-                            </select>
-                        </ion-item>
+                                <ion-item>
+                                     <ion-label> Select Zone</ion-label>
+                                    <ion-select v-model="zone_id">
+                                        <ion-select-option v-for="z in zones" :key="z.id" :value="z.id"> {{z.name}}</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </div>
+                        </div>
+                             
+                           </ion-card-content>
 
                             <ion-button type="submit" @click="submitData()"> Submit </ion-button>
-                </div>
+                </ion-card>
+            </div>
+               
                   
                  <Create/>
             </ion-content>
@@ -276,7 +293,8 @@
 
 <script>
 import {IonContent,IonGrid,IonRow,IonCol, IonButton, IonText, IonInput, IonLabel, IonSelect, IonSelectOption,
-        IonSearchbar, IonList, IonItem } from '@ionic/vue'
+        IonSearchbar, IonList, IonItem,
+        IonCard, IonCardHeader, IonCardContent, IonCardTitle } from '@ionic/vue'
 import { mapGetters } from "vuex";
 import { addCircleOutline, removeCircleOutline} from 'ionicons/icons';
 import axios from 'axios';
@@ -292,6 +310,7 @@ export default {
         IonButton,IonText,IonInput,
         IonLabel,IonSelect,IonSelectOption,
         IonSearchbar, IonList, IonItem,
+        IonCard, IonCardHeader, IonCardContent,  IonCardTitle,
         Create
     },
 
@@ -459,7 +478,7 @@ export default {
         //         this.deli = '';
         // },
 
-         async retails(){
+         async wholeSales(){
               await axios.get(url, { 
                 headers: {
                 'Authorization': "Bearer" + localStorage.getItem('token'),
@@ -540,7 +559,8 @@ export default {
     },
 
     created() {
-        this.retails();
+        this.wholeSales();
+          setInterval(this.wholeSales, 5000);
     },
     
 }
