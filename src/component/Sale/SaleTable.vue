@@ -203,6 +203,9 @@
                     <ion-card-header>
                         <ion-card-title>
                            <h3 class=" font-semibold text-gray-800"> Add Customer Data </h3>
+                           <div class=" text-right my-3">
+                               <ion-button shape="round" color="secondary" @click="openModal"> Add New Customer</ion-button>
+                           </div>
                         </ion-card-title>
                         <ion-searchbar debounce="500" v-model="search" @input="filterCustomer" autocomplete="off" placeholder="search customer ..."></ion-searchbar>
                
@@ -277,8 +280,10 @@
                         </div>
                              
                            </ion-card-content>
-
-                            <ion-button type="submit" @click="submitData()"> Submit </ion-button>
+                        <div class=" text-right">
+                             <ion-button type="submit" @click="submitData()" shape="round" > Submit </ion-button>
+                        </div>
+                           
                 </ion-card>
             </div>
                
@@ -294,7 +299,7 @@
 <script>
 import {IonContent,IonGrid,IonRow,IonCol, IonButton, IonText, IonInput, IonLabel, IonSelect, IonSelectOption,
         IonSearchbar, IonList, IonItem,
-        IonCard, IonCardHeader, IonCardContent, IonCardTitle } from '@ionic/vue'
+        IonCard, IonCardHeader, IonCardContent, IonCardTitle,  modalController } from '@ionic/vue'
 import { mapGetters } from "vuex";
 import { addCircleOutline, removeCircleOutline} from 'ionicons/icons';
 import axios from 'axios';
@@ -311,7 +316,7 @@ export default {
         IonLabel,IonSelect,IonSelectOption,
         IonSearchbar, IonList, IonItem,
         IonCard, IonCardHeader, IonCardContent,  IonCardTitle,
-        Create
+        
     },
 
     data() {
@@ -417,6 +422,19 @@ export default {
                 return state.name.toLowerCase().startsWith(this.search.toLowerCase());
             })
         },
+
+        // for model box
+         async openModal() {
+            const modal = await modalController.create({
+            component: Create,
+            //cssClass: 'my-custom-class',
+            componentProps: {
+                title: 'New Title',
+            },
+            });
+            return modal.present();
+        },
+      
 
         async submitData(){
                 let itemary = JSON.stringify(this.finalItems);

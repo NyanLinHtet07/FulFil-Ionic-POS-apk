@@ -1,29 +1,86 @@
 <template>
-    <form @submit.prevent="submit">
-        <input type="text" v-model="form.name" placeholder="name" class=" bg-slate-400"/> <br>
-        <input type="text" v-model="form.email" placeholder="email" class=" bg-slate-400" /> <br>
-       <select v-model="form.company_id">
-           <option v-for="c in company" :key="c.id" :value=c.id> {{c.name}}</option>
-       </select> <br>
-       <input type="text" v-model="form.phone" placeholder="phone" class=" bg-slate-400" /> <br>
-       <select v-model="form.customer_type">
-           <option value="customer"> Customer </option>
-       </select>
-       <input type="text" v-model="form.gender" placeholder="gender" class=" bg-slate-400"/> <br>
-        <select v-model="form.zone_id">
-           <option v-for="z in zone" :key="z.id" :value=z.id> {{z.name}}</option>
-       </select> <br>
-        <select v-model="form.region_id">
-           <option v-for="r in region" :key="r.id" :value="r.id"> {{r.name}}</option>
-       </select> <br>
+    <ion-header>
+        <ion-toolbar>
+        <ion-title> Create New Customer</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding"> 
+         <form @submit.prevent="submit">
+            <ion-item>
+                <ion-label position="floating"> Enter Name </ion-label>
+                 <ion-input type="text" v-model="form.name"></ion-input>
+            </ion-item>
+       
+            <ion-item>
+                <ion-label position="floating"> Enter Email</ion-label>
+                <ion-input type="text" v-model="form.email"></ion-input>
+            </ion-item>
+        
+        <ion-item>
+            <ion-label> Select Company</ion-label>
+            <ion-select v-model="form.company_id">
+                <ion-select-option v-for="c in company" :key="c.id" :value=c.id> {{c.name}}</ion-select-option>
+            </ion-select> 
+        </ion-item>
+       
+       <ion-item>
+           <ion-label position="floating"> Enter Phone Number</ion-label>
+            <ion-input type="text" v-model="form.phone"></ion-input>
+       </ion-item>
+      
+      <ion-item>
+            <ion-label> Select Customer Type</ion-label>
+            <ion-select v-model="form.customer_type">
+                <ion-select-option value="customer"> Customer </ion-select-option>
+            </ion-select>
+      </ion-item>
 
-       <button type="submit"> Submit </button>
+      <ion-item>
+            <ion-label> Select Gender</ion-label>
+            <ion-select v-model="form.gender">
+                <ion-select-option value="male"> male </ion-select-option>
+                 <ion-select-option value="female"> female </ion-select-option>
+            </ion-select>
+      </ion-item>
+
+      <ion-item>
+            <ion-label> Select Zone</ion-label>
+            <ion-select v-model="form.zone_id">
+                <ion-select-option v-for="z in zone" :key="z.id" :value=z.id> {{z.name}} </ion-select-option>
+                
+            </ion-select>
+      </ion-item>
+
+     
+      
+        <!-- <select v-model="form.zone_id">
+           <option v-for="z in zone" :key="z.id" :value=z.id> {{z.name}}</option>
+       </select> <br> -->
+
+        <ion-item>
+            <ion-label> Select Region</ion-label>
+            <ion-select v-model="form.region_id">
+                <ion-select-option v-for="r in region" :key="r.id" :value="r.id"> {{r.name}} </ion-select-option>
+                
+            </ion-select>
+      </ion-item>
+
+     
+        <!-- <select v-model="form.region_id">
+           <option v-for="r in region" :key="r.id" :value="r.id"> {{r.name}}</option>
+       </select> <br> -->
+
+    <div class="text-right">
+         <ion-button type="submit"  shape="round" color="secondary"> Submit </ion-button>
+    </div>
+      
 
     </form>
+    </ion-content>
 </template>
 
 <script>
-
+ import { IonContent, IonHeader, IonTitle, IonToolbar, IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonButton } from '@ionic/vue';
 import axios from 'axios';
 export default {
     data() {
@@ -42,7 +99,15 @@ export default {
             company:[],
             zone:[],
             region:[],
+
+            
         }
+    },
+
+   
+
+    components:{
+        IonContent, IonHeader, IonTitle, IonToolbar, IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonButton
     },
  
     methods:{
