@@ -126,7 +126,7 @@ export default {
 
     created(){
         this.customer();
-        setInterval(this.customer, 5000);
+        //setInterval(this.customer, 5000);
     }
     
     }

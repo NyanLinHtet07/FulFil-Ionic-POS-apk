@@ -13,7 +13,7 @@
         </ion-card-content>
     </ion-card>
 
-     <ion-card class="my-8 bg-sky-100 rounded-xl shadow-md">
+     <ion-card class="my-8 bg-sky-100 rounded-xl" router-link="/retails">
         <ion-card-header>
             <ion-card-title class=" text-center">
                 <h3 class=" font-semibold text-md text-emerald-900"> RetailSales </h3>

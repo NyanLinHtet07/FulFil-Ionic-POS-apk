@@ -3,6 +3,8 @@
 import { createStore } from 'vuex';
 //import AuthModule from './modules/auth'; 
 import SaleModule from './modules/sale';
+import RetailCart from './modules/retailCart'
+//import axios from 'axios';
 
 
 
@@ -11,7 +13,8 @@ const store = createStore({
 
     modules: {
         //auth:AuthModule
-        sales:SaleModule
+        sales:SaleModule,
+        retailCart: RetailCart
     },
 
   

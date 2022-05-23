@@ -45,6 +45,21 @@ const routes = [
     component:() => import('@/pages/Sale/WholeSale/CartAdd.vue'),
   },
 
+  {
+    path:'/retails',
+    component:() => import('@/pages/Sale/RetailSale/SalePage.vue'),
+  },
+  {
+    path:'/retails-cart',
+    component:() => import('@/pages/Sale/RetailSale/CartAdd.vue'),
+  },
+
+  {
+    path:'/invoice-detail/:id',
+    name: 'invoice.detail',
+    component:() => import('@/pages/Sale/InvoiceDetail.vue'),
+  },
+
   // {
   //   path:'/sales_detail/:id',
   //   component:() => import('@/pages/Sale/SaleDetail.vue'),

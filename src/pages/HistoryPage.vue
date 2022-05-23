@@ -76,6 +76,8 @@ import {  IonTitle, IonContent,
         IonToolbar , IonList ,IonLabel, IonItem,
         IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent} from '@ionic/vue';
 
+// import {mapGetters} from 'vuex';
+
 import axios from 'axios';
 export default {
     components:{
@@ -98,6 +100,7 @@ export default {
         return {
             products:[],
             retails:[],
+            posts:[],
         }
     },
 
@@ -120,17 +123,19 @@ export default {
     computed:{
         records(){
             return this.$store.state.saleDatas;
-        }
+        },
+
+        //  ...mapGetters(['sale.retail_product']),
     },
 
     mounted() {
         axios.get(`http://54.169.124.45/api/auth/retail/invoice`)
                 .then( res => (
                         this.retails = res.data
-                    ))
-        // axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
-        // .then(response => (this.retails = response.data.bpi))
-        // .catch(error => console.log(error))
+                    )),
+       
+
+        this.$store.dispatch('fetchPosts')
                
     },
 

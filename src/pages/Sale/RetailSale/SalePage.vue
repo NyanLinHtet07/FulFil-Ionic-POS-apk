@@ -1,6 +1,6 @@
 <template>
   
-    <master-layout pageTitle = "WholeSales DashBoard">
+    <master-layout pageTitle = "Retail DashBoard">
              <ion-content>
                <ion-grid>
                    <ion-row>
@@ -57,8 +57,8 @@
                 </div>
             </div> -->
 
-            <ion-button  class="text-center text-white" router-link="/cart">
-                   <ion-title> Cart Items | {{item}} </ion-title>
+            <ion-button  class="text-center text-white" router-link="/retails-cart">
+                   <ion-title> Cart Items | {{retailItemCount}} </ion-title>
             </ion-button>
             
                
@@ -77,8 +77,9 @@ import Barcode from '../../../component/Sale/BarCodeData.vue';
 
 
 import axios from 'axios';
+import { mapGetters } from "vuex";
 
-const api_url = "http://54.169.124.45/api/auth/mobile_invoice/create";
+const api_url = "http://54.169.124.45/api/auth/retail/invoice";
 export default {
     components: { 
        
@@ -111,7 +112,7 @@ export default {
 
             state:'',
             filteredStates: [],
-            wholeSales:[],
+            retails:[],
 
             search:"",
             products:[],
@@ -153,7 +154,7 @@ export default {
 
         //cart System
         addToCart(data){
-            this.$store.dispatch("addToCart", data);
+            this.$store.dispatch("addToRetail", data);
         },
 
         async getData(){
@@ -163,7 +164,7 @@ export default {
                                     },
                                     })
                     .then(res => {
-                        this.wholeSales = res.data.aval_product;
+                        this.retails = res.data.aval_product;
                         
                     })
 
@@ -182,14 +183,16 @@ export default {
 
 
         filterProducts(){
-            return this.wholeSales.filter((wholeSale) => {
-                return wholeSale.product_name.toLowerCase().match(this.search.toLowerCase())
+            return this.retails.filter((retail) => {
+                return retail.product_name.toLowerCase().match(this.search.toLowerCase())
             })
         },
 
-        item(){
-            return this.$store.state.cartItemCount;
-        }
+         ...mapGetters(["retailItemCount"]),
+
+        // item(){
+        //     return this.$store.state.retailItemCount;
+        // }
 
        
 

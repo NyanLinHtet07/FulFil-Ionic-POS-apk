@@ -111,6 +111,19 @@ export default {
     },
  
     methods:{
+        reset(){
+            this.form = {
+                name:'',
+                email:'',
+                company_id:'',
+                phone:'',
+                customer_type:'',
+                gender:'',
+                zone_id:'',
+                region_id:'',
+            }
+        },
+
         async getData(){
             await axios.get(`http://54.169.124.45/api/auth/mobile_invoice/create`)
                         .then( res => {
@@ -135,6 +148,7 @@ export default {
                 'Authorization': "Bearer" + localStorage.getItem('token'),
             },
             });
+            this.reset();
 
             console.log(response)
         } 

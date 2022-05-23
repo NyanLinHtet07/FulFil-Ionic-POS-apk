@@ -12,9 +12,10 @@
         
          <div>
              <!-- <ion-datetime v-model="saleData.inv_date"> </ion-datetime> -->
-            
              <input type="date" v-model="saleData.inv_date">
             <input type="date" v-model="saleData.due_date">
+
+            <ion-button type="submit" @click="clearCart(cartItems)" color="danger"> Remove</ion-button>
          </div>
             
            
@@ -152,7 +153,7 @@
                 <ion-row>
                    
                         <ion-col offset-4 class="ion-text-end"> Total </ion-col>
-                        <ion-col class="ion-text-center"> {{ getTotal}}</ion-col>
+                        <ion-col class="ion-text-center"> {{ getRetailTotal}}</ion-col>
                    
                 </ion-row>
 
@@ -304,7 +305,7 @@
                              
                            </ion-card-content>
                         <div class=" text-right">
-                             <ion-button type="submit" @click="submitData()" shape="round" > Submit </ion-button>
+                             <ion-button  @click="submitData()" shape="round" > Submit </ion-button>
                         </div>
                            
                 </ion-card>
@@ -321,7 +322,7 @@
 
 <script>
 import {IonContent,IonGrid,IonRow,IonCol, IonButton, IonText, IonInput, IonLabel, IonSelect, IonSelectOption,
-        IonSearchbar, IonList, IonItem,
+        IonSearchbar, IonList, IonItem, 
         IonCard, IonCardHeader, IonCardContent, IonCardTitle,  modalController} from '@ionic/vue'
 import { mapGetters } from "vuex";
 import { addCircleOutline, removeCircleOutline} from 'ionicons/icons';
@@ -329,7 +330,7 @@ import axios from 'axios';
 //import Customer from '../../component/Sale/CustomerRecord.vue'
 import Create from '../../component/Sale/CreateCustomer.vue'
 
-const url = "http://54.169.124.45/api/auth/mobile_invoice/create";
+const url = "http://54.169.124.45/api/auth/retail/invoice";
 
 export default {
     components:{
@@ -338,7 +339,7 @@ export default {
         IonButton,IonText,IonInput,
         IonLabel,IonSelect,IonSelectOption,
         IonSearchbar, IonList, IonItem,
-        IonCard, IonCardHeader, IonCardContent,  IonCardTitle
+        IonCard, IonCardHeader, IonCardContent,  IonCardTitle, 
         
     },
 
@@ -400,7 +401,7 @@ export default {
     },
 
     methods:{
-         reset(){
+        reset(){
             this.saleData = {
                  inv_date:'',
                 due_date:'',
@@ -424,24 +425,25 @@ export default {
                 description:'',
             }
         },
+
           add(product){
-            this.$store.dispatch("addToCart", product);
+            this.$store.dispatch("addToRetail", product);
         },
 
         remove(product){
-            this.$store.dispatch('removeItem', product);
+            this.$store.dispatch('removeRetail', product);
         },
 
         removeItem(product){
-            this.$store.dispatch('removeProduct', product);
+            this.$store.dispatch('removeRetailProduct', product);
         },
 
         clearCart(cartItems){
-            this.$store.dispatch("clearCart" , cartItems);
+            this.$store.dispatch("clearRetailCart" , cartItems);
         },
 
         addFoc(data){
-            this.$store.dispatch("addFoc", data)
+            this.$store.dispatch("addRetailFoc", data)
         },
 
         filterStates(){
@@ -499,11 +501,11 @@ export default {
                     client_email : this.saleData.customer_email,
                     inv_grand_total : this.addTotal,
                     tax_rate : this.tax,
-                    total : this.getTotal,
+                    total : this.getRetailTotal,
                     invoice_type: this.saleData.invoice_type,
                     delivery_fee: 0 ,
                     warehouse_id: this.warehouseId,
-                    sale_type: 'Whole Sale',
+                    sale_type: 'Retail Sale',
                     foc_items: focary,
                     tax_amount: this.addTax,
                     discount: this.addDis,
@@ -515,38 +517,16 @@ export default {
              
                 });
 
-                //const id = response.data.invoice_id;
                 this.$router.push({name: 'invoice.detail', params:{id :response.data.invoice_id}});
-                 this.reset();
+
+                this.reset();
                 this.clearCart();
-                
+
                 console.log(response)
         },
 
 
-        // saveData(){
-
-        //         this.saleData.cartItems = this.cartItems,
-        //         this.saleData.focs = this.focItems,
-        //         this.saleData.tax = this.addTax,
-        //         this.saleData.discount = this.addDis,
-        //         this.saleData.deli = this.deli,
-        //         this.saleData.totalPrice = this.getTotal,
-        //         this.saleData.grandtotal = this.addTotal,
-        //         this.saleData.customer_name = this.customer.name,
-        //         this.saleData.customer_address = this.customer.address,
-        //         this.saleData.customer_phone = this.customer.phone,
-        //         this.saleData.customer_title = this.customer.title,
-        //         this.saleData.customer_shipping = this.customer.shipping_address,
-        //         this.saleData.customer_description = this.customer.description,
-                
-        //         this.$store.dispatch('addSale', this.saleData);
-        //         this.clearCart();
-        //         this.addTotal = '' ;
-        //         this.tax = '' ;
-        //         this.discount = '' ;
-        //         this.deli = '';
-        // },
+        
 
          async wholeSales(){
               await axios.get(url, { 
@@ -576,30 +556,30 @@ export default {
             return this.warehouse.id;
         },
 
-         customer(){
-            return this.$store.state.customer;
-        },
+        //  customer(){
+        //     return this.$store.state.customer;
+        // },
         
          cartItems(){
-            return this.$store.getters.cartItems;
+            return this.$store.getters.retailItems;
         },
 
             focItems(){
-                return this.$store.getters.focs;
+                return this.$store.getters.retailFocs;
             },
 
             finalFocs(){
-                return this.$store.getters.finalFocs;
+                return this.$store.getters.finalRetailFocs;
             },
 
             finalItems(){
-                return this.$store.getters.finalItems;
+                return this.$store.getters.finalRetailItems;
             },
 
-        ...mapGetters(["getTotal"]),
+        ...mapGetters(["getRetailTotal"]),
 
         addTotal(){
-            let a = Number(this.getTotal);
+            let a = Number(this.getRetailTotal);
             let b = Number(this.addTax);
             let d = Number(this.deli);
             let dis = Number(this.addDis);
@@ -609,7 +589,7 @@ export default {
 
         addTax(){
             let t = Number(this.tax);
-            let amt = Number(this.getTotal);
+            let amt = Number(this.getRetailTotal);
             let tax = (amt / 100)*t;
 
             return tax.toFixed(2);
@@ -617,7 +597,7 @@ export default {
 
         addDis(){
             let d = Number(this.discount);
-            let amt = Number(this.getTotal);
+            let amt = Number(this.getRetailTotal);
             let dis = (amt/100)*d;
 
             return dis.toFixed(2);
