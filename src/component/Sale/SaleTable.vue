@@ -329,7 +329,7 @@ import axios from 'axios';
 //import Customer from '../../component/Sale/CustomerRecord.vue'
 import Create from '../../component/Sale/CreateCustomer.vue'
 
-const url = "http://54.169.124.45/api/auth/mobile_invoice/create";
+const url = "https://www.fulfilmm.com/api/auth/mobile_invoice/create";
 
 export default {
     components:{
@@ -487,7 +487,7 @@ export default {
                 let itemary = JSON.stringify(this.finalItems);
                 let focary = JSON.stringify(this.finalFocs);
 
-                const response = await axios.post (  "http://54.169.124.45/api/auth/mobile_invoice" ,{
+                const response = await axios.post (  "https://www.fulfilmm.com/api/auth/mobile_invoice" ,{
                     title: this.saleData.customer_title,
                     client_id : this.saleData.customer_id,
                     inv_date : this.saleData.inv_date,
@@ -515,11 +515,12 @@ export default {
              
                 });
 
-                //const id = response.data.invoice_id;
-                this.$router.push({name: 'invoice.detail', params:{id :response.data.invoice_id}});
-                 this.reset();
+                const inv_id = response.data.invoice_id;
+               
+                this.reset();
                 this.clearCart();
-                
+                this.$router.push({name:'invoice.detail', params:{id :inv_id}});
+                //this.$router.push('/select-sales');
                 console.log(response)
         },
 

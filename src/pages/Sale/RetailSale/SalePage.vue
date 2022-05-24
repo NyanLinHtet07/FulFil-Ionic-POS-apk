@@ -79,7 +79,7 @@ import Barcode from '../../../component/Sale/BarCodeData.vue';
 import axios from 'axios';
 import { mapGetters } from "vuex";
 
-const api_url = "http://54.169.124.45/api/auth/retail/invoice";
+const api_url = "https://www.fulfilmm.com/api/auth/retail/invoice";
 export default {
     components: { 
        

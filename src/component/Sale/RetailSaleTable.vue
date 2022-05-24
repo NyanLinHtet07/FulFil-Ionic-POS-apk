@@ -122,19 +122,16 @@
                         <ion-col> {{ foc.variant.product_name}}</ion-col>
                         <ion-col> 
                                <ion-item>
+                                      <label for=""> Unit </label>
                                     <div v-for="u in units" :key="u.id">
-                                        <span v-if=" u.product_id == foc.variant.product_id">
-                                             <!-- <ion-select v-model="foc.unitId">
-                                                <ion-select-option :value="u.id"> 
-                                                        {{ u.unit}} 
-                                                </ion-select-option>
-                                            </ion-select> -->
-                                            <label for=""> Unit </label>
-                                                        <select v-model="foc.unitId" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                            <div v-if="u.product_id == foc.variant.product_id" >
+                                                 <select v-model="foc.unitId" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                                             <option :value="u.id">{{u.unit}}</option>
                                                         </select>
+                                            </div>
+                                                       
                                             
-                                        </span>
+                                       
                                         
                                     </div>
                                        
@@ -330,7 +327,7 @@ import axios from 'axios';
 //import Customer from '../../component/Sale/CustomerRecord.vue'
 import Create from '../../component/Sale/CreateCustomer.vue'
 
-const url = "http://54.169.124.45/api/auth/retail/invoice";
+const url = "https://www.fulfilmm.com/api/auth/retail/invoice";
 
 export default {
     components:{
@@ -489,7 +486,7 @@ export default {
                 let itemary = JSON.stringify(this.finalItems);
                 let focary = JSON.stringify(this.finalFocs);
 
-                const response = await axios.post (  "http://54.169.124.45/api/auth/mobile_invoice" ,{
+                const response = await axios.post (  "https://www.fulfilmm.com/api/auth/mobile_invoice" ,{
                     title: this.saleData.customer_title,
                     client_id : this.saleData.customer_id,
                     inv_date : this.saleData.inv_date,
@@ -517,10 +514,16 @@ export default {
              
                 });
 
-                this.$router.push({name: 'invoice.detail', params:{id :response.data.invoice_id}});
+                const inv_id = response.data.invoice_id;
 
                 this.reset();
                 this.clearCart();
+                this.$router.push({name:'invoice.detail', params:{id :inv_id}});
+
+                // this.$router.push({name: 'invoice.detail', params:{id :response.data.invoice_id}});
+
+                // this.reset();
+                // this.clearCart();
 
                 console.log(response)
         },

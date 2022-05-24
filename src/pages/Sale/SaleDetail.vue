@@ -50,7 +50,7 @@ import { IonPage, IonHeader, IonToolbar, IonContent ,
         IonSelect, IonSelectOption, IonLabel } from "@ionic/vue";
 import axios from 'axios';
 
-const api_url = "http://54.169.124.45/api/auth/mobile_invoice/create";
+const api_url = "https://www.fulfilmm.com/api/auth/mobile_invoice/create";
 export default {
 
     data() {

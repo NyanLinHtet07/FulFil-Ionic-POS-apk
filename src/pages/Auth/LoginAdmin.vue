@@ -49,7 +49,7 @@ export default {
 
     methods: {
         async login(){
-            const response = await axios.post('http://54.169.124.45/api/auth/login' , {
+            const response = await axios.post('https://www.fulfilmm.com/api/auth/login' , {
                 email: this.userInfo.email,
                 password: this.userInfo.password
             });

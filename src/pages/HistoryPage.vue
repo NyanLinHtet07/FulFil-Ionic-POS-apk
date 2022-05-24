@@ -106,7 +106,7 @@ export default {
 
     methods:{
          view(){
-           axios.get(`http://54.169.124.45/api/auth/mobile_invoice/create`)
+           axios.get(`https://www.fulfilmm.com/api/auth/mobile_invoice/create`)
                 .then(response => (
                     this.products = response.data
                 ))
@@ -129,7 +129,7 @@ export default {
     },
 
     mounted() {
-        axios.get(`http://54.169.124.45/api/auth/retail/invoice`)
+        axios.get(`https://www.fulfilmm.com/api/auth/retail/invoice`)
                 .then( res => (
                         this.retails = res.data
                     )),

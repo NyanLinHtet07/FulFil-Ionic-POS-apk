@@ -125,7 +125,7 @@ export default {
         },
 
         async getData(){
-            await axios.get(`http://54.169.124.45/api/auth/mobile_invoice/create`)
+            await axios.get(`https://www.fulfilmm.com/api/auth/mobile_invoice/create`)
                         .then( res => {
                                 this.company = res.data.companies;
                                 this.zone = res.data.zone;
@@ -134,7 +134,7 @@ export default {
         },
 
        async submit(){
-            const response = await axios.post(`http://54.169.124.45/api/auth/api_customers`, {
+            const response = await axios.post(`https://www.fulfilmm.com/api/auth/api_customers`, {
                 name: this.form.name,
                 email: this.form.email,
                 company_id: this.form.company_id,
