@@ -21,7 +21,7 @@
        <ion-button expand="full" @click="pdf()">
             pdf
       </ion-button>
-      <test></test>
+      <!-- <test></test> -->
     </ion-content>
   </master-layout>
    
@@ -32,7 +32,7 @@
 import { IonContent, IonButton } from '@ionic/vue'
 import {jsPDF} from 'jspdf'
 import pdf from '../component/pdfComponent.vue'
-import test from '../component/testComponent.vue'
+//import test from '../component/testComponent.vue'
 
 
 
@@ -52,7 +52,7 @@ export default {
   },
 
   components: {
-     IonContent, IonButton, pdf, test
+     IonContent, IonButton, pdf
      
   },
   methods: {
