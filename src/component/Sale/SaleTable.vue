@@ -117,30 +117,31 @@
                         </ion-col>
                    
                 </ion-row> 
-                <ion-row v-for="foc in focItems" :key="foc.id" class="ion-text-center cell bg-slate-800">
+                <ion-row v-for="foc in focItems" :key="foc.id" class="ion-text-center cell bg-slate-400">
                         <ion-col> {{ foc.variant.product_name}}</ion-col>
                         <ion-col> 
-                               <ion-item>
-                                    <div v-for="u in units" :key="u.id">
-                                        <span v-if=" u.product_id == foc.variant.product_id">
+                              
+                                    <!-- <div v-for="(u, index) in units" :key="index">
+                                      
+                                        <div v-if=" u.product_id == foc.variant.product_id"> -->
                                              <!-- <ion-select v-model="foc.unitId">
                                                 <ion-select-option :value="u.id"> 
                                                         {{ u.unit}} 
                                                 </ion-select-option>
                                             </ion-select> -->
-                                            <label for=""> Unit </label>
-                                                        <select v-model="foc.unitId" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                                                            <option :value="u.id">{{u.unit}}</option>
-                                                        </select>
-                                            
-                                        </span>
-                                        
-                                    </div>
-                                       
-
-                                </ion-item>    
-                           
-                                
+                                          
+                                                <label for=""> Unit </label>    
+                                                    <div   v-for="(u, index) in units" :key="index">
+                                                        <div  v-if=" u.product_id == foc.variant.product_id">
+                                                              <select v-model="foc.unitId" 
+                                                                    class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                                                        <option :value="u.id">
+                                                                            <span> {{u.unit}}  </span>
+                                                                        </option>
+                                                             </select>
+                                                               </div>
+                                                        </div>
+                     
                         </ion-col>
                         <ion-col> FOC Item </ion-col>
                         <ion-col> 00.00 </ion-col>
@@ -354,7 +355,7 @@ export default {
             search:'',
             zone_id:'',
 
-
+        
             filteredStates:[],
             prices:[],
             focs:[],

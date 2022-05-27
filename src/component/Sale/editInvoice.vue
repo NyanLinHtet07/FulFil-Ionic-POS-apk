@@ -65,9 +65,8 @@
                                 </td>
                                 <td>
                                      <div v-for="(dis,index) in itemDiscounts" :key="index">
-                                <span v-if="product.variant.id == dis.variant_id">
-                                  
-                                          
+                                        <span v-if="product.variant.id == dis.variant_id">
+
                                                         <select v-model="product.discount_promotion" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                                             <option :value="0"> 0 %</option>
                                                             <option :value="dis.rate">{{dis.rate}} %</option>
@@ -104,7 +103,7 @@
                                 <td colspan="3">
                                     {{product.description}}
                                 </td>
-                            </tr>
+                            </tr> 
                         
                         </tbody>
                         <tfoot class="text-sky-900 bg-gradient-to-b from-white to-sky-200">
@@ -113,13 +112,38 @@
                                 <td colspan="2" class=" text-center"> {{ getTotal}}</td>
                             </tr>
 
+                            <tr>
+                               
+                                    <td colspan="5" class=" text-right"> Discount </td>
+                               
+                                <td>
+                                    <div v-for="cartDis in amount_discount" :key="cartDis.id">
+                                <div v-if="cartDis.min_amount < getTotal && cartDis.max_amount > getTotal">
+                                 
+                                          
+                                            <select v-model="invoice.discount">
+                                                <option value="0"> None </option>
+                                                <option :value="cartDis.rate">{{cartDis.rate}} %</option>
+                                            </select>
+                                            <p class="inputText">{{addDis}}</p> 
+                                        
+                                </div>
+                  
+                                </div>
+                                <!-- <p>{{invoice.discount}}</p> -->
+                                </td>
+                            </tr>
+
                             <tr class="my-2">
                                 <td colspan="5" class=" text-right"> Tax </td>
-                                <td colspan="2" class="text-center"> {{ invoice.tax_amount}} %</td>
+                                <td colspan="2" class="text-center"> 
+                                    
+                                    {{ invoice.tax_amount}} %
+                                </td>
                             </tr>
                             <tr class=" my-5 font-semibold">
                                 <td colspan="5" class=" text-right"> Grand Total</td>
-                                <td colspan="2" class="text-center">{{ invoice.grand_total }}</td>
+                                <td colspan="2" class="text-center">{{ addTotal }}</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -127,7 +151,13 @@
    
 </template>
 <script>
+//import { IonSelect, IonSelectOption} from '@ionic/vue'
 export default {
+
+    // components: {
+    //     IonSelect, IonSelectOption
+    // },
+
     props:["invoice" , "items" , 'prices', 'units', 'amount_discount', 'itemDiscounts'],
 
     computed:{
@@ -139,7 +169,32 @@ export default {
                
                return sum
   
-        }
+        },
+
+          addTotal(){
+            let a = Number(this.getTotal);
+            let b = Number(this.addTax);
+            // let d = Number(this.deli);
+            let dis = Number(this.addDis);
+            let c = (a - dis) + b;
+            return c.toFixed(2);
+        },
+
+        addTax(){
+            let t = Number(this.invoice.tax_amount);
+            let amt = Number(this.getTotal);
+            let tax = (amt / 100)*t;
+
+            return tax.toFixed(2);
+        },
+
+        addDis(){
+            let d = Number(this.invoice.discount);
+            let amt = Number(this.getTotal);
+            let dis = (amt/100)*d;
+
+            return dis.toFixed(2);
+        },
     }
 }
 </script>
