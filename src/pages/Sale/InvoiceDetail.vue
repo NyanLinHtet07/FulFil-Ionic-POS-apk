@@ -3,7 +3,7 @@
         <ion-content>
             <div class=" flex mx-3">
                 <ion-button class="mx-2"> Mark Send </ion-button>
-                <ion-button class="mx-2"> Make Paymeny </ion-button>
+                <ion-button @click="openPayment()" class="mx-2"> Make Paymeny </ion-button>
                 <ion-button @click="edit()" v-if=" !visible"> Edit </ion-button>
                 <ion-button @click="detail()" v-if="visible"> Detail </ion-button>
                 <ion-button> Stock Out </ion-button>
@@ -385,9 +385,11 @@
    
 </template>
 <script>
-import { IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, IonSelect, IonSelectOption, IonSearchbar} from '@ionic/vue'
+import { IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, 
+        IonSelect, IonSelectOption, IonSearchbar, modalController} from '@ionic/vue'
 import axios from 'axios'
 import moment from 'moment'
+import Payment from '../../component/Sale/PayMentComponent.vue'
 //import Edit from '../../component/Sale/editInvoice.vue'
 
 export default {
@@ -416,6 +418,19 @@ export default {
     },
 
     methods:{
+
+        async openPayment(){
+            const modal = await modalController.create({
+                component: Payment,
+
+                componentProps:{
+                    title:'New Title',
+                },
+            });
+
+            return modal.present();
+        },
+
         async Data(){
             await axios.get(`https://www.fulfilmm.com/api/auth/mobile_invoice/${this.$route.params.id}/edit` , {
                 headers: {
@@ -435,12 +450,6 @@ export default {
                     this.zones = res.data.zones
                 })
             
-        },
-
-        reset(){
-            this.invoice = {};
-            this.cus = {};
-            this.items = [];
         },
 
         edit(){
