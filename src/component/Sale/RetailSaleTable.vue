@@ -2,10 +2,10 @@
 
     <!-- sale filed start -->
      <ion-content v-if="! visiable">
-          <ion-buttons>
-             <ion-button @click="openItems"> Products </ion-button>
-             <ion-button @click="openFoc"> Focs </ion-button>
-         </ion-buttons>
+         
+             <ion-button @click="openItems" color="primary"> Products </ion-button>
+             <ion-button @click="openFoc" color="medium"> Focs </ion-button>
+       
          
          <div v-if=" ! openItem">
               <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off" placeholder="search foc ..."></ion-searchbar>
@@ -27,10 +27,19 @@
         
          <div>
              <!-- <ion-datetime v-model="saleData.inv_date"> </ion-datetime> -->
-             <input type="date" v-model="saleData.inv_date">
-            <input type="date" v-model="saleData.due_date">
+             <!-- <input type="date" v-model="saleData.inv_date" class=" bg-white">
+            <input type="date" v-model="saleData.due_date" class=" bg-white"> -->
+            
+            
 
-            <ion-button type="submit" @click="clearCart(cartItems)" color="danger"> Remove</ion-button>
+            
+            
+            <div class="text-right mx-3">
+                <ion-button color="light" size="small"> 
+                    <ion-icon :icon="trashSharp" slot="icon-only"  @click="clearCart(cartItems)" color="danger" class="py-3"></ion-icon>
+                </ion-button>
+            </div>
+            
          </div>
             
            
@@ -234,14 +243,19 @@
 
             <!----------------------- customer filed start ------------------->
            <ion-content v-if="visiable">
+            
             <div class="flex justify-center items-center">
                  <ion-card class=" w-full rounded-lg mx-3 my-4  px-2 py-3 bg-gradient-to-t from-sky-300 to to-blue-50">
                     <ion-card-header>
+                        <div class=" text-left">
+                               <ion-button shape="round" fill="outline" size="small" color="medium" @click="show"> <ion-icon :icon="returnUpBack"></ion-icon> </ion-button>
+                           </div>
                         <ion-card-title>
-                           <h3 class=" font-semibold text-gray-800"> Add Customer Data </h3>
+                           <h3 class=" font-semibold text-gray-800 text-center"> Add Required Data </h3>
                            <div class=" text-right my-3">
                                <ion-button shape="round" color="secondary" @click="openModal"> Add New Customer</ion-button>
                            </div>
+                           
                         </ion-card-title>
                         <ion-searchbar debounce="500" v-model="search" @input="filterCustomer" autocomplete="off" placeholder="search customer ..."></ion-searchbar>
                
@@ -287,6 +301,21 @@
                                 <ion-card-title>
                                    <h4 class="font-bold text-gray-800"> Add On </h4>
                                 </ion-card-title>
+                                <ion-item>
+                                    <ion-button id="open-modal">Add Invoice Date</ion-button>
+                                    <ion-modal trigger="open-modal">
+                                        <ion-content>
+                                        <ion-datetime  v-model="saleData.inv_date" size="fixed"></ion-datetime>
+                                        </ion-content>
+                                    </ion-modal>
+
+                                    <ion-button id="open-modal1" color="medium">Add Due Date</ion-button>
+                                    <ion-modal trigger="open-modal1">
+                                        <ion-content>
+                                        <ion-datetime  v-model="saleData.inv_date"></ion-datetime>
+                                        </ion-content>
+                                    </ion-modal>
+                                </ion-item>
                                 <ion-item>
                                         <ion-label position="floating"> Add Title </ion-label>
                                         <ion-input input="text" v-model="saleData.customer_title"></ion-input>
@@ -334,10 +363,12 @@
 
 <script>
 import {IonContent,IonGrid,IonRow,IonCol, IonText, IonInput, IonLabel, IonSelect, IonSelectOption,
-        IonSearchbar, IonList, IonItem,  IonButtons, IonButton,
-        IonCard, IonCardHeader, IonCardContent, IonCardTitle,  modalController} from '@ionic/vue'
+        IonSearchbar, IonList, IonItem,   IonButton, IonIcon,
+        IonCard, IonCardHeader, IonCardContent, IonCardTitle,  
+        IonModal, IonDatetime,
+        modalController} from '@ionic/vue'
 import { mapGetters } from "vuex";
-import { addCircleOutline, removeCircleOutline} from 'ionicons/icons';
+import { addCircleOutline, removeCircleOutline, trashSharp, returnUpBack} from 'ionicons/icons';
 import axios from 'axios';
 //import Customer from '../../component/Sale/CustomerRecord.vue'
 import Create from '../../component/Sale/CreateCustomer.vue'
@@ -352,7 +383,7 @@ export default {
         IonLabel,IonSelect,IonSelectOption,
         IonSearchbar, IonList, IonItem,
         IonCard, IonCardHeader, IonCardContent,  IonCardTitle, 
-        IonButtons
+        IonIcon, IonModal, IonDatetime
     },
 
     data() {
@@ -409,7 +440,7 @@ export default {
 
     setup() {
         return{
-            addCircleOutline, removeCircleOutline
+            addCircleOutline, removeCircleOutline, trashSharp, returnUpBack
         }
         
     },
@@ -482,6 +513,10 @@ export default {
 
         hide(){
             this.visiable = true;
+        },
+
+        show(){
+            this.visiable = false;
         },
 
         //for customer

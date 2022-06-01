@@ -1,6 +1,11 @@
 <template>
-  
+     
     <master-layout pageTitle = "WholeSales DashBoard">
+        <div v-if="loading">
+            <Loader/>
+        </div>
+
+        <div v-else>
              <ion-content>
                <ion-grid>
                    <ion-row>
@@ -63,6 +68,8 @@
             
                
         </ion-footer>
+        </div>
+            
         </master-layout>
 
  
@@ -70,10 +77,12 @@
 <script>
 
 import { IonContent, IonSearchbar,
-         IonGrid, IonRow, IonCol, IonFooter,IonTitle,  IonButton } from '@ionic/vue';
+         IonGrid, IonRow, IonCol, IonFooter,IonTitle,  IonButton,
+          IonLabel } from '@ionic/vue';
 import { arrowUpCircleOutline } from 'ionicons/icons';
 // import Sale from '../component/Sale/SaleTable.vue'
 import Barcode from '../../../component/Sale/BarCodeData.vue';
+import Loader from '../../../component/LoaderComponent.vue';
 
 
 import axios from 'axios';
@@ -92,9 +101,12 @@ export default {
         //IonIcon,
         // IonSelect, IonSelectOption,
         //Menu,
-        Barcode,
-        IonButton
+        IonButton,
+        IonLabel, 
 
+        Loader,
+        Barcode,
+       
         //Sale
 
     },
@@ -108,6 +120,8 @@ export default {
     data() {
         return {
             view: false,
+
+            loading: false,
 
             state:'',
             filteredStates: [],
@@ -157,6 +171,7 @@ export default {
         },
 
         async getData(){
+            this.loading = true
              await axios.get(api_url,  { 
                          headers: {
                                     'Authorization': "Bearer" + localStorage.getItem('token'),
@@ -166,6 +181,10 @@ export default {
                         this.wholeSales = res.data.aval_product;
                         
                     })
+                    .catch( err => {
+                        console.log(err)
+                    })
+                    //.finally(() => this.loading = false)
 
         }
 
