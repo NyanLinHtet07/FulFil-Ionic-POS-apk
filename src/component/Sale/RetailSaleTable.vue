@@ -2,13 +2,28 @@
 
     <!-- sale filed start -->
      <ion-content v-if="! visiable">
+          <ion-buttons>
+             <ion-button @click="openItems"> Products </ion-button>
+             <ion-button @click="openFoc"> Focs </ion-button>
+         </ion-buttons>
          
-             <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off" placeholder="search foc ..."></ion-searchbar>
+         <div v-if=" ! openItem">
+              <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off" placeholder="search foc ..."></ion-searchbar>
                                 <ion-list>
                                     <ion-item v-for=" data in filteredStates" :key="data.id" @click="addFoc(data)">
                                             <ion-label> {{ data.variant.product_name }} </ion-label>
                                     </ion-item>
                                 </ion-list>
+         </div>
+          <div v-if="openItem">
+                  <ion-searchbar debounce="500" v-model="searchItem" @input="filterItems" autocomplete="off" placeholder="search Products ..."></ion-searchbar>
+                                <ion-list v-if=" ! openItem">
+                                    <ion-item v-for=" data in filteredItems" :key="data.id" @click="addProduct(data)">
+                                            <ion-label> {{ data.variant.product_name }} </ion-label>
+                                    </ion-item>
+                                </ion-list>
+            </div>
+            
         
          <div>
              <!-- <ion-datetime v-model="saleData.inv_date"> </ion-datetime> -->
@@ -318,8 +333,8 @@
 </template>
 
 <script>
-import {IonContent,IonGrid,IonRow,IonCol, IonButton, IonText, IonInput, IonLabel, IonSelect, IonSelectOption,
-        IonSearchbar, IonList, IonItem, 
+import {IonContent,IonGrid,IonRow,IonCol, IonText, IonInput, IonLabel, IonSelect, IonSelectOption,
+        IonSearchbar, IonList, IonItem,  IonButtons, IonButton,
         IonCard, IonCardHeader, IonCardContent, IonCardTitle,  modalController} from '@ionic/vue'
 import { mapGetters } from "vuex";
 import { addCircleOutline, removeCircleOutline} from 'ionicons/icons';
@@ -337,12 +352,13 @@ export default {
         IonLabel,IonSelect,IonSelectOption,
         IonSearchbar, IonList, IonItem,
         IonCard, IonCardHeader, IonCardContent,  IonCardTitle, 
-        
+        IonButtons
     },
 
     data() {
         return {
             test:'',
+            openItem: false,
             visiable:false,
             unitId:'',
             tax:'',
@@ -352,7 +368,8 @@ export default {
             search:'',
             zone_id:'',
 
-
+            filteredItems:[],
+            products:[],
             filteredStates:[],
             prices:[],
             focs:[],
@@ -398,6 +415,14 @@ export default {
     },
 
     methods:{
+        openItems(){
+            this.openItem = true
+        },
+
+        openFoc(){
+            this.openItem = false
+        },
+
         reset(){
             this.saleData = {
                  inv_date:'',
@@ -423,8 +448,8 @@ export default {
             }
         },
 
-          add(product){
-            this.$store.dispatch("addToRetail", product);
+          addProduct(data){
+            this.$store.dispatch("addToRetail", data);
         },
 
         remove(product){
@@ -446,6 +471,12 @@ export default {
         filterStates(){
             this.filteredStates = this.focs.filter( state => {
                 return state.variant.product_name.toLowerCase().startsWith(this.state.toLowerCase());
+            })
+        },
+
+         filterItems(){
+            this.filteredItems = this.products.filter( p => {
+                return p.variant.product_name.toLowerCase().startsWith(this.searchItem.toLowerCase());
             })
         },
 
@@ -538,7 +569,7 @@ export default {
                  },
                 })
                     .then(res => {
-                        //this.retails = res.data.aval_product;
+                       this.products = res.data.aval_product;
                         this.prices = res.data.prices
                         this.focs = res.data.focs
                         this.units = res.data.unit

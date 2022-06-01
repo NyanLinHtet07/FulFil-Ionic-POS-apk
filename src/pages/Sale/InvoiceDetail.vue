@@ -341,7 +341,7 @@
                                 <ion-item>
                                         <ion-label position="floating"> Add Title </ion-label>
                                         <ion-input input="text" v-model="invoice.title"></ion-input>
-                                        <input type="text" v-model="invoice.title"/>
+                                        <!-- <input type="text" v-model="invoice.title"/> -->
                                     </ion-item>
                                     <ion-item>
                                       <ion-label> Select Payment Method </ion-label>
@@ -424,7 +424,7 @@ export default {
                 component: Payment,
 
                 componentProps:{
-                    title:'New Title',
+                    invoice : this.invoice
                 },
             });
 
