@@ -1,21 +1,24 @@
 import axios  from "axios";
+import router from './router';
 
-//axios.defaults.baseURL = 'http://localhost:8100';
+axios.defaults.baseURL = 'https://www.fulfilmm.com/api/auth/';
 
-//axios.defaults.headers.common['Authorization'] = 'Bearer' + localStorage.getItem('token');
+// const Api = axios.create({
+//     baseURL:'https://www.fulfilmm.com/api/auth/'
+// });
 
 axios.defaults.headers.common['Authorization'] = `Bearer` + localStorage.getItem('token');
 
-// const setAuthHeader = (token) => {
-//     if(token){
-//         axios.defaults.headers = {
-//             Authorization: token,
+axios.interceptors.response.use(undefined, function (error) {
+    if (error) {
+      const originalRequest = error.config;
+      if (error.response.status === 401 && !originalRequest._retry) {
+    
+          originalRequest._retry = true;
+          //store.dispatch('LogOut')
+          localStorage.removeItem('token');
+          return router.push('/login')
+      }
+    }
+ })
 
-//         }
-//     }
-//     else{
-//         delete axios.defaults.headers.Authorization;
-//     }
-// };
-
-// export default setAuthHeader;

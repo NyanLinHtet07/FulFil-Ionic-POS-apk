@@ -1,6 +1,9 @@
 <template>
     <master-layout pageTitle="Invoice Detail">
-        <ion-content>
+        <div v-if="loading">
+                <Loader/>
+        </div>
+        <ion-content v-else>
             <div class=" flex mx-3">
                 <ion-button class="mx-2"> Mark Send </ion-button>
                 <ion-button @click="openPayment()" class="mx-2"> Make Paymeny </ion-button>
@@ -159,6 +162,7 @@
                                                 </td>
                                                 <td>
                                                     <div v-for="(p,index) in prices" :key="index">
+                                                        <span v-if="product.variant.id == p.product_id">
                                                         <span v-if="p.unit_id === product.sell_unit"> 
                                                             <span v-if="product.variant.pricing_type == p.multi_price">
                                                             
@@ -179,6 +183,7 @@
                                                                         </span>
                                                                     </span>
                                                                 </span>
+                                                        </span>
                                                         </span>
                                                         
                                                     <!-- </p> -->
@@ -390,15 +395,18 @@ import { IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardT
 import axios from 'axios'
 import moment from 'moment'
 import Payment from '../../component/Sale/PayMentComponent.vue'
+import Loader from '../../component/LoaderComponent.vue'
 //import Edit from '../../component/Sale/editInvoice.vue'
 
 export default {
     components:{
-        IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, IonSearchbar, IonSelect, IonSelectOption
+        IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, IonSearchbar, IonSelect, IonSelectOption,
+        Loader
     },
 
     data(){
         return{
+            loading:false,
             visible:false,
             product:{},
             items: [],
@@ -410,8 +418,12 @@ export default {
             invoice:{},
             customers:[],
             zones:[],
-             search:'',
-             filteredCustomer:[],
+            cashiers:[],
+            payment_category:[],
+            payment_method:[],
+
+            search:'',
+            filteredCustomer:[],
             moment: moment,
             cus:{},
         }
@@ -424,7 +436,10 @@ export default {
                 component: Payment,
 
                 componentProps:{
-                    invoice : this.invoice
+                    invoice : this.invoice,
+                    cashiers : this.cashiers,
+                    payment_category : this.payment_category,
+                    payment_method : this.payment_method
                 },
             });
 
@@ -432,6 +447,7 @@ export default {
         },
 
         async Data(){
+            this.loading = true
             await axios.get(`https://www.fulfilmm.com/api/auth/mobile_invoice/${this.$route.params.id}/edit` , {
                 headers: {
                 'Authorization': "Bearer" + localStorage.getItem('token'),
@@ -448,7 +464,11 @@ export default {
                     this.taxes = res.data.tax
                     this.customers = res.data.customers
                     this.zones = res.data.zones
+                    this.cashiers = res.data.cashier
+                    this.payment_category = res.data.payment_category
+                    this.payment_method = res.data.payment_method
                 })
+                .finally(() => this.loading = false)
             
         },
 

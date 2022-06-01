@@ -1,7 +1,12 @@
 <template>
   
     <master-layout pageTitle = "Retail DashBoard">
-             <ion-content>
+         <div v-if="loading">
+            <Loader/>
+        </div>
+
+     
+             <ion-content v-else>
                <ion-grid>
                    <ion-row>
                       
@@ -45,8 +50,7 @@
                    </ion-row>
                </ion-grid>
                 
-        </ion-content>
-
+       
         <ion-footer class="ion-no-border text-center" id="foot">
             <!-- <div class="grid grid-cols-2 gap-4">
                 <div>
@@ -63,6 +67,9 @@
             
                
         </ion-footer>
+        </ion-content>
+
+            
         </master-layout>
 
  
@@ -74,7 +81,7 @@ import { IonContent, IonSearchbar,
 import { arrowUpCircleOutline } from 'ionicons/icons';
 // import Sale from '../component/Sale/SaleTable.vue'
 import Barcode from '../../../component/Sale/BarCodeData.vue';
-
+import Loader from '../../../component/LoaderComponent.vue'
 
 import axios from 'axios';
 import { mapGetters } from "vuex";
@@ -94,7 +101,8 @@ export default {
         // IonSelect, IonSelectOption,
         //Menu,
         Barcode,
-        IonButton
+        IonButton,
+        Loader
 
         //Sale
 
@@ -109,6 +117,7 @@ export default {
     data() {
         return {
             view: false,
+            loading: false,
 
             state:'',
             filteredStates: [],
@@ -158,6 +167,7 @@ export default {
         },
 
         async getData(){
+             this.loading = true
              await axios.get(api_url,  { 
                          headers: {
                                     'Authorization': "Bearer" + localStorage.getItem('token'),
@@ -167,6 +177,7 @@ export default {
                         this.retails = res.data.aval_product;
                         
                     })
+                    .finally(() => this.loading = false)
 
         }
 

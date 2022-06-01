@@ -5,8 +5,8 @@
             <Loader/>
         </div>
 
-        <div v-else>
-             <ion-content>
+        
+             <ion-content v-else>
                <ion-grid>
                    <ion-row>
                       
@@ -50,7 +50,7 @@
                    </ion-row>
                </ion-grid>
                 
-        </ion-content>
+      
 
         <ion-footer class="ion-no-border text-center" id="foot">
             <!-- <div class="grid grid-cols-2 gap-4">
@@ -68,7 +68,7 @@
             
                
         </ion-footer>
-        </div>
+         </ion-content>
             
         </master-layout>
 
@@ -87,7 +87,7 @@ import Loader from '../../../component/LoaderComponent.vue';
 
 import axios from 'axios';
 
-const api_url = "https://www.fulfilmm.com/api/auth/mobile_invoice/create";
+const api_url = "mobile_invoice/create";
 export default {
     components: { 
        
@@ -172,11 +172,13 @@ export default {
 
         async getData(){
             this.loading = true
-             await axios.get(api_url,  { 
-                         headers: {
-                                    'Authorization': "Bearer" + localStorage.getItem('token'),
-                                    },
-                                    })
+            //  await axios.get(api_url,  { 
+            //              headers: {
+            //                         'Authorization': "Bearer" + localStorage.getItem('token'),
+            //                         },
+            //                         })
+
+                await axios.get(api_url)
                     .then(res => {
                         this.wholeSales = res.data.aval_product;
                         
@@ -184,7 +186,7 @@ export default {
                     .catch( err => {
                         console.log(err)
                     })
-                    //.finally(() => this.loading = false)
+                    .finally(() => this.loading = false)
 
         }
 

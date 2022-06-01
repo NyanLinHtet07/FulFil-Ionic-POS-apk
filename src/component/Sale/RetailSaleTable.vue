@@ -1,7 +1,12 @@
 <template>
 
+    <div v-if="loading">
+        <Loader/>
+    </div>
+
     <!-- sale filed start -->
-     <ion-content v-if="! visiable">
+        <ion-content v-else>
+              <ion-content v-if="! visiable">
          
              <ion-button @click="openItems" color="primary"> Products </ion-button>
              <ion-button @click="openFoc" color="medium"> Focs </ion-button>
@@ -17,15 +22,17 @@
          </div>
           <div v-if="openItem">
                   <ion-searchbar debounce="500" v-model="searchItem" @input="filterItems" autocomplete="off" placeholder="search Products ..."></ion-searchbar>
-                                <ion-list v-if=" ! openItem">
-                                    <ion-item v-for=" data in filteredItems" :key="data.id" @click="addProduct(data)">
-                                            <ion-label> {{ data.variant.product_name }} </ion-label>
+                                <ion-list>
+                                    <ion-item v-for=" d in filteredItems" :key="d.id" @click="addProduct(d)">
+                                            <ion-label> {{ d.variant.product_name }} </ion-label>
                                     </ion-item>
                                 </ion-list>
-            </div>
+          </div>
             
+       
+
         
-         <div>
+     
              <!-- <ion-datetime v-model="saleData.inv_date"> </ion-datetime> -->
              <!-- <input type="date" v-model="saleData.inv_date" class=" bg-white">
             <input type="date" v-model="saleData.due_date" class=" bg-white"> -->
@@ -34,13 +41,13 @@
 
             
             
-            <div class="text-right mx-3">
+            <!-- <div class="text-right mx-3">
                 <ion-button color="light" size="small"> 
                     <ion-icon :icon="trashSharp" slot="icon-only"  @click="clearCart(cartItems)" color="danger" class="py-3"></ion-icon>
                 </ion-button>
             </div>
-            
-         </div>
+             -->
+       
             
            
             <ion-grid class="ion-margin w-full">
@@ -78,6 +85,7 @@
                         </ion-col>
                         <ion-col>
                                 <div v-for="(p,index) in prices" :key="index">
+                                    <span v-if="product.variant.id == p.product_id">
                                          <span v-if="p.unit_id === product.unitId"> 
                                             <span v-if="product.variant.pricing_type == p.multi_price">
                                             
@@ -103,6 +111,7 @@
                                                         </span>
                                                     </span>
                                                 </span>
+                                        </span>
                                         </span>
                                           
                                     <!-- </p> -->
@@ -355,6 +364,9 @@
                   
                  <Create/>
             </ion-content>
+        </ion-content>
+        
+
 
             <!--------------------- end ------------------------------------->
          
@@ -372,8 +384,9 @@ import { addCircleOutline, removeCircleOutline, trashSharp, returnUpBack} from '
 import axios from 'axios';
 //import Customer from '../../component/Sale/CustomerRecord.vue'
 import Create from '../../component/Sale/CreateCustomer.vue'
+import Loader from '../../component/LoaderComponent.vue'
 
-const url = "https://www.fulfilmm.com/api/auth/retail/invoice";
+const url = "retail/invoice";
 
 export default {
     components:{
@@ -383,11 +396,12 @@ export default {
         IonLabel,IonSelect,IonSelectOption,
         IonSearchbar, IonList, IonItem,
         IonCard, IonCardHeader, IonCardContent,  IonCardTitle, 
-        IonIcon, IonModal, IonDatetime
+        IonIcon, IonModal, IonDatetime, Loader
     },
 
     data() {
         return {
+            loading: false,
             test:'',
             openItem: false,
             visiable:false,
@@ -397,6 +411,7 @@ export default {
             discount:'',
             state:'',
             search:'',
+            searchItem:'',
             zone_id:'',
 
             filteredItems:[],
@@ -598,6 +613,7 @@ export default {
         
 
          async wholeSales(){
+             this.loading = true
               await axios.get(url, { 
                 headers: {
                 'Authorization': "Bearer" + localStorage.getItem('token'),
@@ -615,6 +631,7 @@ export default {
                         this.zones = res.data.zone
                         this.warehouse = res.data.warehouse
                     })
+                    .finally(() => this.loading = false)
         }
         
 

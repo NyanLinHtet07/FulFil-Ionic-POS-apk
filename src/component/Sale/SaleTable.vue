@@ -1,16 +1,18 @@
 <template>
-
+    <div v-if="loading">
+        <Loader/>
+    </div>
     <!-- sale filed start -->
-     <ion-content v-if="! visiable">
+    <ion-content v-else>
+         <ion-content v-if="! visiable">
 
-         <ion-buttons>
-             <ion-button @click="openItems"> Products </ion-button>
-             <ion-button @click="openFoc"> Focs </ion-button>
-         </ion-buttons>
-
+      
+             <ion-button @click="openItems" color="primary"> Products </ion-button>
+             <ion-button @click="openFoc" color="medium"> Focs </ion-button>
+      
          <div v-if=" !openItem" >
               <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off" placeholder="search foc ..."></ion-searchbar>
-                                <ion-list v-if=" ! openItem">
+                                <ion-list>
                                     <ion-item v-for=" data in filteredStates" :key="data.id" @click="addFoc(data)">
                                             <ion-label> {{ data.variant.product_name }} </ion-label>
                                     </ion-item>
@@ -20,19 +22,14 @@
             
             <div v-if="openItem">
                   <ion-searchbar debounce="500" v-model="searchItem" @input="filterItems" autocomplete="off" placeholder="search Products ..."></ion-searchbar>
-                                <ion-list v-if=" ! openItem">
+                                <ion-list>
                                     <ion-item v-for=" data in filteredItems" :key="data.id" @click="addProduct(data)">
                                             <ion-label> {{ data.variant.product_name }} </ion-label>
                                     </ion-item>
                                 </ion-list>
             </div>
         
-         <div>
-             <!-- <ion-datetime v-model="saleData.inv_date"> </ion-datetime> -->
-            
-             <input type="date" v-model="saleData.inv_date">
-            <input type="date" v-model="saleData.due_date">
-         </div>
+       
             
            
             <ion-grid class="ion-margin w-full">
@@ -70,6 +67,7 @@
                         </ion-col>
                         <ion-col>
                                 <div v-for="(p,index) in prices" :key="index">
+                                    <span v-if="product.variant.id == p.product_id">
                                          <span v-if="p.unit_id === product.unitId"> 
                                             <span v-if="product.variant.pricing_type == p.multi_price">
                                             
@@ -95,6 +93,7 @@
                                                         </span>
                                                     </span>
                                                 </span>
+                                        </span>
                                         </span>
                                           
                                     <!-- </p> -->
@@ -293,6 +292,14 @@
                                    <h4 class="font-bold text-gray-800"> Add On </h4>
                                 </ion-card-title>
                                 <ion-item>
+                                     
+                                <!-- <ion-datetime v-model="saleData.inv_date"> </ion-datetime> -->
+                                
+                                <input type="date" v-model="saleData.inv_date" class=" bg-slate-50 mx-2 px-3 py-2 rounded">
+                                <input type="date" v-model="saleData.due_date" class=" bg-slate-50 mx-2 px-3 py-2 rounded">
+        
+                                </ion-item>
+                                <ion-item>
                                         <ion-label position="floating"> Add Title </ion-label>
                                         <ion-input input="text" v-model="saleData.customer_title"></ion-input>
                                     </ion-item>
@@ -331,6 +338,8 @@
                   
                  <Create/>
             </ion-content>
+    </ion-content>
+    
 
             <!--------------------- end ------------------------------------->
          
@@ -339,15 +348,16 @@
 
 <script>
 import {IonContent,IonGrid,IonRow,IonCol, IonText, IonInput, IonLabel, IonSelect, IonSelectOption,
-        IonSearchbar, IonList, IonItem, IonButtons, IonButton,
+        IonSearchbar, IonList, IonItem, IonButton,
         IonCard, IonCardHeader, IonCardContent, IonCardTitle,  modalController} from '@ionic/vue'
 import { mapGetters } from "vuex";
 import { addCircleOutline, removeCircleOutline} from 'ionicons/icons';
 import axios from 'axios';
+import Loader from '../../component/LoaderComponent.vue'
 //import Customer from '../../component/Sale/CustomerRecord.vue'
 import Create from '../../component/Sale/CreateCustomer.vue'
 
-const url = "https://www.fulfilmm.com/api/auth/mobile_invoice/create";
+const url = "mobile_invoice/create";
 
 export default {
     components:{
@@ -357,12 +367,13 @@ export default {
         IonLabel,IonSelect,IonSelectOption,
         IonSearchbar, IonList, IonItem,
         IonCard, IonCardHeader, IonCardContent,  IonCardTitle,
-        IonButtons
+         Loader
         
     },
 
     data() {
         return {
+            loading: false,
             test:'',
             openItem: false,
             visiable:false,
@@ -588,6 +599,7 @@ export default {
         // },
 
          async wholeSales(){
+             this.loading = true
               await axios.get(url, { 
                 headers: {
                 'Authorization': "Bearer" + localStorage.getItem('token'),
@@ -605,6 +617,7 @@ export default {
                         this.zones = res.data.zone
                         this.warehouse = res.data.warehouse
                     })
+                    .finally(() => this.loading = false)
         }
         
 
