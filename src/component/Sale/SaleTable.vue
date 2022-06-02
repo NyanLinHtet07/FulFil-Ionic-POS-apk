@@ -522,6 +522,10 @@ export default {
             this.visiable = true;
         },
 
+        show(){
+            this.visiable = false;
+        },
+
         //for customer
          addData(data){
                 this.saleData.customer_id = data.id;

@@ -5,7 +5,7 @@
         </ion-header>
 
         <ion-content>
-           
+                <form @submit.prevent="submit()">
                         <ion-item>
                              <ion-label> Title </ion-label>
                             <ion-text>{{invoice.title}}</ion-text>
@@ -91,8 +91,8 @@
                             <input type="file" ref="img" @change="onChangeFileUpload()" />
                         </ion-item>
 
-                        <ion-button @click="submit()"> Submit </ion-button>
-
+                        <ion-button type="submit"> Submit </ion-button>
+                    </form>
                         
                      
                     
@@ -161,24 +161,25 @@ export default {
 
         async submit(){
             var data = new FormData();
-            data.append('title', this.invoice.title);
+           
             data.append('customer_id', this.invoice.customer_id);
-            data.append('transaction_date', this.form.transaction_date);
+            data.append('title', this.invoice.title);
             data.append('amount', this.invoice.due_amount);
-            data.append('category', this.form.category);
-            data.append('payment_method', this.form.payment_method);
-            data.append('approve_id', this.form.approver_id);
-            data.append('currency', this.form.currency);
             data.append('invoice_id', this.invoice.id);
-            data.append('attachment',  this.form.attachmment);
+            data.append('payment_method', this.form.payment_method);
+            data.append('category', this.form.category);
+            data.append('approver_id', this.form.approver_id);
+            data.append('transaction_date', this.form.transaction_date);
+            data.append('currency', this.form.currency);
             data.append('advance', this.form.advance);
-            data.append(' reference', this.form.reference);
+            data.append('attachment',  this.form.attachmment);
+            data.append('reference', this.form.reference);
             data.append('description', this.form.description);
 
              const config = {
                     headers: {
                         'content-type': 'multipart/form-data',
-                         'Authorization': "Bearer" + localStorage.getItem('token'),
+                        'Authorization': "Bearer" + localStorage.getItem('token'),
                         
                     }
                 }

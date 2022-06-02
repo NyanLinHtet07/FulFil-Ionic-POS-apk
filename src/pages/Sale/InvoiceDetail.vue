@@ -4,15 +4,16 @@
                 <Loader/>
         </div>
         <ion-content v-else>
-            <div class=" flex mx-3">
+            <ion-item>
                 <ion-button class="mx-2"> Mark Send </ion-button>
-                <ion-button @click="openPayment()" class="mx-2"> Make Paymeny </ion-button>
-                <ion-button @click="edit()" v-if=" !visible"> Edit </ion-button>
-                <ion-button @click="detail()" v-if="visible"> Detail </ion-button>
-                <ion-button> Stock Out </ion-button>
-            </div>
+                <ion-button @click="openPayment()" class="mx-2" color="tertiary"> Make Paymeny </ion-button>
+                <ion-button @click="edit()" v-if=" !visible"  color="secondary"> Edit </ion-button>
+                <ion-button @click="detail()" v-if="visible" color="warning"> Detail </ion-button>
+                <ion-button color="medium"> Stock Out </ion-button>
+                 <ion-button @click="print()" color="success"> print </ion-button>
+            </ion-item>
             
-            <div class=" bg-zinc-50 rounded-md shadow-md px-3 py-2 mx-3" v-if="! visible">
+            <div class=" bg-zinc-50 rounded-md shadow-md px-3 py-2 mx-3" v-if="! visible" id="print-wrapper">
                     <div class=" text-gray-800 font-semibold">
                         <div>
                             <span> Customer Name</span> : {{cus.name}}
@@ -129,7 +130,11 @@
 
         <!---------------------------------------------------- edit field start -------------------------------------------------->
             <!-- <Edit v-if="visible" :invoice="invoice" :items="items" :prices="prices" :units="units" :itemDiscounts="itemDiscounts" :amount_discount="amount_discount" :taxes="taxes"/> -->
-              <div v-if="visible">
+              <div v-if="visible" class=" px-2 my-5">
+                  
+                      <ion-title class=" text-center font-bold text-gray-800"> Edit Field </ion-title>
+                  
+                            <div class="flex justify-center items-center">
                                 <table class="table-auto px-4 mx-2 w-5/6 py-2 my-3 rounded-md">
                                         <thead class=" text-center font-bold text-cyan-900 bg-sky-300 rounded-lg">
                                             <th> Name </th>
@@ -244,7 +249,7 @@
                                             </tr> 
                                         
                                         </tbody>
-                                        <tfoot class="text-sky-900 bg-gradient-to-b from-white to-sky-200">
+                                        <tfoot class="text-sky-900 bg-white">
                                             <tr class=" my-2">
                                                 <td colspan="5" class=" text-right"> Total </td>
                                                 <td colspan="2" class=" text-center"> {{ getTotal}}</td>
@@ -259,7 +264,7 @@
                                                         <div v-if="cartDis.min_amount < getTotal && cartDis.max_amount > getTotal">
                                                         
                                                                 
-                                                                    <select v-model="invoice.discount">
+                                                                    <select v-model="invoice.discount"  class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                                                                         <option value="0"> None </option>
                                                                         <option :value="cartDis.rate">{{cartDis.rate}} %</option>
                                                                     </select>
@@ -272,10 +277,10 @@
                                                 </td>
                                             </tr>
 
-                                            <tr class="my-2">
-                                                <td colspan="5" class=" text-right"> Tax </td>
+                                            <tr>
+                                                <td colspan="5" class=" text-right my-3"> Tax </td>
                                                 <td colspan="2" class="text-center"> 
-                                                     <select name="" id="" v-model=" invoice.tax_rate" class=" rounded-md w-20">
+                                                     <select name="" id="" v-model=" invoice.tax_rate" class=" rounded-md w-36 py-2 px-1">
                                                         <option v-for="t in taxes" :key="t.id" :value="t.rate"> {{t.name}} </option>
                                                     </select>
                                                         <p>  {{addTax}} </p>
@@ -288,6 +293,7 @@
                                             </tr>
                                         </tfoot>
                                     </table>
+                                </div>
                   
 
         <!-------------------- customer data ----------------------------------------->
@@ -391,16 +397,18 @@
 </template>
 <script>
 import { IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, 
-        IonSelect, IonSelectOption, IonSearchbar, modalController} from '@ionic/vue'
+        IonSelect, IonSelectOption, IonSearchbar,IonTitle, modalController} from '@ionic/vue'
 import axios from 'axios'
 import moment from 'moment'
 import Payment from '../../component/Sale/PayMentComponent.vue'
 import Loader from '../../component/LoaderComponent.vue'
+import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator';
 //import Edit from '../../component/Sale/editInvoice.vue'
 
 export default {
     components:{
         IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, IonSearchbar, IonSelect, IonSelectOption,
+        IonTitle,
         Loader
     },
 
@@ -426,6 +434,9 @@ export default {
             filteredCustomer:[],
             moment: moment,
             cus:{},
+
+            //pdf
+            pdfGenerator : PDFGenerator,
         }
     },
 
@@ -530,6 +541,26 @@ export default {
                   console.log(response)
 
         },
+
+         print(){
+           
+            this.content = document.getElementById('print-wrapper').innerHTML;
+                    let options = {
+                    documentSize: 'A4',
+                    type: 'share',
+                    // landscape: 'portrait',
+                    fileName: 'Invoice.pdf'
+                    };
+                    this.pdfGenerator.fromData(this.content, options)
+                    .then((base64) => {
+                        console.log('OK', base64);
+                    }).catch((error) => {
+                        console.log('error', error);
+                    });
+                            
+            
+        }
+    
 
         
     },
