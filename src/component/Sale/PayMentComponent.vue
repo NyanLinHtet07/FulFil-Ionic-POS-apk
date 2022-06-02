@@ -24,25 +24,27 @@
                         
                       
                         <ion-item>
-                             <ion-label> Amount </ion-label>
-                            <ion-text> {{invoice.due_amount}}</ion-text>
+                             <ion-label position="floating"> Amount </ion-label>
+                            <ion-input v-model="due_amt" v-if=" due_amt <= invoice.due_amount"></ion-input>
+
+                            <ion-input v-else readonly value="Please fill valid amount" class=" text-red-700 font-bold"></ion-input>
                         </ion-item>
 
                         <ion-item>
                             <ion-label> Currency</ion-label>
-                            <select name="" id="" v-model="form.currency">
-                                <option value="MMK"> MMK</option>
+                            <select name="" id="" v-model="form.currency" class="block appearance-none text-gray-700 py-1 px-2 pr-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                <option value="MMK" selected> MMK</option>
                             </select>
                         </ion-item>
 
                         <ion-item>
                             <ion-label> Advence </ion-label>
-                            <select v-model="form.advance">
-                                <option value="on" @click="adv"> On</option>
+                            <select v-model="form.advance" class="block appearance-none text-gray-700 py-1 px-2 pr-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                <option value="on"> On</option>
                                 <option value=""> off</option>
                             </select>
 
-                            <ion-text v-if=" ! visible"> {{ invoice.customer.advance_balance}}</ion-text>
+                            <!-- <ion-text v-if=" ! visible"> {{ invoice.customer.advance_balance}}</ion-text> -->
                         </ion-item>
                     
                        <ion-item>
@@ -52,7 +54,7 @@
                        
                        <ion-item>
                             <ion-label> Payment Method </ion-label>
-                            <select name="" id="" v-model="form.payment_method">
+                            <select name="" id="" v-model="form.payment_method" class="block appearance-none text-gray-700 py-1 px-2 pr-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                                 <option v-for="(method,index) in payment_method" :key="index" :value="method" >
                                     {{method}}
                                 </option>
@@ -61,7 +63,7 @@
                        
                        <ion-item>
                             <ion-label> Cashier</ion-label>
-                            <select name="" id="" v-model="form.approver_id">
+                            <select name="" id="" v-model="form.approver_id" class="block appearance-none text-gray-700 py-1 px-2 pr-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                                 <option v-for="cashier in cashiers" :key="cashier.id" :value="cashier.id">
                                     {{cashier.name}}
                                 </option>
@@ -70,7 +72,7 @@
                        
                         <ion-item>
                             <ion-label> Category </ion-label>
-                            <select name="" id="" v-model="form.category">
+                            <select name="" id="" v-model="form.category" class="block appearance-none text-gray-700 py-1 px-2 pr-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                                 <option v-for="category in payment_category" :key="category.id" :value="category.id">
                                     {{category.name}}
                                 </option>
@@ -122,6 +124,7 @@ export default {
             date: null ,
             img:'',
             m:'',
+            due_amt:'',
 
             form:{
                 transaction_date:'',
@@ -143,6 +146,11 @@ export default {
     },
 
     methods: {
+
+        amount(){
+            this.due_amt = this.invoice.due_amount;
+        },
+
         openDate(){
             this.dateData = true;
         },
@@ -164,7 +172,15 @@ export default {
            
             data.append('customer_id', this.invoice.customer_id);
             data.append('title', this.invoice.title);
-            data.append('amount', this.invoice.due_amount);
+
+            if( this.due_amt > this.invoice.due_amount){
+                 data.append('amount', 0);
+            }
+
+            else {
+                 data.append('amount', this.due_amt);
+            }
+           
             data.append('invoice_id', this.invoice.id);
             data.append('payment_method', this.form.payment_method);
             data.append('category', this.form.category);
@@ -189,6 +205,10 @@ export default {
         }
 
         
+    },
+
+    created(){
+        this.amount();
     },
 
     props:["invoice", "cashiers", "payment_category", "payment_method"]

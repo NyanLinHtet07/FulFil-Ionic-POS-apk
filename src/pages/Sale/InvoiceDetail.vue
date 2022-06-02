@@ -6,7 +6,10 @@
         <ion-content v-else>
             <ion-item>
                 <ion-button class="mx-2"> Mark Send </ion-button>
-                <ion-button @click="openPayment()" class="mx-2" color="tertiary"> Make Paymeny </ion-button>
+               
+                    <ion-button @click="openPayment()" class="mx-2" color="tertiary"> Make Paymeny </ion-button>
+                
+                
                 <ion-button @click="edit()" v-if=" !visible"  color="secondary"> Edit </ion-button>
                 <ion-button @click="detail()" v-if="visible" color="warning"> Detail </ion-button>
                 <ion-button color="medium"> Stock Out </ion-button>
@@ -176,11 +179,13 @@
                                                                         <select v-model="product.unit_price" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                                                             <option :value="p.price">{{p.price}}</option>
                                                                         </select>
+                                                                        <!-- <input type="text" :value="p.price" ref="inp" readonly /> -->
                                                                         
                                                                     </span>
                                                                     <span v-else>
                                                                         <span v-if="p.min <= product.quantity && ( p.max >= product.quantity || p.max == null ) "> 
-                                                                
+                                                                        
+                                                                        <!-- <input type="text" :value="p.price" ref="inp" readonly /> -->
                                                                                 <select v-model="product.unit_price" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                                                                 
                                                                                     <option :value="p.price">{{p.price}}</option>
@@ -602,6 +607,10 @@ export default {
 
             return dis.toFixed(2);
         },
+
+        isDisable(){
+            return this.invoice.status !== 'Paid'; 
+        }
     },
 
     created() {
