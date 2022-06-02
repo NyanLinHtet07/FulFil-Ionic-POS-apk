@@ -28,6 +28,13 @@
                                     </ion-item>
                                 </ion-list>
             </div>
+
+             <div class="text-right mx-3">
+                <ion-button  size="small" color="danger"  @click="clearCart(cartItems)"> 
+                    Remove items
+                  
+                </ion-button>
+            </div>
         
        
             
@@ -129,7 +136,9 @@
                         </ion-col>
 
                         <ion-col>
-                            <ion-button type="submit" @click="removeItem(product)" color="danger"> Remove</ion-button>
+                            <ion-button type="submit" @click="removeItem(product)" color="light" size="small">
+                                 <ion-icon :icon="trashSharp" slot="icon-only"  color="danger" class="py-3"></ion-icon>
+                            </ion-button>
                         </ion-col>
                    
                 </ion-row> 
@@ -205,10 +214,10 @@
                                 <ion-select name="" id="" v-model="tax" class=" rounded-md w-20">
                                     <ion-select-option v-for="t in taxes" :key="t.id" :value="t.rate"> {{t.name}} </ion-select-option>
                                 </ion-select>
-
+                             </ion-item>
                                 <!-- <ion-input type="number" v-model="tax" placeholder="add %"></ion-input> -->
                                 <ion-text class="inputText">  {{addTax}} </ion-text>
-                            </ion-item>
+                           
                     </ion-col>
                 </ion-row>
 
@@ -241,8 +250,12 @@
             <div class="flex justify-center items-center">
                  <ion-card class=" w-full rounded-lg mx-3 my-4  px-2 py-3 bg-gradient-to-t from-sky-300 to to-blue-50">
                     <ion-card-header>
+                        <div class=" text-left">
+                               <ion-button shape="round"  size="small" color="medium" @click="show"> <ion-icon :icon="returnUpBack"></ion-icon> <small class="mx-2">back</small> </ion-button>
+                           </div>
+
                         <ion-card-title>
-                           <h3 class=" font-semibold text-gray-800"> Add Customer Data </h3>
+                           <h3 class=" font-semibold text-gray-800"> Add Required Field </h3>
                            <div class=" text-right my-3">
                                <ion-button shape="round" color="secondary" @click="openModal"> Add New Customer</ion-button>
                            </div>
@@ -294,10 +307,16 @@
                                 <ion-item>
                                      
                                 <!-- <ion-datetime v-model="saleData.inv_date"> </ion-datetime> -->
-                                
-                                <input type="date" v-model="saleData.inv_date" class=" bg-slate-50 mx-2 px-3 py-2 rounded">
-                                <input type="date" v-model="saleData.due_date" class=" bg-slate-50 mx-2 px-3 py-2 rounded">
-        
+                                     <div>
+                                        <ion-label> Invoice Date </ion-label>
+                                         <input type="date" v-model="saleData.inv_date" class=" bg-slate-50 mx-2 px-3 py-2 rounded" placeholder="invoice date" />
+                                    </div>
+                                    
+                                    <div>
+                                        <ion-label> Due Date </ion-label>
+                                         <input type="date" v-model="saleData.due_date" class=" bg-slate-50 mx-2 px-3 py-2 rounded" placeholder=" due date"/>
+                                    </div>
+
                                 </ion-item>
                                 <ion-item>
                                         <ion-label position="floating"> Add Title </ion-label>
@@ -351,7 +370,7 @@ import {IonContent,IonGrid,IonRow,IonCol, IonText, IonInput, IonLabel, IonSelect
         IonSearchbar, IonList, IonItem, IonButton,
         IonCard, IonCardHeader, IonCardContent, IonCardTitle,  modalController} from '@ionic/vue'
 import { mapGetters } from "vuex";
-import { addCircleOutline, removeCircleOutline} from 'ionicons/icons';
+import { addCircleOutline, removeCircleOutline, trashSharp, returnUpBack} from 'ionicons/icons';
 import axios from 'axios';
 import Loader from '../../component/LoaderComponent.vue'
 //import Customer from '../../component/Sale/CustomerRecord.vue'
@@ -428,7 +447,7 @@ export default {
 
     setup() {
         return{
-            addCircleOutline, removeCircleOutline
+            addCircleOutline, removeCircleOutline, trashSharp, returnUpBack
         }
         
     },

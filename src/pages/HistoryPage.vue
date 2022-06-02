@@ -1,68 +1,43 @@
 <template>
         <master-layout pageTitle=" Sales History">
-                 <ion-content v-if="! this.records.length">
-           <img src="@/assets/empty_cart.svg" alt="" class="emptycart"/>
-           <ion-title> <h4 class="text"> Please Sale First. </h4></ion-title>
-       </ion-content>
+        <div v-if="loading">
+                <Loader/>
+        </div>
        <ion-content v-else>
-            <ion-toolbar>
-                    <ion-title class="ion-margin"> Sale History  </ion-title>
-            </ion-toolbar>
-          
+            
                 <ion-list>
                     
-                    <!-- <ion-item v-for=" record in records" :key="record.id"  class="ion-margin ion-padding-vertical">
-                        <ion-grid>
-                            <ion-row>
-                                <ion-col>
-                                    <ion-label color="secondary">Customer - {{ record.customer}}</ion-label>
-                                    <ion-label color="secondary">Phone - {{ record.phone}}</ion-label>
-                                    <ion-label color="primary">Total - {{ record.totalPrice }}</ion-label>
-                                </ion-col>
-                                <ion-col>
-                                    
-                                        <ion-label>Date- {{record.created_at}}</ion-label>
-                                </ion-col>
-                                 
-                            </ion-row>
-                        </ion-grid>
-                         <ion-item>
-                            <ion-button expand="block" color="secondary" shape="round" 
-                            slot="end" size="" name="star" :router-link="`/history/${record.id}`"> 
-                                Detail
-                            </ion-button>
-                        </ion-item>
-                       
-                    </ion-item> -->
-                    <ion-card v-for="record in records" :key="record.id">
+                    
+                    <ion-card v-for="record in posts" :key="record.id">
                         <ion-card-header>
-                            <ion-card-subtitle>INV - {{ record.id}}</ion-card-subtitle>
-                            <ion-card-title> Date - {{ record.created_at}} </ion-card-title>
+                            <ion-card-subtitle>Invoice Number - {{ record.invoice_id}}</ion-card-subtitle>
+                            <ion-card-title> Invoice Date - {{ record.invoice_date}} </ion-card-title>
                         </ion-card-header>
                         <ion-card-content>
                             <ion-item>
-                                 <ion-label> Customer - {{record.customer}}</ion-label>
+                                 <ion-label> Customer - {{record.customer.name}}</ion-label>
                             </ion-item>
 
                             <ion-item>
-                                <ion-label> Phone - {{record.phone}}</ion-label>
+                                <ion-label> Phone - {{record.customer.phone}}</ion-label>
                             </ion-item> 
 
                             <ion-item>
-                                <ion-label> Shipping Address - {{record.shipping_address}}</ion-label>
+                                <ion-label> Shipping Address - {{record.billing_address}}</ion-label>
                             </ion-item>
                            
                             
                             
 
-                            <ion-button expand="block" color="secondary" shape="round" 
-                            slot="end" :router-link="`/history/${record.id}`"> 
+                            <ion-button  color="secondary" shape="round" 
+                            slot="end" :router-link="`/invoice-detail/${record.id}`"> 
                                Order Detail
                             </ion-button>
                         </ion-card-content>
 
                     </ion-card>
                 </ion-list>
+               
         
 
        </ion-content>
@@ -72,9 +47,11 @@
   
 </template>
 <script>
-import {  IonTitle, IonContent,
-        IonToolbar , IonList ,IonLabel, IonItem,
+import {  IonContent,
+         IonList ,IonLabel, IonItem,
         IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent} from '@ionic/vue';
+
+import Loader from '../component/LoaderComponent.vue'
 
 // import {mapGetters} from 'vuex';
 
@@ -82,9 +59,9 @@ import axios from 'axios';
 export default {
     components:{
       
-        IonTitle,
+      
         IonContent,
-        IonToolbar,
+      
         IonLabel,
         IonList,
         IonItem,
@@ -92,32 +69,36 @@ export default {
         // IonRow, IonCol,
         IonButton,
         IonCard, IonCardHeader, IonCardSubtitle, IonCardContent, IonCardTitle,
+        Loader
        
         
     },
 
     data() {
         return {
-            products:[],
-            retails:[],
-            posts:[],
+          loading: false,
+          retails:[],
+          posts:[],
         }
     },
 
     methods:{
-         view(){
-           axios.get(`https://www.fulfilmm.com/api/auth/mobile_invoice/create`)
-                .then(response => (
-                    this.products = response.data
-                ))
-        },
+       async getData(){
+            this.loading = true
 
-        // retail(){
-        //     axios.get(`http://54.169.124.45/api/auth/retail/invoice`)
-        //             .then(res => {
-        //                 this.retails = res.data
-        //             })
-        // }
+            await axios.get('mobile_invoice', {
+                headers: {
+                'Authorization': "Bearer" + localStorage.getItem('token'),
+                 },
+                })
+            .then( response => {
+              this.posts = response.data.allinv
+            })
+
+            .finally(() => this.loading = false)
+            
+        }
+
     },
 
     computed:{
@@ -125,28 +106,33 @@ export default {
             return this.$store.state.saleDatas;
         },
 
-        //  ...mapGetters(['sale.retail_product']),
+         //...mapGetters(['sale.retail_product']),
     },
 
-    mounted() {
-        axios.get(`https://www.fulfilmm.com/api/auth/retail/invoice`)
-                .then( res => (
-                        this.retails = res.data
-                    )),
+    // mounted() {
+    //     axios.get(`https://www.fulfilmm.com/api/auth/mobile_invoice`)
+    //             .then( res => (
+    //                     this.retails = res.data
+    //                 ))
+    // 
        
 
-        this.$store.dispatch('fetchPosts')
+    //     this.$store.dispatch('fetchPosts')
                
-    },
+    // },
 
      created() {
-    //   axios.get('http://54.169.124.45/api/auth/api_products')
-    //         .then( response => {
-    //           this.products = response.data
-    //         });
-    this.view();
-    //this.retail();
-  },
+            //      await axios.get('mobile_invoice', {
+            //     headers: {
+            //     'Authorization': "Bearer" + localStorage.getItem('token'),
+            //      },
+            //     })
+            // .then( response => {
+            //   this.posts = response.data.allinv
+            // })
+            this.getData();
+           
+        },
 }
 </script>
 

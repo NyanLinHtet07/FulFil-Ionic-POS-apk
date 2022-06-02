@@ -5,8 +5,10 @@
     <ion-content padding>
       <img :src="imageUrl ? imageUrl : null" />
       <!-- <ion-button @click="takePicture()">Take Picture Now</ion-button> -->
-      <ion-button @click="scan()" @input="filterCode">SCAN</ion-button>
+      <ion-button @click="scan()">SCAN</ion-button>
       <pdf></pdf>
+
+      <input type="text" v-model="search" @input="filterCode">
 
     </ion-content>
 
@@ -32,7 +34,8 @@
 import { IonContent, IonButton } from '@ionic/vue'
 import {jsPDF} from 'jspdf'
 import pdf from '../component/pdfComponent.vue'
-//import test from '../component/testComponent.vue'
+//import axios from 'axios'
+//import test from '../component/testComponent.vue' 
 
 
 
@@ -43,8 +46,20 @@ export default {
       msg: "Welcome to Your Vue Capacitor App",
       imageUrl: null,
       
-      filteredStates:{},
+      filteredStates:[],
+      product:{},
       state:'',
+      records:[],
+
+      search:'',
+      items:[],
+      result:{},
+
+      d:[
+        { name: 'a', code:'1234'},
+        {name:'b', code:'4567'},
+
+      ]
 
       //bluetoothList:[],
       //selectedPrinter:'',
@@ -56,6 +71,15 @@ export default {
      
   },
   methods: {
+
+    filterCode(){
+        this.items = this.d.filter( s => {
+            return s.code.match(this.search);
+    })
+      this.result = this.items[0];
+    
+    },
+    
 
     
     scan() {
@@ -79,8 +103,10 @@ export default {
                   return s.code.match(result.text);
   
             })
+
+            this.products = this.filteredStates[0];
   
-            this.$store.dispatch("addToCart", this.filteredStates);
+            this.$store.dispatch("addToCart", this.produucts);
 
           
               
@@ -118,6 +144,15 @@ export default {
           pdf.save("test.pdf");
     },
 
+    // async getData(){
+    //      await axios.get(`mobile_invoice` , {
+    //             headers: {
+    //             'Authorization': "Bearer" + localStorage.getItem('token'),
+    //              },
+    //             }) . then( res => {
+    //               this.records = res.data 
+    //             })
+    // }
   
 
 
@@ -176,6 +211,10 @@ export default {
    
    
   },
+
+  // created(){
+  //   this.getData();
+  // },
   activated() {
     console.log("activated")
   }

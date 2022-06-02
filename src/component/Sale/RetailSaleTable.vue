@@ -12,14 +12,7 @@
              <ion-button @click="openFoc" color="medium"> Focs </ion-button>
        
          
-         <div v-if=" ! openItem">
-              <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off" placeholder="search foc ..."></ion-searchbar>
-                                <ion-list>
-                                    <ion-item v-for=" data in filteredStates" :key="data.id" @click="addFoc(data)">
-                                            <ion-label> {{ data.variant.product_name }} </ion-label>
-                                    </ion-item>
-                                </ion-list>
-         </div>
+        
           <div v-if="openItem">
                   <ion-searchbar debounce="500" v-model="searchItem" @input="filterItems" autocomplete="off" placeholder="search Products ..."></ion-searchbar>
                                 <ion-list>
@@ -28,6 +21,14 @@
                                     </ion-item>
                                 </ion-list>
           </div>
+           <div v-if=" ! openItem">
+              <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off" placeholder="search foc ..."></ion-searchbar>
+                                <ion-list>
+                                    <ion-item v-for=" data in filteredStates" :key="data.id" @click="addFoc(data)">
+                                            <ion-label> {{ data.variant.product_name }} </ion-label>
+                                    </ion-item>
+                                </ion-list>
+         </div>
             
        
 
@@ -41,12 +42,13 @@
 
             
             
-            <!-- <div class="text-right mx-3">
-                <ion-button color="light" size="small"> 
-                    <ion-icon :icon="trashSharp" slot="icon-only"  @click="clearCart(cartItems)" color="danger" class="py-3"></ion-icon>
+            <div class="text-right mx-3">
+                <ion-button  size="small" color="danger"  @click="clearCart(cartItems)"> 
+                    Remove items
+                  
                 </ion-button>
             </div>
-             -->
+            
        
             
            
@@ -147,7 +149,9 @@
                         </ion-col>
 
                         <ion-col>
-                            <ion-button type="submit" @click="removeItem(product)" color="danger"> Remove</ion-button>
+                            <ion-button type="submit" @click="removeItem(product)" color="light" size="small"> 
+                                  <ion-icon :icon="trashSharp" slot="icon-only"  color="danger" class="py-3"></ion-icon>
+                            </ion-button>
                         </ion-col>
                    
                 </ion-row> 
@@ -214,15 +218,19 @@
                     <ion-col offset-4 class="ion-text-end"> Tax </ion-col>
 
                     <ion-col class=" px-3"> 
-                            <ion-item>
-                                <ion-label> Select Tax </ion-label>
+                           
+                                <ion-item class=" w-full">
+                                     <ion-label> Select Tax </ion-label>
                                 <ion-select name="" id="" v-model="tax" class=" rounded-md w-20">
                                     <ion-select-option v-for="t in taxes" :key="t.id" :value="t.rate"> {{t.name}} </ion-select-option>
                                 </ion-select>
+                               
+                                </ion-item>
+                               
 
                                 <!-- <ion-input type="number" v-model="tax" placeholder="add %"></ion-input> -->
                                 <ion-text class="inputText">  {{addTax}} </ion-text>
-                            </ion-item>
+                           
                     </ion-col>
                 </ion-row>
 
@@ -257,7 +265,7 @@
                  <ion-card class=" w-full rounded-lg mx-3 my-4  px-2 py-3 bg-gradient-to-t from-sky-300 to to-blue-50">
                     <ion-card-header>
                         <div class=" text-left">
-                               <ion-button shape="round" fill="outline" size="small" color="medium" @click="show"> <ion-icon :icon="returnUpBack"></ion-icon> </ion-button>
+                               <ion-button shape="round"  size="small" color="medium" @click="show"> <ion-icon :icon="returnUpBack"></ion-icon> <small class="mx-2">back</small> </ion-button>
                            </div>
                         <ion-card-title>
                            <h3 class=" font-semibold text-gray-800 text-center"> Add Required Data </h3>
@@ -310,8 +318,8 @@
                                 <ion-card-title>
                                    <h4 class="font-bold text-gray-800"> Add On </h4>
                                 </ion-card-title>
-                                <ion-item>
-                                    <ion-button id="open-modal">Add Invoice Date</ion-button>
+                                <ion-item class="">
+                                    <!-- <ion-button id="open-modal">Add Invoice Date</ion-button>
                                     <ion-modal trigger="open-modal">
                                         <ion-content>
                                         <ion-datetime  v-model="saleData.inv_date" size="fixed"></ion-datetime>
@@ -323,7 +331,17 @@
                                         <ion-content>
                                         <ion-datetime  v-model="saleData.inv_date"></ion-datetime>
                                         </ion-content>
-                                    </ion-modal>
+                                    </ion-modal> -->
+                                    <div>
+                                        <ion-label> Invoice Date </ion-label>
+                                         <input type="date" v-model="saleData.inv_date" class=" bg-slate-50 mx-2 px-3 py-2 rounded" placeholder="invoice date" />
+                                    </div>
+                                    
+                                    <div>
+                                        <ion-label> Due Date </ion-label>
+                                         <input type="date" v-model="saleData.due_date" class=" bg-slate-50 mx-2 px-3 py-2 rounded" placeholder=" due date"/>
+                                    </div>
+                                   
                                 </ion-item>
                                 <ion-item>
                                         <ion-label position="floating"> Add Title </ion-label>
@@ -377,7 +395,7 @@
 import {IonContent,IonGrid,IonRow,IonCol, IonText, IonInput, IonLabel, IonSelect, IonSelectOption,
         IonSearchbar, IonList, IonItem,   IonButton, IonIcon,
         IonCard, IonCardHeader, IonCardContent, IonCardTitle,  
-        IonModal, IonDatetime,
+       
         modalController} from '@ionic/vue'
 import { mapGetters } from "vuex";
 import { addCircleOutline, removeCircleOutline, trashSharp, returnUpBack} from 'ionicons/icons';
@@ -396,7 +414,7 @@ export default {
         IonLabel,IonSelect,IonSelectOption,
         IonSearchbar, IonList, IonItem,
         IonCard, IonCardHeader, IonCardContent,  IonCardTitle, 
-        IonIcon, IonModal, IonDatetime, Loader
+        IonIcon, Loader
     },
 
     data() {

@@ -448,7 +448,7 @@ export default {
 
         async Data(){
             this.loading = true
-            await axios.get(`https://www.fulfilmm.com/api/auth/mobile_invoice/${this.$route.params.id}/edit` , {
+            await axios.get(`mobile_invoice/${this.$route.params.id}/edit` , {
                 headers: {
                 'Authorization': "Bearer" + localStorage.getItem('token'),
                  },

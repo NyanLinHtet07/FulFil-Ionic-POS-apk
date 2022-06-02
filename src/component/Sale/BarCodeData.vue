@@ -12,10 +12,14 @@ export default {
   //name: "CameraPage",
   data() {
         return{
-         d : this.code,
+         code:'',
+         product:{},
+         filteredProducts:[],
          msg: "Welcome to Your Vue Capacitor App",
         }
   },
+
+  props:["wholeSales"],
 
   setup(){
       return{
@@ -29,22 +33,23 @@ export default {
 
   methods: {
     scan() {
-      const code = '';
+     
       window.cordova.plugins.barcodeScanner.scan(
         result => {
           console.log(result);
-          alert(
-            "We got a barcode\n" +
-              "Result: " +
-              result.text +
-              "\n" +
-              "Format: " +
-              result.format +
-              "\n" +
-              "Cancelled: " +
-              result.cancelled
-          );
-        result.text = code;
+          // alert(
+          //   "We got a barcode\n" +
+          //     "Result: " +
+          //     result.text +
+          //     "\n" +
+          //     "Format: " +
+          //     result.format +
+          //     "\n" +
+          //     "Cancelled: " +
+          //     result.cancelled
+          // );
+        this.code = result.text;
+
         },
         error => {
           alert("Scanning failed: " + error);

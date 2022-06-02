@@ -11,7 +11,7 @@
                    <ion-row>
                       
                         <ion-col class="ion-align-self-auto">
-                            <Barcode/>
+                            <ion-button @click="scan()">  <ion-icon  :icon="barcodeOutline" /> </ion-button>
                         </ion-col>
                        
                         <!-- <ion-col class="ion-align-self-auto">
@@ -78,15 +78,15 @@
 
 import { IonContent, IonSearchbar,
          IonGrid, IonRow, IonCol, IonFooter,IonTitle,  IonButton } from '@ionic/vue';
-import { arrowUpCircleOutline } from 'ionicons/icons';
+import { arrowUpCircleOutline, barcodeOutline } from 'ionicons/icons';
 // import Sale from '../component/Sale/SaleTable.vue'
-import Barcode from '../../../component/Sale/BarCodeData.vue';
+//import Barcode from '../../../component/Sale/BarCodeData.vue';
 import Loader from '../../../component/LoaderComponent.vue'
 
 import axios from 'axios';
 import { mapGetters } from "vuex";
 
-const api_url = "https://www.fulfilmm.com/api/auth/retail/invoice";
+const api_url = "retail/invoice";
 export default {
     components: { 
        
@@ -97,10 +97,6 @@ export default {
         IonCol,
         IonFooter,
         IonTitle,
-        //IonIcon,
-        // IonSelect, IonSelectOption,
-        //Menu,
-        Barcode,
         IonButton,
         Loader
 
@@ -110,7 +106,7 @@ export default {
 
     setup(){
         return{
-            arrowUpCircleOutline
+            arrowUpCircleOutline, barcodeOutline
         }
     },
 
@@ -130,6 +126,11 @@ export default {
             
             priceId:'',
 
+            //for barcode
+             code:'',
+             product:{},
+             filteredProducts:[],
+
 
 
         }
@@ -138,7 +139,39 @@ export default {
 
     methods: {
 
-      
+         scan() {
+     
+                window.cordova.plugins.barcodeScanner.scan(
+                    result => {
+                    console.log(result);
+                    this.code = result.text;
+
+                    this.filterProducts = this.wholeSales.filter( s => {
+                        return s.variant.item_code.match(this.code);
+                    })
+
+                    this.product = this.filterProducts[0];
+
+                    this.$store.dispatch("addToCart", this.product);
+
+
+                    },
+                    error => {
+                    alert("Scanning failed: " + error);
+                    },
+                    {
+                    preferFrontCamera: true, // iOS and Android
+                    showFlipCameraButton: true, // iOS and Android
+                    showTorchButton: true, // iOS and Android
+                    torchOn: true, // Android, launch with the torch switched on (if available)
+                    saveHistory: true, // Android, save scan history (default false)
+                    prompt: "Place a barcode inside the scan area", // Android
+                    orientation: "landscape", // Android only (portrait|landscape), default unset so it rotates with the device
+                    disableAnimations: false, // iOS
+                    disableSuccessBeep: false // iOS and Android
+                    }
+                );
+                },
 
         clickMe(){
             this.view = true;
