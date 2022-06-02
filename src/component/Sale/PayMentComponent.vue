@@ -71,7 +71,7 @@
                         <ion-item>
                             <ion-label> Category </ion-label>
                             <select name="" id="" v-model="form.category">
-                                <option v-for="category in payment_category" :key="category.id" :value="category.name">
+                                <option v-for="category in payment_category" :key="category.id" :value="category.id">
                                     {{category.name}}
                                 </option>
                             </select>
