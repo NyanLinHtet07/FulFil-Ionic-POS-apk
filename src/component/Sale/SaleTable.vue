@@ -251,7 +251,7 @@
                  <ion-card class=" w-full rounded-lg mx-3 my-4  px-2 py-3 bg-gradient-to-t from-sky-300 to to-blue-50">
                     <ion-card-header>
                         <div class=" text-left">
-                               <ion-button shape="round"  size="small" color="medium" @click="show"> <ion-icon :icon="returnUpBack"></ion-icon> <small class="mx-2">back</small> </ion-button>
+                               <ion-button shape="round"  size="small" color="secondary" @click="show"> <ion-icon :icon="returnUpBack"></ion-icon> <small class="mx-2">Sales</small> </ion-button>
                            </div>
 
                         <ion-card-title>
@@ -348,7 +348,8 @@
                              
                            </ion-card-content>
                         <div class=" text-right">
-                             <ion-button type="submit" @click="submitData()" shape="round" > Submit </ion-button>
+                             <ion-spinner  name="circles" v-if='posting'> Please Wait</ion-spinner>
+                             <ion-button :disabled="posting" type="submit" @click="submitData()" shape="round" > Submit </ion-button>
                         </div>
                            
                 </ion-card>
@@ -367,7 +368,7 @@
 
 <script>
 import {IonContent,IonGrid,IonRow,IonCol, IonText, IonInput, IonLabel, IonSelect, IonSelectOption,
-        IonSearchbar, IonList, IonItem, IonButton,
+        IonSearchbar, IonList, IonItem, IonButton, IonSpinner,
         IonCard, IonCardHeader, IonCardContent, IonCardTitle,  modalController} from '@ionic/vue'
 import { mapGetters } from "vuex";
 import { addCircleOutline, removeCircleOutline, trashSharp, returnUpBack} from 'ionicons/icons';
@@ -384,7 +385,7 @@ export default {
         IonGrid,IonRow,IonCol,
         IonButton,IonText,IonInput,
         IonLabel,IonSelect,IonSelectOption,
-        IonSearchbar, IonList, IonItem,
+        IonSearchbar, IonList, IonItem, IonSpinner,
         IonCard, IonCardHeader, IonCardContent,  IonCardTitle,
          Loader
         
@@ -392,6 +393,7 @@ export default {
 
     data() {
         return {
+            posting:false,
             loading: false,
             test:'',
             openItem: false,
@@ -520,7 +522,7 @@ export default {
 
         hide(){
             this.visiable = true;
-        },
+        }, 
 
         show(){
             this.visiable = false;
@@ -559,6 +561,7 @@ export default {
                 let itemary = JSON.stringify(this.finalItems);
                 let focary = JSON.stringify(this.finalFocs);
 
+                this.posting = true;
                 const response = await axios.post (  "https://www.fulfilmm.com/api/auth/mobile_invoice" ,{
                     title: this.saleData.customer_title,
                     client_id : this.saleData.customer_id,
@@ -591,9 +594,10 @@ export default {
                
                 this.reset();
                 this.clearCart();
+                this.posting = false ;
                 this.$router.push({name:'invoice.detail', params:{id :inv_id}});
                 //this.$router.push('/select-sales');
-                console.log(response)
+                //console.log(response)
         },
 
 
@@ -702,6 +706,10 @@ export default {
 
 
     },
+
+    // mounted(){
+    //     this.wholeSales();
+    // },
 
     created() {
         this.wholeSales();

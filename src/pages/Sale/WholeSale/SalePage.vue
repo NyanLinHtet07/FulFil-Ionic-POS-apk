@@ -204,22 +204,18 @@ export default {
             this.$store.dispatch("addToCart", data);
         },
 
-        async getData(){
+        async getData(){ 
             this.loading = true
              await axios.get(api_url,  { 
                          headers: {
                                     'Authorization': "Bearer" + localStorage.getItem('token'),
                                     },
                                     })
-
-                // await axios.get(api_url)
                     .then(res => {
                         this.wholeSales = res.data.aval_product;
                         
                     })
-                    .catch( err => {
-                        console.log(err)
-                    })
+
                     .finally(() => this.loading = false)
 
         }

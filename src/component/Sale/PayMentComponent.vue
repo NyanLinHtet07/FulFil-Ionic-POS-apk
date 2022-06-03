@@ -32,17 +32,17 @@
 
                         <ion-item>
                             <ion-label> Currency</ion-label>
-                            <select name="" id="" v-model="form.currency" class="block appearance-none text-gray-700 py-1 px-2 pr-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                                <option value="MMK" selected> MMK</option>
-                            </select>
+                            <ion-select name="" id="" v-model="form.currency" class="block appearance-none text-gray-700 py-1 px-2 pr-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                <ion-select-option value="MMK" selected> MMK</ion-select-option>
+                            </ion-select>
                         </ion-item>
 
                         <ion-item>
                             <ion-label> Advence </ion-label>
-                            <select v-model="form.advance" class="block appearance-none text-gray-700 py-1 px-2 pr-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                                <option value="on"> On</option>
-                                <option value=""> off</option>
-                            </select>
+                            <ion-select v-model="form.advance" class="block appearance-none text-gray-700 py-1 px-2 pr-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                <ion-select-option value="on"> On</ion-select-option>
+                                <ion-select-option value=""> off</ion-select-option>
+                            </ion-select>
 
                             <!-- <ion-text v-if=" ! visible"> {{ invoice.customer.advance_balance}}</ion-text> -->
                         </ion-item>
@@ -54,29 +54,29 @@
                        
                        <ion-item>
                             <ion-label> Payment Method </ion-label>
-                            <select name="" id="" v-model="form.payment_method" class="block appearance-none text-gray-700 py-1 px-2 pr-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                                <option v-for="(method,index) in payment_method" :key="index" :value="method" >
+                            <ion-select name="" id="" v-model="form.payment_method" class="block appearance-none text-gray-700 py-1 px-2 pr-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                <ion-select-option v-for="(method,index) in payment_method" :key="index" :value="method" >
                                     {{method}}
-                                </option>
-                            </select>
+                                </ion-select-option>
+                            </ion-select>
                        </ion-item>
                        
                        <ion-item>
                             <ion-label> Cashier</ion-label>
-                            <select name="" id="" v-model="form.approver_id" class="block appearance-none text-gray-700 py-1 px-2 pr-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                                <option v-for="cashier in cashiers" :key="cashier.id" :value="cashier.id">
+                            <ion-select name="" id="" v-model="form.approver_id" class="block appearance-none text-gray-700 py-1 px-2 pr-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                <ion-select-option v-for="cashier in cashiers" :key="cashier.id" :value="cashier.id">
                                     {{cashier.name}}
-                                </option>
-                            </select>
+                                </ion-select-option>
+                            </ion-select>
                        </ion-item>
                        
                         <ion-item>
                             <ion-label> Category </ion-label>
-                            <select name="" id="" v-model="form.category" class="block appearance-none text-gray-700 py-1 px-2 pr-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                                <option v-for="category in payment_category" :key="category.id" :value="category.id">
+                            <ion-select name="" id="" v-model="form.category" class="block appearance-none text-gray-700 py-1 px-2 pr-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                <ion-select-option v-for="category in payment_category" :key="category.id" :value="category.id">
                                     {{category.name}}
-                                </option>
-                            </select>
+                                </ion-select-option>
+                            </ion-select>
                         </ion-item>
 
                         <ion-item>
@@ -92,8 +92,14 @@
                             <ion-label> Input File </ion-label>
                             <input type="file" ref="img" @change="onChangeFileUpload()" />
                         </ion-item>
+                        
+                        <div class="text-right my-2">
+                            <ion-spinner  name="circles" v-if='posting'></ion-spinner>
 
-                        <ion-button type="submit"> Submit </ion-button>
+                             <ion-button  :disabled="posting" type="submit" shape="round"> Submit </ion-button>
+                             <ion-button @click="modalController.dismiss()" color="danger" shape="round" class="mx-3"> close</ion-button>
+                        </div>
+                       
                     </form>
                         
                      
@@ -105,8 +111,8 @@
 </template>
 <script>
 
-import { IonContent, IonTitle ,IonHeader, IonItem, IonLabel,  IonText , IonInput, IonButton
-            } from '@ionic/vue'
+import { IonContent, IonTitle ,IonHeader, IonItem, IonLabel,  IonText , IonInput, IonButton,
+          IonSelect, IonSelectOption, modalController  } from '@ionic/vue'
 
 import axios from 'axios'
 //import Datepicker from '@vuepic/vue-datepicker';
@@ -114,12 +120,20 @@ import axios from 'axios'
 
 export default {
     components:{
-        IonContent,IonTitle, IonHeader,  IonItem, IonLabel, IonText , IonInput, IonButton
+        IonContent,IonTitle, IonHeader,  IonItem, IonLabel, IonText , IonInput, IonButton, IonSelect, IonSelectOption
        //Datepicker
     },
 
+     setup(){
+        return{
+            modalController,
+        }
+    },
+
+
     data(){
         return{
+            posting:false,
             visiable:false,
             date: null ,
             img:'',
@@ -141,11 +155,27 @@ export default {
         }
     },
 
-    setup() {
-        
-    },
+   
 
     methods: {
+
+        reset(){
+            this.form = {
+                transaction_date:'',
+                attachmment:'',
+                category:'',
+                payment_method:'',
+                approver_id:'',
+                currency:'',
+                advance:'',
+                reference:'',
+                description:'',
+
+            }
+        },
+         async closeModal(){
+            await modalController.dismiss();
+         },
 
         amount(){
             this.due_amt = this.invoice.due_amount;
@@ -199,9 +229,11 @@ export default {
                         
                     }
                 }
-            const response = await axios.post(`https://www.fulfilmm.com/api/auth/revenues`, data, config);
-
-            console.log(response);
+            await axios.post(`revenues`, data, config);
+            this.reset();
+            this.closeModal();
+            this.posting = false;
+            //console.log(response);
         }
 
         

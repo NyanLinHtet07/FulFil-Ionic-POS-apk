@@ -38,8 +38,8 @@
       <ion-item>
             <ion-label> Select Gender</ion-label>
             <ion-select v-model="form.gender">
-                <ion-select-option value="male"> male </ion-select-option>
-                 <ion-select-option value="female"> female </ion-select-option>
+                <ion-select-option value="male"> Male </ion-select-option>
+                 <ion-select-option value="female"> Female </ion-select-option>
             </ion-select>
       </ion-item>
 
@@ -71,7 +71,9 @@
        </select> <br> -->
 
     <div class="text-right">
-         <ion-button type="submit"  shape="round" color="secondary"> Submit </ion-button>
+        <ion-spinner  name="circles" v-if='posting'></ion-spinner>
+         <ion-button :disabled="posting" type="submit"  shape="round" color="secondary"> Submit </ion-button>
+         <ion-button @click="modalController.dismiss()" color="danger" shape="round" class="mx-3"> close</ion-button>
     </div>
       
 
@@ -80,11 +82,21 @@
 </template>
 
 <script>
- import { IonContent, IonHeader, IonTitle, IonToolbar, IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonButton } from '@ionic/vue';
+ import { IonContent, IonHeader, IonTitle, IonToolbar, IonInput, IonSelect, IonSelectOption, IonItem, IonLabel,
+         IonButton, IonSpinner, modalController } from '@ionic/vue';
 import axios from 'axios';
 export default {
+    //props:['close'],
+
+    setup(){
+        return{
+            modalController,
+        }
+    },
+
     data() {
         return {
+            posting: false,
             form:{
                 name:'',
                 email:'',
@@ -107,10 +119,19 @@ export default {
    
 
     components:{
-        IonContent, IonHeader, IonTitle, IonToolbar, IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonButton
+        IonContent, IonHeader, IonTitle, IonToolbar, IonInput, IonSelect, IonSelectOption, IonItem, IonLabel,
+         IonButton, IonSpinner
     },
  
     methods:{
+
+        // closeM(){
+        //     this.$emit('close', {
+        //         foo: 'bar'
+        //     })
+        //     this.close();
+        // },  
+
         reset(){
             this.form = {
                 name:'',
@@ -124,8 +145,12 @@ export default {
             }
         },
 
+        async closeModal(){
+            await modalController.dismiss();
+         },
+
         async getData(){
-            await axios.get(`https://www.fulfilmm.com/api/auth/mobile_invoice/create`)
+            await axios.get(`mobile_invoice/create`)
                         .then( res => {
                                 this.company = res.data.companies;
                                 this.zone = res.data.zone;
@@ -134,7 +159,8 @@ export default {
         },
 
        async submit(){
-            const response = await axios.post(`https://www.fulfilmm.com/api/auth/api_customers`, {
+           this.posting = true;
+             await axios.post(`api_customers`, {
                 name: this.form.name,
                 email: this.form.email,
                 company_id: this.form.company_id,
@@ -149,8 +175,10 @@ export default {
             },
             });
             this.reset();
+            this.closeModal();
+            this.posting = false;
 
-            console.log(response)
+            //console.log(response)
         } 
     },
 

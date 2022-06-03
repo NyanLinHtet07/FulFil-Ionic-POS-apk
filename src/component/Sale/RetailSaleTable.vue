@@ -265,7 +265,7 @@
                  <ion-card class=" w-full rounded-lg mx-3 my-4  px-2 py-3 bg-gradient-to-t from-sky-300 to to-blue-50">
                     <ion-card-header>
                         <div class=" text-left">
-                               <ion-button shape="round"  size="small" color="medium" @click="show"> <ion-icon :icon="returnUpBack"></ion-icon> <small class="mx-2">back</small> </ion-button>
+                               <ion-button shape="round"  size="small" color="secondary" @click="show"> <ion-icon :icon="returnUpBack"></ion-icon> <small class="mx-2"> Sale </small> </ion-button>
                            </div>
                         <ion-card-title>
                            <h3 class=" font-semibold text-gray-800 text-center"> Add Required Data </h3>
@@ -373,7 +373,8 @@
                              
                            </ion-card-content>
                         <div class=" text-right">
-                             <ion-button  @click="submitData()" shape="round" > Submit </ion-button>
+                            <ion-spinner  name="circles" v-if='posting'> Please Wait </ion-spinner>
+                             <ion-button :disabled="posting" type="submit"  @click="submitData()" shape="round" > Submit </ion-button>
                         </div>
                            
                 </ion-card>
@@ -395,7 +396,7 @@
 import {IonContent,IonGrid,IonRow,IonCol, IonText, IonInput, IonLabel, IonSelect, IonSelectOption,
         IonSearchbar, IonList, IonItem,   IonButton, IonIcon,
         IonCard, IonCardHeader, IonCardContent, IonCardTitle,  
-       
+       IonSpinner,
         modalController} from '@ionic/vue'
 import { mapGetters } from "vuex";
 import { addCircleOutline, removeCircleOutline, trashSharp, returnUpBack} from 'ionicons/icons';
@@ -414,11 +415,12 @@ export default {
         IonLabel,IonSelect,IonSelectOption,
         IonSearchbar, IonList, IonItem,
         IonCard, IonCardHeader, IonCardContent,  IonCardTitle, 
-        IonIcon, Loader
+        IonIcon, IonSpinner, Loader
     },
 
     data() {
         return {
+            posting: false,
             loading: false,
             test:'',
             openItem: false,
@@ -575,16 +577,21 @@ export default {
             //cssClass: 'my-custom-class',
             componentProps: {
                 title: 'New Title',
+                // close:() => this.closeModal(),
             },
             });
             return modal.present();
         },
-      
+
+        // async closeModal(){
+        //     await modalController.dismiss();
+        // },
 
         async submitData(){
                 let itemary = JSON.stringify(this.finalItems);
                 let focary = JSON.stringify(this.finalFocs);
 
+                 this.posting = true;
                 const response = await axios.post (  "https://www.fulfilmm.com/api/auth/mobile_invoice" ,{
                     title: this.saleData.customer_title,
                     client_id : this.saleData.customer_id,
@@ -617,6 +624,7 @@ export default {
 
                 this.reset();
                 this.clearCart();
+                this.posting = false ;
                 this.$router.push({name:'invoice.detail', params:{id :inv_id}});
 
                 // this.$router.push({name: 'invoice.detail', params:{id :response.data.invoice_id}});
