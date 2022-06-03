@@ -10,8 +10,8 @@
                     
                     <ion-card v-for="record in posts" :key="record.id">
                         <ion-card-header>
-                            <ion-card-subtitle>Invoice Number - {{ record.invoice_id}}</ion-card-subtitle>
-                            <ion-card-title> Invoice Date - {{ record.invoice_date}} </ion-card-title>
+                            <ion-card-subtitle>  Invoice Date - {{ record.invoice_date}}  </ion-card-subtitle>
+                            <ion-card-title>Invoice Number - {{ record.invoice_id}}</ion-card-title>
                         </ion-card-header>
                         <ion-card-content>
                             <ion-item>
@@ -25,13 +25,10 @@
                             <ion-item>
                                 <ion-label> Shipping Address - {{record.billing_address}}</ion-label>
                             </ion-item>
-                           
-                            
-                            
-
+              
                             <ion-button  color="secondary" shape="round" 
                             slot="end" :router-link="`/invoice-detail/${record.id}`"> 
-                               Order Detail
+                               Invoice Detail
                             </ion-button>
                         </ion-card-content>
 

@@ -94,10 +94,10 @@
                         </ion-item>
                         
                         <div class="text-right my-2">
-                            <ion-spinner  name="circles" v-if='posting'></ion-spinner>
-
-                             <ion-button  :disabled="posting" type="submit" shape="round"> Submit </ion-button>
+                           
                              <ion-button @click="modalController.dismiss()" color="danger" shape="round" class="mx-3"> close</ion-button>
+                             <ion-button  :disabled="posting" type="submit" shape="round"> Submit </ion-button>  <ion-spinner  name="circles" v-if='posting' class="mx-3"></ion-spinner>
+                            
                         </div>
                        
                     </form>

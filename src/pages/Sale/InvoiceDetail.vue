@@ -179,13 +179,13 @@
                                                                         <select v-model="product.unit_price" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                                                             <option :value="p.price">{{p.price}}</option>
                                                                         </select>
-                                                                        <!-- <input type="text" :value="p.price" ref="inp" readonly /> -->
+                                                                       <!-- <ion-input type="text" v-model="product.unit_price" readonly><p :value="p.price"></p> </ion-input> -->
                                                                         
                                                                     </span>
                                                                     <span v-else>
                                                                         <span v-if="p.min <= product.quantity && ( p.max >= product.quantity || p.max == null ) "> 
                                                                         
-                                                                        <!-- <input type="text" :value="p.price" ref="inp" readonly /> -->
+                                                                        <!-- <ion-input type="text" v-model="product.unit_price" readonly><p :value="p.price"></p> </ion-input> -->
                                                                                 <select v-model="product.unit_price" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                                                                 
                                                                                     <option :value="p.price">{{p.price}}</option>
@@ -385,7 +385,8 @@
                              
                            </ion-card-content>
                         <div class=" text-right">
-                             <ion-button type="submit" @click="submitData()" shape="round" > Submit </ion-button>
+                             <ion-button :disabled="posting" type="submit" @click="submitData()" shape="round" > Submit </ion-button>
+                             <ion-spinner  name="circles" v-if='posting' class="mx-3"></ion-spinner>
                         </div>
                            
                 </ion-card>
@@ -419,6 +420,7 @@ export default {
 
     data(){
         return{
+            posting:false,
             loading:false,
             visible:false,
             product:{},
@@ -440,12 +442,15 @@ export default {
             moment: moment,
             cus:{},
 
+            res:'',
+
             //pdf
             pdfGenerator : PDFGenerator,
         }
     },
 
     methods:{
+        
 
         async openPayment(){
             const modal = await modalController.create({
@@ -513,8 +518,8 @@ export default {
 
         async submitData(){
                 let itemary = JSON.stringify(this.items);
-
-                 const response = await axios.put(`https://www.fulfilmm.com/api/auth/mobile_invoice/${this.$route.params.id}` ,{
+                this.posting = true;
+                    await axios.put(`https://www.fulfilmm.com/api/auth/mobile_invoice/${this.$route.params.id}` ,{
                     title: this.invoice.title,
                     client_id : this.invoice.customer_id,
                     inv_date : this.invoice.invoice_date,
@@ -541,9 +546,9 @@ export default {
                 },
              
                 });
-                  
+                    this.posting = false ;
                     this.detail();
-                  console.log(response)
+                  //console.log(response)
 
         },
 

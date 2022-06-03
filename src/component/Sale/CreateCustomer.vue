@@ -71,9 +71,11 @@
        </select> <br> -->
 
     <div class="text-right">
-        <ion-spinner  name="circles" v-if='posting'></ion-spinner>
-         <ion-button :disabled="posting" type="submit"  shape="round" color="secondary"> Submit </ion-button>
          <ion-button @click="modalController.dismiss()" color="danger" shape="round" class="mx-3"> close</ion-button>
+         
+         <ion-button :disabled="posting" type="submit"  shape="round" color="secondary"> Submit </ion-button>
+         <ion-spinner  name="circles" v-if='posting' class="mx-3"></ion-spinner>
+        
     </div>
       
 

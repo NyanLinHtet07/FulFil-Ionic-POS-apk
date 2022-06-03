@@ -7,17 +7,21 @@
             </ion-header>
             <ion-content>
             <ion-list>
-                <ion-item @click="menuNavigation('/home')">
+                <!-- <ion-item @click="menuNavigation('/home')">
                 <ion-label><ion-icon :icon="homeOutline" class="mx-4 " /> Home</ion-label>
-                </ion-item>
+                </ion-item> -->
                  <ion-item @click="menuNavigation('/select-sales')">
-                <ion-label><ion-icon :icon="cartOutline" class="mx-4"/> Sales</ion-label>
+                    <ion-label><ion-icon :icon="cartOutline" class="mx-4"/> Sales</ion-label>
+                </ion-item>
+
+                 <ion-item @click="menuNavigation('/customers')">
+                    <ion-label><ion-icon :icon="personOutline" class="mx-4"/> Customers</ion-label>
                 </ion-item>
                  <!-- <ion-item @click="menuNavigation('/cart')">
                 <ion-label><ion-icon :icon="cartOutline" /> Cart</ion-label>
                 </ion-item> -->
                  <ion-item @click="menuNavigation('/history')">
-                <ion-label><ion-icon :icon="informationCircleOutline" class="mx-4" /> History</ion-label>
+                    <ion-label><ion-icon :icon="informationCircleOutline" class="mx-4" /> History</ion-label>
                 </ion-item>
             </ion-list>
             </ion-content>
@@ -29,7 +33,7 @@ import {
   IonMenu,IonHeader,IonContent,IonToolbar,IonTitle,IonItem,IonList,IonLabel,menuController
 } from "@ionic/vue";
 
-import { homeOutline , cartOutline, informationCircleOutline } from 'ionicons/icons';
+import { homeOutline , cartOutline, informationCircleOutline, personOutline } from 'ionicons/icons';
 
 export default ({
     components: {
@@ -38,7 +42,7 @@ export default ({
 
     data(){
         return{
-            homeOutline, cartOutline, informationCircleOutline
+            homeOutline, cartOutline, informationCircleOutline, personOutline
         }
     },
 

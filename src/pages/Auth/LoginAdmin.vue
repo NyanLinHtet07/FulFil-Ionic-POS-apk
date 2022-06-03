@@ -16,10 +16,11 @@
                             <ion-input type="password" v-model="userInfo.password"></ion-input>
                         </ion-item>
                         <div class="text-center">
-                            <ion-spinner  name="circles" v-if='posting'> Please Wait </ion-spinner>
+                           
                             <ion-button :disabled="posting" color="secondary" shape="round" type="submit" class="my-10"> 
                                     Login
                             </ion-button>
+                             <ion-spinner  name="circles" v-if='posting' class="mx-3"></ion-spinner>
                         </div>
                         
                         </form>

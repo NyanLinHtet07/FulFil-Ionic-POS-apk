@@ -274,7 +274,12 @@
                            </div>
                            
                         </ion-card-title>
-                        <ion-searchbar debounce="500" v-model="search" @input="filterCustomer" autocomplete="off" placeholder="search customer ..."></ion-searchbar>
+                       
+                             <ion-searchbar debounce="500" v-model="search" @input="filterCustomer" autocomplete="off" placeholder="search customer ..."></ion-searchbar>
+                             <!-- <ion-button :disabled="cusload" shape="round"  size="small" color="secondary" @click="refresh"> <ion-icon :icon="refreshCircle"></ion-icon></ion-button>
+                             <ion-spinner  name="circles" v-if='cusload' class="mx-3 scroll-mt-3.5"> </ion-spinner> -->
+                      
+                       
                
                         <ion-item v-for="data in filteredCustomer" class=" my-2 rounded" :key="data.id" @click="addData(data)">
                                 <ion-label :value="data"> {{data.name}}</ion-label>
@@ -373,8 +378,9 @@
                              
                            </ion-card-content>
                         <div class=" text-right">
-                            <ion-spinner  name="circles" v-if='posting'> Please Wait </ion-spinner>
+                           
                              <ion-button :disabled="posting" type="submit"  @click="submitData()" shape="round" > Submit </ion-button>
+                             <ion-spinner  name="circles" v-if='posting' class="mx-3"> </ion-spinner>
                         </div>
                            
                 </ion-card>
@@ -399,7 +405,7 @@ import {IonContent,IonGrid,IonRow,IonCol, IonText, IonInput, IonLabel, IonSelect
        IonSpinner,
         modalController} from '@ionic/vue'
 import { mapGetters } from "vuex";
-import { addCircleOutline, removeCircleOutline, trashSharp, returnUpBack} from 'ionicons/icons';
+import { addCircleOutline, removeCircleOutline, trashSharp, returnUpBack, refreshCircle } from 'ionicons/icons';
 import axios from 'axios';
 //import Customer from '../../component/Sale/CustomerRecord.vue'
 import Create from '../../component/Sale/CreateCustomer.vue'
@@ -420,6 +426,7 @@ export default {
 
     data() {
         return {
+            //cusload: false,
             posting: false,
             loading: false,
             test:'',
@@ -475,7 +482,7 @@ export default {
 
     setup() {
         return{
-            addCircleOutline, removeCircleOutline, trashSharp, returnUpBack
+            addCircleOutline, removeCircleOutline, trashSharp, returnUpBack, refreshCircle
         }
         
     },
@@ -635,7 +642,16 @@ export default {
                 console.log(response)
         },
 
-
+        // refresh(){
+        //     this.cusload = true;
+        //     axios.get( url, {
+        //          headers: {
+        //         'Authorization': "Bearer" + localStorage.getItem('token'),
+        //          },
+        //     }) .then (res => {
+        //         this.customers = res.data.allcustomers
+        //     }) .finally (() => this.cusload = false)
+        // },
         
 
          async wholeSales(){

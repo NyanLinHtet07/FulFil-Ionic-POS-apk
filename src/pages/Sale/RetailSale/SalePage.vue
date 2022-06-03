@@ -5,7 +5,7 @@
             <Loader/>
         </div>
 
-     
+      
              <ion-content v-else>
                <ion-grid>
                    <ion-row>
@@ -199,6 +199,10 @@ export default {
             this.$store.dispatch("addToRetail", data);
         },
 
+        // message(){
+        //     window.alert('success');
+        // },
+
         async getData(){
              this.loading = true
              await axios.get(api_url,  { 
@@ -211,6 +215,7 @@ export default {
                         
                     })
                     .finally(() => this.loading = false)
+                    //this.message();
 
         }
 

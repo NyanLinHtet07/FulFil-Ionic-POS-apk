@@ -348,8 +348,9 @@
                              
                            </ion-card-content>
                         <div class=" text-right">
-                             <ion-spinner  name="circles" v-if='posting'> Please Wait</ion-spinner>
+                            
                              <ion-button :disabled="posting" type="submit" @click="submitData()" shape="round" > Submit </ion-button>
+                             <ion-spinner  name="circles" v-if='posting' class=" mx-3"></ion-spinner>
                         </div>
                            
                 </ion-card>

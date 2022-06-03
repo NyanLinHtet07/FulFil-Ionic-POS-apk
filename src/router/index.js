@@ -53,6 +53,10 @@ const routes = [
     path:'/retails-cart',
     component:() => import('@/pages/Sale/RetailSale/CartAdd.vue'),
   },
+  {
+    path:'/customers',
+    component:() => import('@/pages/CustomerPage.vue'),
+  },
 
   {
     path:'/invoice-detail/:id',
