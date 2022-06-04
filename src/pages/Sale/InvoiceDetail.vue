@@ -5,13 +5,18 @@
         </div>
         <ion-content v-else>
             <ion-item>
-                <ion-button class="mx-2"> Mark Send </ion-button>
+                <ion-button class="mx-2" @click="markSent()"> Mark Send </ion-button>
                
                     <ion-button @click="openPayment()" class="mx-2" color="tertiary"> Make Paymeny </ion-button>
                 
+                <div v-if=" ! invoice.mark_sent == 1">
+                    <ion-button @click="edit()" v-if=" !visible"  color="secondary"> Edit </ion-button>
+                     <ion-button @click="detail()" v-if="visible" color="warning"> Detail </ion-button>
+                </div>
+                <div v-else>
+                    <ion-button disabled> Enable To Edit</ion-button>
+                </div>
                 
-                <ion-button @click="edit()" v-if=" !visible"  color="secondary"> Edit </ion-button>
-                <ion-button @click="detail()" v-if="visible" color="warning"> Detail </ion-button>
                 <ion-button color="medium"> Stock Out </ion-button>
                  <ion-button @click="print()" color="success"> print </ion-button>
             </ion-item>
@@ -150,14 +155,14 @@
                                         
                                         </thead>
 
-                                        <tbody v-for="product in items" :key="product.id" class="border-b-2 border-b-slate-300">
+                                        <tbody v-for="product in items" :key="product.id" class="border-b-2 border-b-slate-300 bg-gray-100">
                                             <tr v-if="product.foc == 0 " class=" text-center text-sm font-bold text-sky-900 mx-2 my-2">
                                             
                                                 <td> {{ product.variant.product_name }}</td>
                                                 <td>                             
                                                         <div  v-for="(u,index) in units" :key="index">
                                                                 <span v-if="u.product_id == product.variant.product_id">
-                                                                    <select v-model="product.sell_unit" >
+                                                                    <select v-model="product.sell_unit" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white">
                                                                                                     <option  :value="u.id">
                                                                                                             {{u.unit}}
                                                                                                     </option>
@@ -176,7 +181,7 @@
                                                             
                                                                     <span v-if=" p.multi_price == 0">
                                                         
-                                                                        <select v-model="product.unit_price" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                                                        <select v-model="product.unit_price" class="block appearance-none w-full  text-gray-700 py-2 px-3 pr-5 rounded leading-tight focus:outline-none bg-gray-200" id="grid-state">
                                                                             <option :value="p.price">{{p.price}}</option>
                                                                         </select>
                                                                        <!-- <ion-input type="text" v-model="product.unit_price" readonly><p :value="p.price"></p> </ion-input> -->
@@ -186,7 +191,7 @@
                                                                         <span v-if="p.min <= product.quantity && ( p.max >= product.quantity || p.max == null ) "> 
                                                                         
                                                                         <!-- <ion-input type="text" v-model="product.unit_price" readonly><p :value="p.price"></p> </ion-input> -->
-                                                                                <select v-model="product.unit_price" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                                                                <select v-model="product.unit_price" class="block appearance-none w-full  text-gray-700 py-2 px-3 pr-5 rounded leading-tight focus:outline-none bg-gray-200" id="grid-state">
                                                                                 
                                                                                     <option :value="p.price">{{p.price}}</option>
                                                                                 </select>
@@ -203,13 +208,13 @@
                                                 </td>
 
                                                 <td>                           
-                                                    <input type="text" v-model="product.quantity"> 
+                                                    <input type="text" v-model="product.quantity" class="block appearance-none w-full  text-gray-700 py-2 px-3 pr-5 rounded leading-tight focus:outline-none bg-gray-200 text-center"> 
                                                 </td>
                                                 <td>
                                                     <div v-for="(dis,index) in itemDiscounts" :key="index">
                                                         <span v-if="product.variant.id == dis.variant_id">
 
-                                                                        <select v-model="product.discount_promotion" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                                                        <select v-model="product.discount_promotion" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                                             <option :value="0"> 0 %</option>
                                                                             <option :value="dis.rate">{{dis.rate}} %</option>
                                                                         </select>
@@ -233,7 +238,7 @@
                                                 <td>                             
                                                                 <div  v-for="(u,index) in units" :key="index">
                                                                 <span v-if="u.product_id == product.variant.product_id">
-                                                                    <select v-model="product.sell_unit" >
+                                                                    <select v-model="product.sell_unit" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white">
                                                                                                     <option  :value="u.id">
                                                                                                             {{u.unit}}
                                                                                                     </option>
@@ -269,7 +274,7 @@
                                                         <div v-if="cartDis.min_amount < getTotal && cartDis.max_amount > getTotal">
                                                         
                                                                 
-                                                                    <select v-model="invoice.discount"  class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                                                    <select v-model="invoice.discount"  class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white">
                                                                         <option value="0"> None </option>
                                                                         <option :value="cartDis.rate">{{cartDis.rate}} %</option>
                                                                     </select>
@@ -285,7 +290,7 @@
                                             <tr>
                                                 <td colspan="5" class=" text-right my-3"> Tax </td>
                                                 <td colspan="2" class="text-center"> 
-                                                     <select name="" id="" v-model=" invoice.tax_rate" class=" rounded-md w-36 py-2 px-1">
+                                                     <select name="" id="" v-model=" invoice.tax_rate" class=" block appearance-none w-full  text-gray-700 mx-3 px-2 py-3 rounded leading-tight focus:outline-none bg-gray-300">
                                                         <option v-for="t in taxes" :key="t.id" :value="t.rate"> {{t.name}} </option>
                                                     </select>
                                                         <p>  {{addTax}} </p>
@@ -319,28 +324,28 @@
                     <ion-card-content>
                         <!-- <input type="text" v-model="invoice.email" /> -->
                            <ion-item class="my-2 mx-3 rounded-lg ring ring-sky-100">
-                            
-                           <input type="text" v-model="cus.name">
+                            <ion-label position="floating"> Customer Name</ion-label>
+                           <ion-input type="text" v-model="cus.name"></ion-input>
                         </ion-item>
 
                         <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100"> 
-                             <!-- <ion-label position="floating"> Add Customer Email </ion-label> -->
-                            <input type="text" v-model="invoice.email" />
+                             <ion-label position="floating"> Customer Email </ion-label>
+                            <ion-input type="text" v-model="invoice.email"></ion-input>
                         </ion-item>
 
                         <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100">
-                            
-                            <input type="text" v-model="cus.phone">
+                            <ion-label position="floating"> Customer Pnone </ion-label>
+                            <ion-input type="text" v-model="cus.phone"></ion-input>
                         </ion-item>
 
                         <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100">
-                             <!-- <ion-label position="floating"> Add Customer Address </ion-label> -->
-                            <input type="text" v-model="invoice.customer_address" />
+                             <ion-label position="floating"> Customer Address </ion-label>
+                            <ion-input type="text" v-model="invoice.customer_address"></ion-input>
                         </ion-item>
 
                         <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100">
-                            <!-- <ion-label position="floating"> Add Shipping Address </ion-label> -->
-                            <input type="text" v-model="invoice.billing_address" />
+                            <ion-label position="floating"> Shipping Address </ion-label>
+                            <ion-input type="text" v-model="invoice.billing_address"></ion-input>
                         </ion-item>
 
                             <!-- <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100">
@@ -402,7 +407,7 @@
    
 </template>
 <script>
-import { IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, 
+import { IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, IonInput,
         IonSelect, IonSelectOption, IonSearchbar,IonTitle, modalController} from '@ionic/vue'
 import axios from 'axios'
 import moment from 'moment'
@@ -414,7 +419,7 @@ import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator';
 export default {
     components:{
         IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, IonSearchbar, IonSelect, IonSelectOption,
-        IonTitle,
+        IonTitle, IonInput,
         Loader
     },
 
@@ -514,6 +519,18 @@ export default {
                 this.invoice.email = data.email;
                 this.invoice.customer_address = data.address;
                
+        },
+
+        async markSent(){
+            const response = await axios.put(`mobile_invoice/${this.$route.params.id}`, {
+                mark_sent : 1,
+            }, {
+                headers: {
+                'Authorization': "Bearer" + localStorage.getItem('token'),
+                },
+            })
+             this.detail();
+            console.log(response)
         },
 
         async submitData(){

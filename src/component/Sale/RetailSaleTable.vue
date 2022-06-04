@@ -76,8 +76,8 @@
                                         </ion-select> -->
                                     
                                         <div>
-                                            <label for=""> Unit </label>
-                                            <select v-model="product.unitId" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                            <!-- <label for=""> Unit </label> -->
+                                            <select v-model="product.unitId" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                 <option v-for="u in product.unit" :key="u.id" :value="u.id">{{u.unit}}</option>
                                             </select>
                                         </div>
@@ -96,8 +96,8 @@
                                                          <ion-select name="price" id="" v-model="product.price">
                                                              <ion-select-option :value="p.price">{{p.price}}</ion-select-option>
                                                         </ion-select> -->
-                                                      <label for=""> Price </label>
-                                                        <select v-model="product.price" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                                      <!-- <label for=""> Price </label> -->
+                                                        <select v-model="product.price" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                             <option :value="p.price">{{p.price}}</option>
                                                         </select>
                                                         
@@ -105,8 +105,8 @@
                                                     <span v-else>
                                                         <span v-if="p.min <= product.quantity && ( p.max >= product.quantity || p.max == null ) "> 
                                                                 <!-- <input type="text"  :value= "p.price" > -->
-                                                               <label for=""> Price </label>
-                                                                <select v-model="product.price" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                                               <!-- <label for=""> Price </label> -->
+                                                                <select v-model="product.price" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                                    <!-- <option value=""> Select</option> -->
                                                                     <option :value="p.price">{{p.price}}</option>
                                                                 </select>
@@ -133,8 +133,8 @@
                                      <ion-select name="" id="" v-model="product.discount">
                                             <ion-select-option :value="dis.rate">{{dis.rate}} %</ion-select-option>
                                      </ion-select> -->
-                                            <label for=""> Discount </label>
-                                                        <select v-model="product.discount" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                            <!-- <label for=""> Discount </label> -->
+                                                        <select v-model="product.discount" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                             <option :value="dis.rate">{{dis.rate}} %</option>
                                                         </select>
                                 </span>
@@ -159,10 +159,10 @@
                         <ion-col> {{ foc.variant.product_name}}</ion-col>
                         <ion-col> 
                                <ion-item>
-                                      <label for=""> Unit </label>
+                                      <!-- <label for=""> Unit </label> -->
                                     <div v-for="u in units" :key="u.id">
                                             <div v-if="u.product_id == foc.variant.product_id" >
-                                                 <select v-model="foc.unitId" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                                                 <select v-model="foc.unitId" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                             <option :value="u.id">{{u.unit}}</option>
                                                         </select>
                                             </div>
