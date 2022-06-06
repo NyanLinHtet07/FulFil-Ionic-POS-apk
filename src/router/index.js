@@ -27,6 +27,11 @@ const routes = [
   //     path:'',
   //     redirect:'/sales',
   // },
+
+  {
+    path:'/test',
+    component:() => import('@/pages/testComponent.vue'),
+  },
  
   {
     path:'/home',

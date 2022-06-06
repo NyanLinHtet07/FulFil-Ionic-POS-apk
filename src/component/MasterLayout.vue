@@ -9,7 +9,15 @@
             </ion-toolbar>
         </ion-header>
         <ion-content>
-            <slot></slot>
+            
+           <ion-refresher slot="fixed" @ionRefresh="doRefresh($event)">
+                <ion-refresher-content>
+                </ion-refresher-content>
+            </ion-refresher>
+             <slot></slot>
+               
+           
+           
         </ion-content>
     </ion-page>
     
@@ -18,15 +26,17 @@
 
 import {
     IonPage, IonHeader, IonContent, IonTitle, IonToolbar,
-    IonButtons, IonIcon,
+    IonButtons, IonIcon, IonRefresher, IonRefresherContent,
     menuController
 } from '@ionic/vue';
+
+import { chevronDownCircleOutline } from 'ionicons/icons'
 
 import {menu} from "ionicons/icons"
 export default {
     components: {
         IonPage, IonHeader, IonContent, IonTitle, IonToolbar, 
-        IonButtons, IonIcon
+        IonButtons, IonIcon, IonRefresher, IonRefresherContent
     },
 
     props: ["pageTitle"],
@@ -36,6 +46,18 @@ export default {
             menu
         }
     },
+
+     setup() {
+    const doRefresh = (event) => {
+
+            //this.$router.go();
+            setTimeout(() => {
+                event.target.complete();
+            }, 2000);
+            }
+            return { chevronDownCircleOutline, doRefresh }
+        },
+
     methods: {
         openMenu(){
             menuController.open("app-menu");

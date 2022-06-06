@@ -1,9 +1,9 @@
 <template>
   
     <master-layout pageTitle = "Retail DashBoard">
-         <div v-if="loading">
+         <ion-content v-if="loading">
             <Loader/>
-        </div>
+         </ion-content>
 
       
              <ion-content v-else>
@@ -67,7 +67,7 @@
             
                
         </ion-footer>
-        </ion-content>
+         </ion-content>
 
             
         </master-layout>

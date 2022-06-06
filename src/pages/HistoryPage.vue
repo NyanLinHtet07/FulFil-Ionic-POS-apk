@@ -1,8 +1,8 @@
 <template>
         <master-layout pageTitle=" Sales History">
-        <div v-if="loading">
+        <ion-content v-if="loading">
                 <Loader/>
-        </div>
+        </ion-content>
        <ion-content v-else>
             
                 <ion-list>
@@ -12,6 +12,7 @@
                         <ion-card-header>
                             <ion-card-subtitle>  Invoice Date - {{ record.invoice_date}}  </ion-card-subtitle>
                             <ion-card-title>Invoice Number - {{ record.invoice_id}}</ion-card-title>
+                            <ion-text v-if="record.cancel == 1 " class="text-right text-red-400"> This invoice was canceled</ion-text>
                         </ion-card-header>
                         <ion-card-content>
                             <ion-item>
