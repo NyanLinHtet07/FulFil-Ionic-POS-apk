@@ -28,34 +28,92 @@
 
                 </ion-item>
                 
-                <div class=" bg-zinc-50 rounded-md shadow-md px-3 py-2 mx-3" v-if="! visible" id="print-wrapper">
-                        <div class=" text-gray-800 font-semibold">
-                            <div>
-                                <span> Customer Name</span> : {{cus.name}}
+                <div class=" bg-white rounded-md shadow-md px-3 py-6 mx-3" v-if="! visible" id="print-wrapper">
+                            <div class=" flex justify-between mb-5">
+                                <div>
+                                     <img :src= "`https://fulfilmm.com/img/profiles/` + company.logo" class="" />
+
+                                      <div class=" mt-3 px-3 ml-5">
+                                    
+                                        <h3 class=" text-emerald-700  font-semibold text-2xl font-serif"> To</h3>
+                                  
+                                        <div class="text-lime-900 text-sm grid grid-cols-2 gap-3">
+
+
+                                            <div class="">
+                                                 <p class="my-1"> Name</p> 
+                                                 <p class="my-1"> Phone.No</p>
+                                                 <p class="my-1"> Email</p>
+                                                 <p class="my-1"> Address</p>
+                                                 <p class="my-1"> Billing </p>
+                                            </div>
+                                            <div class=" font-bold">
+                                                <p class="my-1">{{cus.name}}</p>
+                                                <p class="my-1">{{cus.phone}}</p>
+                                                <p class="my-1">{{invoice.email}}</p>
+                                                <p class="my-1">{{invoice.customer_address}}</p>
+                                                <p class="my-1">{{invoice.billing_address}}</p>
+                                            </div>
+                                        
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class=" mt-8 mr-6 px-3 text-emerald-800 grid grid-cols-2">
+                                    <div class=" font-semibold py-2">
+                                            <div class=" my-1">
+                                                 <ion-icon :icon="storefrontOutline"></ion-icon>
+                                            </div>
+                                            <div class="my-1">
+                                                <ion-icon :icon="callOutline"></ion-icon>
+                                            </div>
+                                            <div class="my-1">
+                                                 <ion-icon :icon="phonePortraitOutline"></ion-icon>
+                                            </div>
+                                            <div class="my-1">
+                                                <p> Fax </p>
+                                            </div>
+                                            <div class="my-1">
+                                                <ion-icon :icon="mailOpenOutline"></ion-icon>
+                                            </div>
+                                            <div class="my-1">
+                                                <ion-icon :icon="locateOutline"></ion-icon>
+                                            </div>
+                                            <div class="my-1">
+                                                <ion-icon :icon="globeOutline"></ion-icon>
+                                            </div>
+                                           
+                                           
+
+                                    </div>
+                                    <div class=" font-semibold py-2">
+                                         <p class="my-1">{{company.name}}</p>
+                                        <p class="my-1">{{company.phone}}</p>
+                                        <p class="my-1">{{company.mobile_phone}}</p>
+                                        <p class="my-1">{{company.fax}}</p>
+                                        <p class="my-1">{{company.email}}</p>
+                                        <p class="my-1">{{company.web_link}}</p>
+                                        <p class="my-1">{{company.address}}</p>
+                                    </div>
+
+                                    <div class="col-span-2 text-sm text-lime-800">
+                                        <div class=" font-mono"> <span> Invoice Date - </span>  {{moment(invoice.invoice_date).format("MMM Do YYYY")}} </div>
+                                        <div class="font-mono"> <span> Due Date - </span> {{moment(invoice.due_date).format("MMM Do YYYY")}} </div>
+                                </div>
+                                       
+                                </div>
+       
                             </div>
-                            <div>
-                                <span> Customer Phone</span> : {{cus.phone}}
-                            </div>
-                            <div>
-                                <span> Customer Email</span> : {{invoice.email}}
-                            </div>
-                            <div>
-                                <span> Customer Address</span> : {{ invoice.customer_address}}
-                            </div>
-                            <div>
-                                <span> Customer Billing Address</span> : {{ invoice.billing_address}}
-                            </div>
-                        </div>
-                        <div class="text-sm">
-                                <div class=" text-gray-600"> <span> Invoice Date - </span>  {{moment(invoice.invoice_date).format("MMM Do YYYY")}} </div>
-                                <div class=" text-gray-600"> <span> Due Date - </span> {{moment(invoice.due_date).format("MMM Do YYYY")}} </div>
-                        </div>
+                      
+                           
+                      
 
                         
                     <div class="flex justify-center items-center">
 
-                        <table class="table-auto px-4 mx-2 w-5/6 py-2 my-3">
-                            <thead class=" text-center font-bold text-cyan-900 bg-sky-300 rounded-lg">
+                        <table class="table-auto px-4 mx-2 w-5/6 py-2">
+                            <thead class=" text-center font-bold text-cyan-900 bg-emerald-300 rounded-lg">
                                 <th class=" py-5"> Name </th>
                                 <th> Unit </th> 
                                 <th> Price </th>
@@ -116,7 +174,7 @@
                                 </tr>
                             
                             </tbody>
-                            <tfoot class="text-gray-700 bg-sky-100">
+                            <tfoot class="text-gray-700 bg-emerald-100">
                                 <tr class=" my-2">
                                     <td colspan="5" class=" text-right"> Total </td>
                                     <td colspan="2" class=" text-center"> {{ invoice.total}}</td>
@@ -139,6 +197,7 @@
                         </table>
                     </div>
                 </div>
+               
 
             <!-------------------------------------- Display Data End --------------------------------------------------------------->
 
@@ -151,7 +210,7 @@
                     
                                 <div class="flex justify-center items-center">
                                     <table class="table-auto px-4 mx-2 w-5/6 py-2 my-3 rounded-md">
-                                            <thead class=" text-center font-bold text-cyan-900 bg-sky-300 rounded-lg">
+                                            <thead class=" text-center font-bold text-emerald-900 bg-emerald-300 rounded-lg">
                                                 <th> Name </th>
                                                 <th> Unit </th> 
                                                 <th> Price </th>
@@ -419,7 +478,8 @@
 <script>
 import { IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, IonInput,
         IonSelect, IonSelectOption, IonSearchbar,IonTitle, IonIcon ,modalController} from '@ionic/vue'
-import { closeCircleOutline } from 'ionicons/icons';
+import { closeCircleOutline, storefrontOutline, phonePortraitOutline, callOutline, mailOpenOutline, locateOutline,
+            globeOutline} from 'ionicons/icons';
 import axios from 'axios'
 import moment from 'moment'
 import Payment from '../../component/Sale/PayMentComponent.vue'
@@ -436,7 +496,7 @@ export default {
 
     setup(){
         return{
-            closeCircleOutline
+            closeCircleOutline, storefrontOutline, phonePortraitOutline, callOutline, mailOpenOutline, locateOutline, globeOutline
         }
     },
 
@@ -458,6 +518,7 @@ export default {
             cashiers:[],
             payment_category:[],
             payment_method:[],
+            company:{},
 
             search:'',
             filteredCustomer:[],
@@ -510,6 +571,7 @@ export default {
                     this.cashiers = res.data.cashier
                     this.payment_category = res.data.payment_category
                     this.payment_method = res.data.payment_method
+                    this.company = res.data.base_company
                 })
                 .finally(() => this.loading = false)
             
