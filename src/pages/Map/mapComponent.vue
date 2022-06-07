@@ -31,7 +31,7 @@ export default {
         }
     },
 
-    created() {
+    mounted() {
         this.newMap()
     },
 }
