@@ -69,13 +69,6 @@ const routes = [
     component:() => import('@/pages/Sale/InvoiceDetail.vue'),
   },
 
-  // {
-  //   path:'/sales_detail/:id',
-  //   component:() => import('@/pages/Sale/SaleDetail.vue'),
-
-  // },
-
-
   {
     path:'/history',
     component:() => import('@/pages/HistoryPage.vue'),
@@ -85,6 +78,12 @@ const routes = [
     path:'/history/:id',
     component: Detail,
     //component:() => import('../pages/HistoryDetail.vue'),
+  },
+
+  //for map 
+  {
+    path:'/map',
+    component:() => import('@/pages/Map/mapComponent.vue'),
   }
 // ]
 

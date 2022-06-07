@@ -1,6 +1,6 @@
 <template>
      
-    <master-layout pageTitle = "WholeSales DashBoard">
+    <master-layout pageTitle = "WholeSales">
         <div v-if="loading">
             <Loader/>
         </div>

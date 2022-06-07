@@ -35,12 +35,60 @@
 
                                       <div class=" mt-3 px-3 ml-5">
                                     
-                                        <h3 class=" text-emerald-700  font-semibold text-2xl font-serif"> To</h3>
+                                      
                                   
-                                        <div class="text-lime-900 text-sm grid grid-cols-2 gap-3">
+                                        <div class="text-lime-900 text-sm">
+                                            <div class=" font-semibold py-2">
+                                            <div class=" my-1">
+                                                 <ion-icon :icon="storefrontOutline"></ion-icon>
+                                                  <span class="my-1 ml-4"> {{company.name}}</span>
+                                            </div>
+                                            <div class="my-1">
+                                                <ion-icon :icon="callOutline"></ion-icon>
+                                                 <span class="my-1 ml-4"> {{company.phone}}</span>
+                                            </div>
+                                            <div class="my-1">
+                                                 <ion-icon :icon="phonePortraitOutline"></ion-icon>
+                                                 <span class="my-1 ml-4">  {{company.mobile_phone}}</span>
+                                            </div>
+                                            <div class="my-1">
+                                                <ion-icon :icon="sendOutline"></ion-icon>
+                                                 <span class="my-1 ml-4">  {{company.fax}}</span>
+                                            </div>
+                                            <div class="my-1">
+                                                <ion-icon :icon="mailOpenOutline"></ion-icon>
+                                                <span class="my-1 ml-4">  {{company.email}}</span>
+                                            </div>
+                                            <div class="my-1">
+                                                 <ion-icon :icon="globeOutline"></ion-icon>
+                                               
+                                                 <span class="my-1 ml-4">  {{company.web_link}}</span>
+
+                                            </div>
+                                            <div class="my-1">
+                                                <ion-icon :icon="locateOutline"></ion-icon>
+                                                <span class="my-1 ml-4">  {{company.address}}</span>
+                                            </div>
+                                           
+                                           
+
+                                    </div>
+                                    <!-- <div class=" font-semibold py-2">
+                                    </div> -->
 
 
-                                            <div class="">
+                                           
+                                        
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class=" mt-8 mr-6 px-3 text-emerald-800 grid grid-cols-2">
+                                     <div class="col-span-2">
+                                          <h3 class=" text-emerald-700  font-semibold text-2xl font-serif"> To</h3>
+                                    </div>
+                                     <div class="">
                                                  <p class="my-1"> Name</p> 
                                                  <p class="my-1"> Phone.No</p>
                                                  <p class="my-1"> Email</p>
@@ -54,53 +102,11 @@
                                                 <p class="my-1">{{invoice.customer_address}}</p>
                                                 <p class="my-1">{{invoice.billing_address}}</p>
                                             </div>
-                                        
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class=" mt-8 mr-6 px-3 text-emerald-800 grid grid-cols-2">
-                                    <div class=" font-semibold py-2">
-                                            <div class=" my-1">
-                                                 <ion-icon :icon="storefrontOutline"></ion-icon>
-                                            </div>
-                                            <div class="my-1">
-                                                <ion-icon :icon="callOutline"></ion-icon>
-                                            </div>
-                                            <div class="my-1">
-                                                 <ion-icon :icon="phonePortraitOutline"></ion-icon>
-                                            </div>
-                                            <div class="my-1">
-                                                <p> Fax </p>
-                                            </div>
-                                            <div class="my-1">
-                                                <ion-icon :icon="mailOpenOutline"></ion-icon>
-                                            </div>
-                                            <div class="my-1">
-                                                <ion-icon :icon="locateOutline"></ion-icon>
-                                            </div>
-                                            <div class="my-1">
-                                                <ion-icon :icon="globeOutline"></ion-icon>
-                                            </div>
-                                           
-                                           
-
-                                    </div>
-                                    <div class=" font-semibold py-2">
-                                         <p class="my-1">{{company.name}}</p>
-                                        <p class="my-1">{{company.phone}}</p>
-                                        <p class="my-1">{{company.mobile_phone}}</p>
-                                        <p class="my-1">{{company.fax}}</p>
-                                        <p class="my-1">{{company.email}}</p>
-                                        <p class="my-1">{{company.web_link}}</p>
-                                        <p class="my-1">{{company.address}}</p>
-                                    </div>
 
                                     <div class="col-span-2 text-sm text-lime-800">
                                         <div class=" font-mono"> <span> Invoice Date - </span>  {{moment(invoice.invoice_date).format("MMM Do YYYY")}} </div>
                                         <div class="font-mono"> <span> Due Date - </span> {{moment(invoice.due_date).format("MMM Do YYYY")}} </div>
-                                </div>
+                                    </div>
                                        
                                 </div>
        
@@ -479,7 +485,7 @@
 import { IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, IonInput,
         IonSelect, IonSelectOption, IonSearchbar,IonTitle, IonIcon ,modalController} from '@ionic/vue'
 import { closeCircleOutline, storefrontOutline, phonePortraitOutline, callOutline, mailOpenOutline, locateOutline,
-            globeOutline} from 'ionicons/icons';
+            globeOutline, sendOutline} from 'ionicons/icons';
 import axios from 'axios'
 import moment from 'moment'
 import Payment from '../../component/Sale/PayMentComponent.vue'
@@ -496,7 +502,7 @@ export default {
 
     setup(){
         return{
-            closeCircleOutline, storefrontOutline, phonePortraitOutline, callOutline, mailOpenOutline, locateOutline, globeOutline
+            closeCircleOutline, storefrontOutline, phonePortraitOutline, callOutline, mailOpenOutline, locateOutline, globeOutline, sendOutline
         }
     },
 

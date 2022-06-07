@@ -1,6 +1,6 @@
 <template>
   
-    <master-layout pageTitle = "Retail DashBoard">
+    <master-layout pageTitle = "Retail Sales">
          <ion-content v-if="loading">
             <Loader/>
          </ion-content>
