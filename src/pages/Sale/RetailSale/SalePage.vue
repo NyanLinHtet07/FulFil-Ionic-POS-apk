@@ -7,26 +7,39 @@
 
       
              <ion-content v-else>
-               <ion-grid>
-                   <ion-row>
-                      
-                        <ion-col class="ion-align-self-auto">
-                            <ion-button @click="scan()">  <ion-icon  :icon="barcodeOutline" /> </ion-button>
-                        </ion-col>
-                       
-                        <!-- <ion-col class="ion-align-self-auto">
-                                <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off"></ion-searchbar>
-                              
-                                <ion-list>
-                                    <ion-item v-for=" data in filteredStates" :key="data.id" @click="addToCart(data)">
-                                            <ion-label> {{ data.product_name }} </ion-label>
-                                    </ion-item>
-                                </ion-list>
-                        </ion-col> -->
-                    
-                   
-                         <ion-searchbar debounce="500" v-model="search" placeholder=" search products ..."/>                          
-                              <div class=" grid grid-cols-2 gap-4 w-full">
+                 <ion-header class="top ion-no-border">
+
+               
+                        <ion-grid>
+                            <ion-row>
+                                
+                                    <ion-col class="ion-align-self-auto">
+                                        <ion-button @click="scan()">  <ion-icon  :icon="barcodeOutline" /> </ion-button>
+                                    </ion-col>
+
+                                    <ion-col class="flex justify-end">
+                                                <ion-chip router-link="/customers" color="success">
+                                                    <ion-icon :icon="personAddOutline"></ion-icon> 
+                                                </ion-chip>
+
+                                                 <ion-chip router-link="/cart" color="tertiary">
+                                                    <ion-icon :icon="cartOutline"></ion-icon>  <span class="ml-1">  {{retailItemCount}} </span>
+                                                </ion-chip>
+                                               
+
+                                                    <ion-button @click="destroy()" shape="round" color="danger" fill="clear"> 
+                                                        <ion-icon :icon="removeCircle" slot="icon-only"></ion-icon>
+                                                    </ion-button>
+                                    </ion-col>
+
+                                    <ion-searchbar debounce="500" v-model="search" placeholder=" search products ..." animated/>                          
+
+                            </ion-row>
+                        </ion-grid>
+                 </ion-header>
+
+                 <ion-content class=" top-32">
+                       <!-- <div class=" grid grid-cols-2 gap-4 w-full">
                                  
                                       <button @click="addToCart(data)"  v-for=" data in filterProducts" :key="data.id" 
                                             class=" px-3 py-2 rounded-lg my-3 mx-2 bg-white text-sky-600 shadow-lg
@@ -41,32 +54,38 @@
                                                
                                       </button>
                                  
-                              </div>
-                  
-
-                                   
-                       
-
-                   </ion-row>
-               </ion-grid>
+                              </div> -->
+                                  <ion-item  v-for=" data in filterProducts" :key="data.id"  @click="addToCart(data)" class=" px-3 py-2" button="true">
+                                    
+                                        <ion-text class=" text-gray-800/90 text-sm font-medium leading-none">
+                                            {{ data.product_name}}
+                                        
+                                        </ion-text>
+                                        <ion-text slot="end" class="text-sm text-lime-900/80 font-semibold">
+                                            {{ data.show_price}} MMK
+                                        </ion-text>
+                            
+                                
+                                </ion-item>
+                 </ion-content>
                 
        
-        <ion-footer class="ion-no-border text-center" id="foot">
-            <!-- <div class="grid grid-cols-2 gap-4">
+        <!-- <ion-footer class="ion-no-border text-center" id="foot">
+            <div class="grid grid-cols-2 gap-4">
                 <div>
                     <ion-title class=" text-white text-center"> Cart Items </ion-title>
                 </div>
                 <div>
                     <p class=" text-2xl text-white"> {{item}} <ion-icon :icon="arrowUpCircleOutline"></ion-icon>  </p>
                 </div>
-            </div> -->
+            </div>
 
             <ion-button  class="text-center text-white" router-link="/retails-cart">
                    <ion-title> Cart Items | {{retailItemCount}} </ion-title>
             </ion-button>
             
                
-        </ion-footer>
+        </ion-footer> -->
          </ion-content>
 
             
@@ -76,11 +95,10 @@
 </template>
 <script>
 
-import { IonContent, IonSearchbar,
-         IonGrid, IonRow, IonCol, IonFooter,IonTitle,  IonButton } from '@ionic/vue';
-import { arrowUpCircleOutline, barcodeOutline } from 'ionicons/icons';
-// import Sale from '../component/Sale/SaleTable.vue'
-//import Barcode from '../../../component/Sale/BarCodeData.vue';
+import { IonHeader,IonContent, IonSearchbar,
+         IonGrid, IonRow, IonCol,IonText,  IonButton, IonChip } from '@ionic/vue';
+import { arrowUpCircleOutline, barcodeOutline, cartOutline, removeCircle, personAddOutline } from 'ionicons/icons';
+
 import Loader from '../../../component/LoaderComponent.vue'
 
 import axios from 'axios';
@@ -89,15 +107,15 @@ import { mapGetters } from "vuex";
 const api_url = "retail/invoice";
 export default {
     components: { 
-       
+        IonHeader,
         IonContent,
         IonSearchbar,
         IonGrid,
         IonRow,
         IonCol,
-        IonFooter,
-        IonTitle,
+        IonText,
         IonButton,
+        IonChip,
         Loader
 
         //Sale
@@ -106,7 +124,7 @@ export default {
 
     setup(){
         return{
-            arrowUpCircleOutline, barcodeOutline
+            arrowUpCircleOutline, barcodeOutline, cartOutline,removeCircle, personAddOutline
         }
     },
 
@@ -146,11 +164,11 @@ export default {
                     console.log(result);
                     this.code = result.text;
 
-                    this.filterProducts = this.wholeSales.filter( s => {
+                    this.filteredProducts = this.wholeSales.filter( s => {
                         return s.variant.item_code.match(this.code);
                     })
 
-                    this.product = this.filterProducts[0];
+                    this.product = this.filteredProducts[0];
 
                     this.$store.dispatch("addToCart", this.product);
 
@@ -179,6 +197,11 @@ export default {
 
         closeMe(){
             this.view = false;
+        },
+
+        destroy(){
+            if(!confirm('Are You Sure To Cancel')) return;
+            this.$store.dispatch("clearRetailCart");
         },
 
         // openCustom(){
@@ -307,12 +330,16 @@ export default {
         display: block;
         text-align: center;
     }
-    #foot{
+     .top{
          position: fixed;
-        bottom: 33px;
-        width: 100%;
-        justify-content : center;
+         top: 10;
+         background: white;
       
+    }
+
+    ion-searchbar{
+        --border-radius:30px;
+
     }
 
     /* ion-icon{

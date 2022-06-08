@@ -3,7 +3,7 @@
         <ion-toolbar>
         <ion-title> Create New Customer</ion-title>
         </ion-toolbar>
-    </ion-header>
+    </ion-header> 
     <ion-content class="ion-padding"> 
          <form @submit.prevent="submit">
             <ion-item>
