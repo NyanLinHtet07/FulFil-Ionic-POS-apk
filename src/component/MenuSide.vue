@@ -14,6 +14,7 @@
                     <ion-label><ion-icon :icon="cartOutline" class="mx-4"/> Sales</ion-label>
                 </ion-item>
 
+
                  <ion-item @click="menuNavigation('/customers')">
                     <ion-label><ion-icon :icon="personOutline" class="mx-4"/> Customers</ion-label>
                 </ion-item>
@@ -27,6 +28,10 @@
                 <ion-item @click="menuNavigation('/map')">
                     <ion-label> <ion-icon :icon="mapOutline" class=" mx-4"></ion-icon> Map</ion-label>
                 </ion-item>
+
+                <ion-item>
+                    <a :href="`https://fulfilmm.com/employee/login`" class=" text-black hover:text-blue-600"> <ion-icon :icon="linkOutline" class=" mx-4"></ion-icon> Back Office</a>
+                </ion-item>
             </ion-list>
             </ion-content>
         </ion-menu>
@@ -37,7 +42,7 @@ import {
   IonMenu,IonHeader,IonContent,IonToolbar,IonTitle,IonItem,IonList,IonLabel,menuController
 } from "@ionic/vue";
 
-import { homeOutline , cartOutline, informationCircleOutline, personOutline, mapOutline } from 'ionicons/icons';
+import { homeOutline , cartOutline, informationCircleOutline, personOutline, mapOutline, linkOutline } from 'ionicons/icons';
 
 export default ({
     components: {
@@ -46,7 +51,7 @@ export default ({
 
     data(){
         return{
-            homeOutline, cartOutline, informationCircleOutline, personOutline, mapOutline
+            homeOutline, cartOutline, informationCircleOutline, personOutline, mapOutline, linkOutline
         }
     },
 

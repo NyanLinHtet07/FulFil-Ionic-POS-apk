@@ -355,7 +355,7 @@
                                     <ion-item>
                                       <ion-label> Select Payment Method </ion-label>
                                     <ion-select v-model="saleData.payment_method">
-                                        <ion-select-option value="Cash"> Cash</ion-select-option>
+                                        <ion-select-option v-for="(p,index) in payments" :key="index" :value="p"> {{p}}</ion-select-option>
                                     </ion-select>
                                 </ion-item>
 
@@ -441,6 +441,7 @@ export default {
             searchItem:'',
             zone_id:'',
 
+             payments:[],
             filteredItems:[],
             products:[],
             filteredStates:[],
@@ -534,6 +535,7 @@ export default {
         },
 
         clearCart(cartItems){
+            if(!confirm('Are You Sure To Cancel')) return;
             this.$store.dispatch("clearRetailCart" , cartItems);
         },
 
@@ -662,6 +664,7 @@ export default {
                  },
                 })
                     .then(res => {
+                         this.payments = res.data.payment_method;
                        this.products = res.data.aval_product;
                         this.prices = res.data.prices
                         this.focs = res.data.focs

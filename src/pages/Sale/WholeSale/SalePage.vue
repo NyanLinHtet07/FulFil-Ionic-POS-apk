@@ -13,6 +13,13 @@
                         <ion-col class="ion-align-self-auto">
                              <ion-button @click="scan()">  <ion-icon  :icon="barcodeOutline" /> </ion-button>
                         </ion-col>
+
+                        <ion-col class="ion-align-self-auto">
+                             <ion-button  class="text-center text-white" router-link="/cart">
+                                <ion-title> Cart Items | {{item}} </ion-title>
+                            </ion-button>
+                        </ion-col>
+                        
                        
                         <!-- <ion-col class="ion-align-self-auto">
                                 <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off"></ion-searchbar>
@@ -26,7 +33,11 @@
                     
                    
                          <ion-searchbar debounce="500" v-model="search" placeholder=" search products ..."/>                          
-                              <div class=" grid grid-cols-2 gap-4 w-full">
+        
+
+                   </ion-row>
+               </ion-grid>
+                  <div class=" grid grid-cols-2 gap-4 w-full">
                                  
                                       <button @click="addToCart(data)"  v-for=" data in filterProducts" :key="data.id" 
                                             class=" px-3 py-2 rounded-lg my-3 mx-2 bg-white text-sky-600 shadow-lg
@@ -42,14 +53,14 @@
                                       </button>
                                  
                               </div>
-                  
-
-                                   
-                       
-
-                   </ion-row>
-               </ion-grid>
-                
+                        <ion-item>
+                            <ion-button  v-for=" data in filterProducts" :key="data.id"  @click="addToCart(data)">
+                                 <ion-label>
+                                    {{ data.product_name}}
+                                </ion-label>
+                            </ion-button>
+                           
+                        </ion-item>
       
 
         <ion-footer class="ion-no-border text-center" id="foot">
@@ -62,9 +73,7 @@
                 </div>
             </div> -->
 
-            <ion-button  class="text-center text-white" router-link="/cart">
-                   <ion-title> Cart Items | {{item}} </ion-title>
-            </ion-button>
+           
             
                
         </ion-footer>
@@ -76,7 +85,7 @@
 </template>
 <script>
 
-import { IonContent, IonSearchbar,
+import { IonContent, IonSearchbar, IonItem,
          IonGrid, IonRow, IonCol, IonFooter,IonTitle,  IonButton,
           IonLabel } from '@ionic/vue';
 import { arrowUpCircleOutline,  barcodeOutline } from 'ionicons/icons';
@@ -100,7 +109,7 @@ export default {
         IonTitle,
         IonButton,
         IonLabel, 
-
+        IonItem,
         Loader,
      
 
