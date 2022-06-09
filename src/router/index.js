@@ -60,7 +60,7 @@ const routes = [
   },
   {
     path:'/customers',
-    component:() => import('@/pages/CustomerPage.vue'),
+    component:() => import('@/pages/CustomerPage.vue'), 
   },
 
   {

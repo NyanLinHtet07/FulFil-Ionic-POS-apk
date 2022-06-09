@@ -27,7 +27,7 @@ const getters = {
         return state.retailFoc.map(f => ({
             quantity: f.quantity,
             variant_id: f.variant_id,
-            unit_id: f.unit_id,
+            unit_id: f.unitId,
         }));
     },
 
@@ -53,18 +53,22 @@ const actions = {
     removeRetail: (context, payload) => {
         context.commit('removeRetail', payload)
     },
-
+ 
     removeRetailProduct: ({commit}, product) => {
         commit('Remove_Retail', product)
+    },
+
+    removeRetailFoc: ({commit}, foc) => {
+        commit('Remove_Retail_Foc', foc)
     },
 
     addRetailFoc : (context, payload) => {
         context.commit("addRetailFoc", payload)
     },
 
-    removeRetailFoc: (context, payload) => {
-        context.commit('removeRetailFoc', payload)
-    },
+    // removeRetailFoc: (context, payload) => {
+    //     context.commit('removeRetailFoc', payload)
+    // },
 
     clearRetailCart({commit}){
         commit('clearRetailCart', []);
@@ -118,6 +122,12 @@ const mutations = {
             state.retailItems = state.retailItems.filter( item => {
                 return item.id !== product.id;
             })
+      },
+
+      Remove_Retail_Foc(state, foc){
+        state.retailFoc = state.retailFoc.filter( item => {
+            return item.id !== foc.id;
+        })
       },
 
       addRetailFoc(state, payload){

@@ -9,7 +9,7 @@
                     <ion-text class=" text-red-700 font-bold text-xl"> This invoice was canceled</ion-text>
                 </ion-item>
                 <ion-item v-else>
-                    <ion-button class="mx-2" @click="markSent()"> Mark Send </ion-button>
+                    <ion-button class="mx-2" @click="markSent()" :disabled="invoice.mark_sent == 1"> Mark Send </ion-button>
                 
                     <ion-button @click="openPayment()" class="mx-2" color="tertiary"> Make Paymeny </ion-button>
                     
@@ -18,7 +18,7 @@
                         <ion-button @click="detail()" v-if="visible" color="warning"> Detail </ion-button>
                     </div>
                     <div v-else>
-                        <ion-button disabled> Enable To Edit</ion-button>
+                        <ion-button disabled color="medium"> Enable To Edit</ion-button>
                     </div>
                     
                     <ion-button color="medium"> Stock Out </ion-button>
@@ -85,6 +85,9 @@
                                 </div>
 
                                 <div class=" mt-8 mr-6 px-3 text-emerald-800 grid grid-cols-2">
+                                    <div class="col-span-2">
+                                        <h2 class="text-emerald-900 font-thin text-2xl">{{invoice.invoice_id}}</h2>
+                                    </div>
                                      <div class="col-span-2">
                                           <h3 class=" text-emerald-700  font-semibold text-2xl font-serif"> To</h3>
                                     </div>
@@ -134,10 +137,13 @@
                                 <tr v-if="product.foc == 0 " class=" text-center text-sm font-bold text-sky-900 ">
                                 
                                     <td class="py-3"> {{ product.variant.product_name }}</td>
-                                    <td class="py-3">                             
+                                    <!-- <td class="py-3">                             
                                                         <div v-for="u in units" :key="u.id">
                                                             <span v-if="u.id == product.sell_unit">{{u.unit}}</span>
                                                         </div>
+                                    </td> -->
+                                    <td class="py-3">
+                                        {{product.unit.unit}}
                                     </td>
                                     <td class="py-3">
                                         {{product.unit_price}}
@@ -232,7 +238,7 @@
                                                 
                                                     <td> {{ product.variant.product_name }}</td>
                                                     <td>                             
-                                                            <div  v-for="(u,index) in units" :key="index">
+                                                            <!-- <div  v-for="(u,index) in units" :key="index">
                                                                     <span v-if="u.product_id == product.variant.product_id">
                                                                         <select v-model="product.sell_unit" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white">
                                                                                                         <option  :value="u.id">
@@ -240,7 +246,11 @@
                                                                                                         </option>
                                                                                         </select>
                                                                     </span>
-                                                            </div>
+                                                            </div> -->
+                                                             <select v-model="product.sell_unit" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white">
+                                                                 <option v-for="(u,index) in product.all_unit" :key="index" :value="u.id">{{u.unit}}</option>
+                                                             </select>
+                                                           
                                                                                         
                                                     
                                                                         
@@ -310,7 +320,7 @@
                                                     <td>                             
                                                                     <div  v-for="(u,index) in units" :key="index">
                                                                     <span v-if="u.product_id == product.variant.product_id">
-                                                                        <select v-model="product.sell_unit" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white">
+                                                                        <select v-model="product.sell_unit" class=" rounded-md w-3/6 bg-slate-300  px-2 py-2 mx-auto block">
                                                                                                         <option  :value="u.id">
                                                                                                                 {{u.unit}}
                                                                                                         </option>
@@ -607,14 +617,16 @@ export default {
         },
 
         async markSent(){
+                if(! confirm('Are You Sure to Mark Sent')) return;
                 await axios.put(`mobile_invoice/${this.$route.params.id}`, {
                 mark_sent : 1,
             }, {
                 headers: {
                 'Authorization': "Bearer" + localStorage.getItem('token'),
                 },
-            })
-             window.location.reload();
+            });
+            this.Data();
+             //window.location.reload();
              //this.detail();
             //console.log(response)
         },
@@ -622,7 +634,7 @@ export default {
         async submitData(){
                 let itemary = JSON.stringify(this.items);
                 this.posting = true;
-                    await axios.put(`https://www.fulfilmm.com/api/auth/mobile_invoice/${this.$route.params.id}` ,{
+                    await axios.put(`mobile_invoice/${this.$route.params.id}` ,{
                     title: this.invoice.title,
                     client_id : this.invoice.customer_id,
                     inv_date : this.invoice.invoice_date,
@@ -651,6 +663,7 @@ export default {
                 });
                     this.posting = false ;
                     window.location.reload();
+                    this.Data();
                     this.detail();
                   
                   //console.log(response)
@@ -659,13 +672,14 @@ export default {
 
         async destroy(){
             if(!confirm('Are You Sure To Cancel')) return;
-            await axios.post(`https://www.fulfilmm.com/api/auth/invoice/cancel/${this.$route.params.id}`,{
+            await axios.post(`invoice/cancel/${this.$route.params.id}`,{
                 headers : {
                     'Authorization': "Bearer" + localStorage.getItem('token'),
                 }
-            })
+            });
+            this.Data();
 
-             window.location.reload();
+            //window.location.reload();
             //console.log(response);
         },
 

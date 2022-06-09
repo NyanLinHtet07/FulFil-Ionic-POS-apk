@@ -188,7 +188,6 @@ export default {
             company:[],
             zone:[],
             region:[],
-
             customers:[],
             search:'',
 
@@ -273,6 +272,7 @@ export default {
             });
             this.reset();
             this.posting = false;
+            this.getData();
             //window.location.reload();
             //console.log(response)
         } 

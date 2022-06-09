@@ -22,7 +22,7 @@
                                                     <ion-icon :icon="personAddOutline"></ion-icon> 
                                                 </ion-chip>
 
-                                                 <ion-chip router-link="/cart" color="tertiary">
+                                                 <ion-chip router-link="/retails-cart" color="tertiary">
                                                     <ion-icon :icon="cartOutline"></ion-icon>  <span class="ml-1">  {{retailItemCount}} </span>
                                                 </ion-chip>
                                                

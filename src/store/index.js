@@ -20,15 +20,7 @@ const store = createStore({
   
     state(){
         return {
-            customers: [ 
-                {id:'1', name:'Mg Mg' , phone:'0922334455' , address:'Yangon'},
-                {id:'2', name:'Mg Aung' , phone:'0922557788' , address:'Mawlamyine'},
-                {id:'3', name:'Mg Hla' , phone:'0922889955' , address:'Mandalay'},
-                
-            ],
-
           
-
             cartItemCount: 0,
 
             cartItems: [],
@@ -98,17 +90,6 @@ const store = createStore({
 
     actions: {
 
-        // async fetchUsers({ commit }) {
-        //     try {
-        //       const d = await axios.get("http://54.169.124.45/api/auth/retail/invoice");
-        //         commit('set_retails', d.data);
-        //       }
-        //       catch (error) {
-        //           alert(error)
-        //           console.log(error)
-        //       }
-        //   },
-
    
         addToCart: (context, payload) => {
             context.commit("addToCart", payload)
@@ -125,7 +106,7 @@ const store = createStore({
         addFoc: ( context, payload) => {
             context.commit("addFoc" , payload)
         },
-
+        
         removeFoc: (context, payload) => {
             context.commit("removeFoc", payload)
         },
@@ -211,22 +192,25 @@ const store = createStore({
                 }
           },
 
-          removeFoc( state, payload){
-              if(state.foc.length > 0){
-                  let bool = state.foc.some( i => i.id === payload.id)
+          removeFoc( state, foc){
+            //   if(state.foc.length > 0){
+            //       let bool = state.foc.some( i => i.id === payload.id)
 
-                  if(bool){
-                      let index = state.foc.findIndex( el => el.id === payload.id)
+            //       if(bool){
+            //           let index = state.foc.findIndex( el => el.id === payload.id)
 
-                      if(state.foc[index]["quantity"] !== 0 ){
-                          state.foc[index]["quantity"] -= 1
+            //           if(state.foc[index]["quantity"] !== 0 ){
+            //               state.foc[index]["quantity"] -= 1
     
-                      }
-                      if(state.foc[index]["qunatity"] === 0){
-                          state.foc.splice(index, 1)
-                      }
-                  }
-              }
+            //           }
+            //           if(state.foc[index]["qunatity"] === 0){
+            //               state.foc.splice(index, 1)
+            //           }
+            //       }
+            //   }
+            state.foc = state.foc.filter( item => {
+                return item.id !== foc.id;
+            })
           },
   
           clearCart(state, cartItems){

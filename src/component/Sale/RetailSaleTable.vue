@@ -43,7 +43,7 @@
             
             
             <div class="text-right mx-3">
-                <ion-button  size="small" color="danger"  @click="clearCart(cartItems)"> 
+                <ion-button  size="small" color="danger"  @click="clearCart()"> 
                     Remove items
                   
                 </ion-button>
@@ -60,7 +60,7 @@
                     <ion-col> Quantity  </ion-col>
                     <ion-col> Discount </ion-col>
                     <ion-col> Total </ion-col>
-                    <ion-col> Sub Total </ion-col>
+                    <!-- <ion-col> Sub Total </ion-col> -->
                     <ion-col> Remove </ion-col>
                 </ion-row> 
                 <ion-row v-for="product in cartItems" :key="product.id" class="ion-text-center cell">
@@ -68,12 +68,6 @@
                         <ion-col> {{ product.product_name }}</ion-col>
                         <ion-col> 
                             
-                               <!-- <ion-label> Select Unit</ion-label> -->
-                                        <!-- <ion-select v-model="product.unitId">
-                                            <ion-select-option v-for="u in product.unit" :key="u.id" :value="u.id"> 
-                                                    {{ u.unit}} 
-                                            </ion-select-option>
-                                        </ion-select> -->
                                     
                                         <div>
                                             <!-- <label for=""> Unit </label> -->
@@ -122,9 +116,9 @@
                         </ion-col>
                        
                         <ion-col> 
-                            <!-- <ion-button @click="add(product)" shape="round" size="small" class="native"> <ion-icon :icon="addCircleOutline" /> </ion-button>    -->
+                            
                             <ion-text> <ion-input v-model="product.quantity" class=" bg-slate-300"></ion-input> </ion-text>
-                            <!-- <ion-button @click="remove(product)" shape="round" size="small" class="native" color="danger"> <ion-icon :icon="removeCircleOutline" />  </ion-button>  -->
+                           
                         </ion-col>
                          <ion-col>
                             <div v-for="(dis,index) in itemDiscounts" :key="index">
@@ -140,16 +134,15 @@
                                 </span>
                             </div>
                         </ion-col>
-                        <ion-col>
+                        <!-- <ion-col>
                              {{product.price * product.quantity}}
-                           
-                        </ion-col>
+                        </ion-col> -->
                         <ion-col>
                             {{ (product.price * product.quantity)-(((product.price*product.quantity)/100)*product.discount)}}
                         </ion-col>
 
                         <ion-col>
-                            <ion-button type="submit" @click="removeItem(product)" color="light" size="small"> 
+                            <ion-button type="submit" @click="removeItem(product)" fill="clear"> 
                                   <ion-icon :icon="trashSharp" slot="icon-only"  color="danger" class="py-3"></ion-icon>
                             </ion-button>
                         </ion-col>
@@ -181,6 +174,11 @@
                         <ion-col> 00.00 </ion-col>
                         <ion-col>{{ foc.quantity }}</ion-col>
                         <ion-col> 00.00 </ion-col>
+                          <ion-col>
+                            <ion-button type="submit" @click="removeFocs(foc)" fill="clear"> 
+                                  <ion-icon :icon="trashSharp" slot="icon-only"  color="danger" class="py-3"></ion-icon>
+                            </ion-button>
+                        </ion-col>
                 </ion-row>
 
 
@@ -534,9 +532,17 @@ export default {
             this.$store.dispatch('removeRetailProduct', product);
         },
 
-        clearCart(cartItems){
+        removeFocs(foc){
+            this.$store.dispatch('removeRetailFoc', foc);
+        },
+ 
+        clearCart(){
             if(!confirm('Are You Sure To Cancel')) return;
-            this.$store.dispatch("clearRetailCart" , cartItems);
+            this.$store.dispatch("clearRetailCart");
+        },
+
+        clearCartData(){
+            this.$store.dispatch("clearRetailCart")
         },
 
         addFoc(data){
@@ -631,17 +637,19 @@ export default {
 
                 const inv_id = response.data.invoice_id;
 
-                this.reset();
-                this.clearCart();
+                
+               
                 this.posting = false ;
                 this.$router.push({name:'invoice.detail', params:{id :inv_id}});
+                 this.reset();
+                this.clearCartData();
 
                 // this.$router.push({name: 'invoice.detail', params:{id :response.data.invoice_id}});
 
                 // this.reset();
                 // this.clearCart();
 
-                console.log(response)
+                //console.log(response)
         },
 
         // refresh(){
