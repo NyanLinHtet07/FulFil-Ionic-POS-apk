@@ -11,9 +11,9 @@
                 <ion-item v-else>
                     <ion-button class="mx-2" @click="markSent()"> Mark Send </ion-button>
                 
-                        <ion-button @click="openPayment()" class="mx-2" color="tertiary"> Make Paymeny </ion-button>
+                    <ion-button @click="openPayment()" class="mx-2" color="tertiary"> Make Paymeny </ion-button>
                     
-                    <div v-if=" ! invoice.mark_sent == 1">
+                    <div v-if="invoice.mark_sent == 0">
                         <ion-button @click="edit()" v-if=" !visible"  color="secondary"> Edit </ion-button>
                         <ion-button @click="detail()" v-if="visible" color="warning"> Detail </ion-button>
                     </div>

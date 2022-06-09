@@ -10,34 +10,40 @@
 
             <!------------------  visiable data  ---------------->
 
-            <div v-if="visible" class="">
+            <div v-if="visible" class=" mb-20">
                 <ion-searchbar debounce="500" v-model="search" placeholder=" search customers ..." animated />  
                
                
-                    <ion-card>
-                        <ion-card-header class=" text-center">
-                            <ion-icon :icon="person" class="text-gray-700/75 text-3xl"></ion-icon>
-                            <ion-card-title class=" text-lg font-bold text-lime-900/90"> Maung Hla</ion-card-title>
+                    <ion-card v-for=" cus in filterCustomers" :key="cus.id" class=" my-3">
+                        <ion-card-header class=" text-center border-b-2 border-gray-200 bg-slate-50">
+                            <ion-avatar class=" mx-auto block">
+                                 <ion-icon :icon="person" class="text-sky-900/75 text-3xl"></ion-icon>
+                            </ion-avatar>
+                           
+                            <ion-card-title class=" text-lg font-bold text-lime-900/90"> {{cus.name}}</ion-card-title>
+                           
+                                <ion-label> <ion-icon :icon="call"></ion-icon> <ion-text class=" mr-4 font-medium"> {{cus.phone}} </ion-text></ion-label> <br/>
+                                <ion-label> <ion-icon :icon="mail"></ion-icon> <ion-text class=" mr-4 font-medium"> {{cus.email}}</ion-text></ion-label>
+                            
                            
                         </ion-card-header>
-                        <ion-card-content class=" text-center">
-                            <ion-item>
-                                <ion-text> <ion-icon :icon="call"></ion-icon> <ion-label class=" mr-3 font-medium"> 09772996663 </ion-label></ion-text> <br/>
-                                <ion-text> <ion-icon :icon="mail"></ion-icon> <ion-label class=" mr-3 font-medium">  mgmg@gmail.com</ion-label></ion-text>
-                            </ion-item>
-
-                            <ion-item>
+                        <ion-card-content class=" text-center text-white bg-sky-900/60">
+                           
                                 <ion-grid>
                                     <ion-row>
                                         <ion-col>
-                                            Hola
+                                           <div> <ion-text class=" font-bold text-lg">{{ cus.current_credit}}</ion-text> </div>
+                                            <ion-label> Current Credit  </ion-label>
+
                                         </ion-col>
                                         <ion-col>
-                                            Hola
+                                           <div> <ion-text class=" font-bold text-lg"> {{ cus.credit_limit }} </ion-text> </div>
+                                            <ion-label>Credit Limit </ion-label>
+
                                         </ion-col>
                                     </ion-row>
                                 </ion-grid>
-                            </ion-item>  
+                         
                         </ion-card-content>
                     </ion-card>
                
@@ -46,30 +52,30 @@
             
             </div>
 
-            <div v-if="! visible" class="flex justify-center items-center h-screen">
+            <div v-if="! visible" class="flex justify-center items-center h-screen mb-20">
                 
                     <ion-content class="ion-padding" > 
                             <form @submit.prevent="submit">
                                 <ion-item>
                                     <ion-label position="floating"> Enter Name </ion-label>
-                                    <ion-input type="text" v-model="form.name"></ion-input>
+                                    <ion-input type="text" v-model="form.name" required="required"></ion-input>
                                 </ion-item>
                         
                                 <ion-item>
                                     <ion-label position="floating"> Enter Email</ion-label>
-                                    <ion-input type="text" v-model="form.email"></ion-input>
+                                    <ion-input type="text" v-model="form.email" required="required"></ion-input>
                                 </ion-item>
                             
                             <ion-item>
                                 <ion-label> Select Company</ion-label>
-                                <ion-select v-model="form.company_id">
+                                <ion-select v-model="form.company_id" required>
                                     <ion-select-option v-for="c in company" :key="c.id" :value=c.id> {{c.name}}</ion-select-option>
                                 </ion-select> 
                             </ion-item>
                         
                         <ion-item>
                             <ion-label position="floating"> Enter Phone Number</ion-label>
-                                <ion-input type="text" v-model="form.phone"></ion-input>
+                                <ion-input type="text" v-model="form.phone" required="required"></ion-input>
                         </ion-item>
                         
                         <ion-item>
@@ -146,7 +152,7 @@
     </master-layout>
 </template>
 <script>
-import { IonContent, IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonSegment, IonSegmentButton, IonSearchbar,
+import {IonAvatar,IonContent, IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonSegment, IonSegmentButton, IonSearchbar,
          IonButton, IonSpinner, IonFooter, IonToolbar, IonIcon,
          IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonText, IonGrid, IonRow, IonCol } from '@ionic/vue';
 
@@ -184,6 +190,7 @@ export default {
             region:[],
 
             customers:[],
+            search:'',
 
             
         }
@@ -192,7 +199,7 @@ export default {
    
 
     components:{
-            IonInput, IonSelect, IonSelectOption, IonItem, IonLabel,
+         IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonAvatar,
          IonButton, IonSpinner, Loader, IonContent, IonSegment, IonSegmentButton, IonFooter, IonToolbar, IonIcon,
          IonSearchbar, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonText, IonGrid, IonRow, IonCol
     },
@@ -235,17 +242,18 @@ export default {
                                 this.company = res.data.companies;
                                 this.zone = res.data.zone;
                                 this.region = res.data.region;
+                                this.customers = res.data.allcustomers;
                         })
                         .finally(() => this.loading = false)
         },
 
-        async getCus(){
-            this.loading = true
-            await axios.get(`api_customer`)
-                        .then( res => {
-                            this.customers = res.data
-                        })
-        },
+        // async getCus(){
+        //     this.loading = true
+        //     await axios.get(`api_customers`)
+        //                 .then( res => {
+        //                     this.customers = res.data.customer
+        //                 })
+        // },
 
        async submit(){
            this.posting = true;
@@ -265,14 +273,22 @@ export default {
             });
             this.reset();
             this.posting = false;
-
+            //window.location.reload();
             //console.log(response)
         } 
     },
 
+    computed:{
+        filterCustomers(){
+            return this.customers.filter((cus) => {
+                return cus.name.toLowerCase().match(this.search.toLowerCase())
+            })
+        }
+    },
+
     created(){
         this.getData();
-        this.getCus();
+        //this.getCus();
     }
 }
 </script>
