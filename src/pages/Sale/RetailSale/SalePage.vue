@@ -96,7 +96,7 @@
 <script>
 
 import { IonHeader,IonContent, IonSearchbar,
-         IonGrid, IonRow, IonCol,IonText,  IonButton, IonChip } from '@ionic/vue';
+         IonGrid, IonRow, IonCol,IonText,  IonButton, IonChip, alertController } from '@ionic/vue';
 import { arrowUpCircleOutline, barcodeOutline, cartOutline, removeCircle, personAddOutline } from 'ionicons/icons';
 
 import Loader from '../../../component/LoaderComponent.vue'
@@ -156,6 +156,33 @@ export default {
 
 
     methods: {
+         async AlertConfirm() {
+            const alert = await alertController
+                .create({
+                cssClass: 'my-custom-class',
+                header: 'Clear Cart',
+                message: '<strong>Are You Sure To Destroy All </strong>',
+                buttons: [
+                    {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    id: 'cancel-button',
+                    handler:() => {
+                        //console.log('Confirm Cancel:', blah)
+                    },
+                    },
+                    {
+                    text: 'Okay',
+                    id: 'confirm-button',
+                    handler: () => {
+                      this.$store.dispatch("clearRetailCart");
+                    },
+                    },
+                ],
+                });
+            return alert.present();
+            },
 
          scan() {
      
@@ -200,8 +227,8 @@ export default {
         },
 
         destroy(){
-            if(!confirm('Are You Sure To Cancel')) return;
-            this.$store.dispatch("clearRetailCart");
+            this.AlertConfirm()
+            
         },
 
         // openCustom(){

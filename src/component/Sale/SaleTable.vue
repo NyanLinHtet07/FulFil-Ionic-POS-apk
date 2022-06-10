@@ -31,7 +31,7 @@
                 </div>
            </ion-header>
            
-            <div class=" mt-32">
+            <div class=" mt-32 mx-2">
             <ion-grid class=" w-full">
                 <ion-row class="ion-text-center bg-emerald-300/60 text-sm">
                     <ion-col> Name </ion-col>
@@ -134,13 +134,13 @@
                         </ion-col>
 
                         <ion-col>
-                            <ion-button type="submit" @click="removeItem(product)" fill="clear" size="small">
-                                 <ion-icon :icon="trashSharp" slot="icon-only"  color="danger" class="py-3"></ion-icon>
+                            <ion-button type="submit" @click="removeItem(product)" fill="clear" >
+                                 <ion-icon :icon="trashSharp" slot="icon-only"  color="danger" class="py-3 text-sm"></ion-icon>
                             </ion-button>
                         </ion-col>
                    
                 </ion-row> 
-                <ion-row v-for="foc in focItems" :key="foc.id" class="ion-text-center cell bg-slate-400 text-sm">
+                <ion-row v-for="foc in focItems" :key="foc.id" class="ion-text-center cell bg-slate-100 text-sm">
                         <ion-col> 
                              <ion-input :value="foc.variant.product_name" readonly="readonly" class="text-sm"></ion-input> 
                         </ion-col>
@@ -165,8 +165,8 @@
                              <ion-input value="00.00" readonly="readonly" class="text-sm"></ion-input>
                         </ion-col>
                          <ion-col>
-                            <ion-button type="submit" @click="removeFoc(foc)" fill="clear" size="small">
-                                 <ion-icon :icon="trashSharp" slot="icon-only"  color="danger" class="py-3"></ion-icon>
+                            <ion-button type="submit" @click="removeFoc(foc)" fill="clear">
+                                 <ion-icon :icon="trashSharp" slot="icon-only"  color="danger" class="py-3 text-sm"></ion-icon>
                             </ion-button>
                         </ion-col>
                 </ion-row>
@@ -232,16 +232,15 @@
                 <div class=" mt-4 text-right">
                     
                         <ion-button color="danger" shape="round" 
-                       size="" name="star" @click="clearCart()" class="mx-2"> 
+                         size="" name="star" @click="clearCart()" class="mx-2"> 
                                             Remove items
                         </ion-button>
-                    
-
-                    
-                            <ion-button color="secondary" shape="round" 
-                             size="" name="star" @click="hide()" class="mx-2"> 
+     
+                             <ion-button color="secondary" shape="round" 
+                             size="" name="star" @click="hide()" class="mx-2" :disabled=" addTotal == 0"> 
                                 Continue
                             </ion-button>
+                       
                    
                 </div>
 
@@ -281,6 +280,19 @@
                     </ion-card-header>
 
                     <ion-card-content>
+                         <div class="flex justify-center items-center">
+                               
+                            <div class=" px-3 py-2 rounded-xl w-full mt-2 bg-white">
+                                  <ion-item>
+                                        <ion-label position="floating"> Add Title </ion-label>
+                                        <ion-input input="text" v-model="saleData.customer_title"></ion-input>
+                                    </ion-item>
+
+                                <div class="my-4">
+                                      <h4 class="font-bold text-gray-800"> Customer Infomation </h4>
+                                </div>
+                           
+                               
                            <ion-item class="my-2 mx-3 rounded-lg ring ring-sky-100">
                              <ion-label position="floating"> Add Customer Name </ion-label>
                             <ion-input input="text" v-model="saleData.customer_name" readonly="readonly"></ion-input>
@@ -293,7 +305,7 @@
 
                         <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100">
                              <ion-label position="floating"> Add Customer Phone </ion-label>
-                            <ion-input input="text" v-model="saleData.customer_phone" readonly="readonly"></ion-input> 
+                            <ion-input input="text" v-model="saleData.customer_phone" ></ion-input> 
                         </ion-item>
 
                         <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100">
@@ -311,11 +323,12 @@
                                  <ion-input input="text" v-model="saleData.description"></ion-input>
                             </ion-item>
                  
-                        <div class="flex justify-center items-center">
-
-                            <div class=" px-3 py-2 rounded-xl w-full mt-2 bg-white">
+                       
                                 <ion-card-title>
-                                   <h4 class="font-bold text-gray-800"> Add On </h4>
+                                    <div class="my-4">
+                                         <h4 class="font-bold text-gray-800"> Invoice Infomation </h4>
+                                    </div>
+                                  
                                 </ion-card-title>
                                 <ion-item>     
                                 <!-- <ion-datetime v-model="saleData.inv_date"> </ion-datetime> -->
@@ -329,10 +342,7 @@
                                         <ion-label> Due Date </ion-label>
                                          <input type="date" v-model="saleData.due_date" class=" bg-slate-50 mx-2 px-3 py-2 rounded" placeholder=" due date"/>
                                 </ion-item>
-                                <ion-item>
-                                        <ion-label position="floating"> Add Title </ion-label>
-                                        <ion-input input="text" v-model="saleData.customer_title"></ion-input>
-                                    </ion-item>
+                               
                                     <ion-item>
                                       <ion-label> Select Payment Method </ion-label>
                                     <ion-select v-model="saleData.payment_method">
@@ -380,8 +390,8 @@
 
 <script>
 import {IonContent,IonGrid,IonRow,IonCol, IonText, IonInput, IonLabel, IonSelect, IonSelectOption,
-        IonSearchbar, IonList, IonItem, IonButton, IonSpinner, IonChip,
-        IonCard, IonCardHeader, IonCardContent, IonCardTitle,  modalController} from '@ionic/vue'
+        IonSearchbar, IonList, IonItem, IonButton, IonSpinner, IonChip, IonIcon,
+        IonCard, IonCardHeader, IonCardContent, IonCardTitle,  modalController, alertController} from '@ionic/vue'
 import { mapGetters } from "vuex";
 import { addCircleOutline, removeCircleOutline, trashSharp, returnUpBack, personAddOutline} from 'ionicons/icons';
 import axios from 'axios';
@@ -400,7 +410,7 @@ export default {
         IonLabel,IonSelect,IonSelectOption,
         IonSearchbar, IonList, IonItem, IonSpinner,
         IonCard, IonCardHeader, IonCardContent,  IonCardTitle,
-         IonChip,Loader
+         IonChip, IonIcon,Loader
         
     },
 
@@ -471,6 +481,21 @@ export default {
 
     methods:{
 
+        async presentAlert() {
+            const alert = await alertController
+                .create({
+                cssClass: 'my-custom-class',
+                header: 'Fail',
+                //subHeader: '',
+                message: 'Need to Fill Complete Data',
+                buttons: ['OK'],
+                });
+            await alert.present();
+
+            const { role } = await alert.onDidDismiss();
+            console.log('onDidDismiss resolved with role', role);
+            },
+
         openItems(){
             this.openItem = true
         },
@@ -515,15 +540,38 @@ export default {
             this.$store.dispatch('removeProduct', product);
         },
 
-        clearCart(){
-            if(!confirm('Are You Sure To Cancel')) return;
-            this.$store.dispatch("clearCart");
+        async clearCart(){
+             const alert = await alertController
+                .create({
+                cssClass: 'my-custom-class',
+                header: 'Clear Cart',
+                message: '<strong>Are You Sure To Destroy All </strong>',
+                buttons: [
+                    {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    id: 'cancel-button',
+                    handler:() => {
+                        //console.log('Confirm Cancel:', blah)
+                    },
+                    },
+                    {
+                    text: 'Okay',
+                    id: 'confirm-button',
+                    handler: () => {
+                      this.$store.dispatch("clearCart");
+                    },
+                    },
+                ],
+                });
+            return alert.present();
         },
 
         clearCartData(){
             this.$store.dispatch("clearCart");
         },
-
+ 
         addFoc(data){
             this.$store.dispatch("addFoc", data)
         },
@@ -616,12 +664,20 @@ export default {
 
                 const inv_id = response.data.invoice_id;
                
-               
-                this.posting = false ;
+               if( inv_id == null){
+                   this.presentAlert();
+                    this.posting = false;
+               }
+
+               else{
+                 this.posting = false ;
                 this.$router.push({name:'invoice.detail', params:{id :inv_id}});
                 this.show();
                  this.reset();
                  this.clearCartData();
+               }
+               
+               
                 //this.$router.push('/select-sales');
                 //console.log(response)
         },
@@ -760,5 +816,7 @@ export default {
 
     ion-col{
         --max-width:15%;
+        border: 0.5px solid rgba(247, 233, 233, 0.596);
+        
     }
 </style>

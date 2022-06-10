@@ -9,22 +9,22 @@
                     <ion-text class=" text-red-700 font-bold text-xl"> This invoice was canceled</ion-text>
                 </ion-item>
                 <ion-item v-else>
-                    <ion-button class="mx-2" @click="markSent()" :disabled="invoice.mark_sent == 1"> Mark Send </ion-button>
+                    <ion-button class="mx-2" @click="markSent()" :disabled="invoice.mark_sent == 1" shape="round"> Mark Send </ion-button>
                 
-                    <ion-button @click="openPayment()" class="mx-2" color="tertiary"> Make Paymeny </ion-button>
+                    <ion-button @click="openPayment()" class="mx-2" color="tertiary" shape="round"> Make Paymeny </ion-button>
                     
                     <div v-if="invoice.mark_sent == 0">
-                        <ion-button @click="edit()" v-if=" !visible"  color="secondary"> Edit </ion-button>
-                        <ion-button @click="detail()" v-if="visible" color="warning"> Detail </ion-button>
+                        <ion-button @click="edit()" v-if=" !visible"  color="secondary" shape="round"> Edit </ion-button>
+                        <ion-button @click="detail()" v-if="visible" color="warning" shape="round"> Detail </ion-button>
                     </div>
                     <div v-else>
-                        <ion-button disabled color="medium"> Disable To edit</ion-button>
+                        <ion-button disabled color="medium" shape="round"> Disable To edit</ion-button>
                     </div>
                     
-                    <ion-button color="medium"> Stock Out </ion-button>
-                    <ion-button @click="print()" color="success"> print </ion-button>
+                    <ion-button color="medium" shape="round"> Stock Out </ion-button>
+                    <ion-button @click="print()" color="success" shape="round"> print </ion-button>
 
-                    <ion-button @click="destroy()" shape="round" color="danger"> <ion-icon :icon="closeCircleOutline"></ion-icon></ion-button>
+                    <ion-button @click="destroy()" shape="round" color="danger"> Cancel </ion-button>
 
                 </ion-item>
                 
@@ -122,7 +122,7 @@
                     <div class="flex justify-center items-center">
 
                         <table class="table-auto w-full mx-2 py-2">
-                            <thead class=" text-center font-bold text-cyan-900 bg-emerald-300/60 rounded-lg">
+                            <thead class=" text-center font-bold text-cyan-900 bg-emerald-200/60 rounded-lg">
                                 <th class=" py-5"> Name </th>
                                 <th> Unit </th> 
                                 <th> Price </th>
@@ -133,8 +133,8 @@
                              
                             </thead>
 
-                            <tbody v-for="product in items" :key="product.id" class="border-b-2 border-b-slate-300">
-                                <tr v-if="product.foc == 0 " class=" text-center text-sm font-bold text-sky-900 ">
+                            <tbody v-for="product in items" :key="product.id">
+                                <tr v-if="product.foc == 0 " class=" text-center text-sm font-bold text-sky-900 bg-lime-50">
                                 
                                     <td class="py-3"> {{ product.variant.product_name }}</td>
                                     <!-- <td class="py-3">                             
@@ -758,5 +758,9 @@ export default {
      ion-searchbar{
         --border-radius:30px;
 
+    }
+
+    th, td{
+       border: 1px solid rgba(247, 233, 233, 0.596);
     }
 </style>

@@ -108,7 +108,7 @@
 
 import { IonHeader, IonContent, IonSearchbar, IonItem,
          IonGrid, IonRow, IonCol,IonButton,
-         IonText, IonChip} from '@ionic/vue';
+         IonText, IonChip, alertController} from '@ionic/vue';
 import { arrowUpCircleOutline,  barcodeOutline, cartOutline, removeCircle, personAddOutline } from 'ionicons/icons';
 // import Sale from '../component/Sale/SaleTable.vue'
 //import Barcode from '../../../component/Sale/BarCodeData.vue';
@@ -171,6 +171,33 @@ export default {
 
 
     methods: {
+           async AlertConfirm() {
+            const alert = await alertController
+                .create({
+                cssClass: 'my-custom-class',
+                header: 'Clear Cart',
+                message: '<strong>Are You Sure To Destroy All </strong>',
+                buttons: [
+                    {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    id: 'cancel-button',
+                    handler:() => {
+                        //console.log('Confirm Cancel:', blah)
+                    },
+                    },
+                    {
+                    text: 'Okay',
+                    id: 'confirm-button',
+                    handler: () => {
+                      this.$store.dispatch("clearCart");
+                    },
+                    },
+                ],
+                });
+            return alert.present();
+            },
 
          scan() {
      
@@ -217,8 +244,9 @@ export default {
         },
 
         destroy(){
-            if(!confirm('Are You Sure To Cancel')) return;
-            this.$store.dispatch("clearCart");
+            //if(!confirm('Are You Sure To Cancel')) return;
+            this.AlertConfirm();
+            
         },
 
         // openCustom(){
@@ -352,6 +380,9 @@ export default {
         --border-radius:30px;
 
     }
+    /* .my-custom-class .alert-wrapper {
+        background: #e5e5e5;
+        } */
 
     /* ion-icon{
         font-size: 20px;

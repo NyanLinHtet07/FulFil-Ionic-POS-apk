@@ -7,28 +7,29 @@
     <!-- sale filed start -->
         <ion-content v-else>
               <ion-content v-if="! visiable">
-         
-             <ion-button @click="openItems" color="primary"> Products </ion-button>
-             <ion-button @click="openFoc" color="medium"> Focs </ion-button>
-       
-         
-        
-          <div v-if="openItem">
-                  <ion-searchbar debounce="500" v-model="searchItem" @input="filterItems" autocomplete="off" placeholder="search Products ..."></ion-searchbar>
-                                <ion-list>
-                                    <ion-item v-for=" d in filteredItems" :key="d.id" @click="addProduct(d)">
-                                            <ion-label> {{ d.variant.product_name }} </ion-label>
-                                    </ion-item>
-                                </ion-list>
-          </div>
-           <div v-if=" ! openItem">
-              <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off" placeholder="search foc ..."></ion-searchbar>
-                                <ion-list>
-                                    <ion-item v-for=" data in filteredStates" :key="data.id" @click="addFoc(data)">
-                                            <ion-label> {{ data.variant.product_name }} </ion-label>
-                                    </ion-item>
-                                </ion-list>
-         </div>
+                <ion-header class=" top ion-no-border mt-1">
+                        <ion-chip @click="openItems" color="primary"> Products </ion-chip>
+                        <ion-chip @click="openFoc" color="medium"> Focs </ion-chip>
+                
+                    
+                    
+                    <div v-if="openItem">
+                            <ion-searchbar debounce="500" v-model="searchItem" @input="filterItems" autocomplete="off" placeholder="search Products ..."></ion-searchbar>
+                                            <ion-list v-if=" !(searchItem == '')">
+                                                <ion-item v-for=" d in filteredItems" :key="d.id" @click="addProduct(d)">
+                                                        <ion-label> {{ d.variant.product_name }} </ion-label>
+                                                </ion-item>
+                                            </ion-list>
+                    </div>
+                    <div v-if=" ! openItem">
+                        <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off" placeholder="search foc ..."></ion-searchbar>
+                                            <ion-list v-if=" !(state == '')">
+                                                <ion-item v-for=" data in filteredStates" :key="data.id" @click="addFoc(data)">
+                                                        <ion-label> {{ data.variant.product_name }} </ion-label>
+                                                </ion-item>
+                                            </ion-list>
+                    </div>
+                </ion-header>
             
        
 
@@ -37,23 +38,11 @@
              <!-- <ion-datetime v-model="saleData.inv_date"> </ion-datetime> -->
              <!-- <input type="date" v-model="saleData.inv_date" class=" bg-white">
             <input type="date" v-model="saleData.due_date" class=" bg-white"> -->
-            
-            
+   
+           <div class=" mt-32 mx-2">
 
-            
-            
-            <div class="text-right mx-3">
-                <ion-button  size="small" color="danger"  @click="clearCart()"> 
-                    Remove items
-                  
-                </ion-button>
-            </div>
-            
-       
-            
-           
-            <ion-grid class="ion-margin w-full">
-                <ion-row class="ion-text-center tableHead font-extrabold">
+            <ion-grid class="w-full">
+                <ion-row class="ion-text-center bg-emerald-300/60 text-sm">
                     <ion-col> Name </ion-col>
                     <ion-col> Unit </ion-col> 
                     <ion-col> Price </ion-col>
@@ -63,15 +52,19 @@
                     <!-- <ion-col> Sub Total </ion-col> -->
                     <ion-col> Remove </ion-col>
                 </ion-row> 
-                <ion-row v-for="product in cartItems" :key="product.id" class="ion-text-center cell">
+                <ion-row v-for="product in cartItems" :key="product.id" class="ion-text-center bg-sky-50">
                   
-                        <ion-col> {{ product.product_name }}</ion-col>
+                        <ion-col> 
+                             <ion-input v-model="product.product_name" readonly="readonly" class="text-sm"></ion-input>
+                            <!-- {{ product.product_name }} -->
+                        </ion-col>
+
                         <ion-col> 
                             
                                     
                                         <div>
                                             <!-- <label for=""> Unit </label> -->
-                                            <select v-model="product.unitId" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
+                                            <select v-model="product.unitId" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white"  id="grid-state">
                                                 <option v-for="u in product.unit" :key="u.id" :value="u.id">{{u.unit}}</option>
                                             </select>
                                         </div>
@@ -91,7 +84,7 @@
                                                              <ion-select-option :value="p.price">{{p.price}}</ion-select-option>
                                                         </ion-select> -->
                                                       <!-- <label for=""> Price </label> -->
-                                                        <select v-model="product.price" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
+                                                        <select v-model="product.price" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                             <option :value="p.price">{{p.price}}</option>
                                                         </select>
                                                         
@@ -100,7 +93,7 @@
                                                         <span v-if="p.min <= product.quantity && ( p.max >= product.quantity || p.max == null ) "> 
                                                                 <!-- <input type="text"  :value= "p.price" > -->
                                                                <!-- <label for=""> Price </label> -->
-                                                                <select v-model="product.price" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
+                                                                <select v-model="product.price" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                                    <!-- <option value=""> Select</option> -->
                                                                     <option :value="p.price">{{p.price}}</option>
                                                                 </select>
@@ -117,7 +110,7 @@
                        
                         <ion-col> 
                             
-                            <ion-text> <ion-input v-model="product.quantity" class=" bg-slate-300"></ion-input> </ion-text>
+                            <ion-text> <ion-input v-model="product.quantity" class=" bg-white text-sm"></ion-input> </ion-text>
                            
                         </ion-col>
                          <ion-col>
@@ -128,7 +121,7 @@
                                             <ion-select-option :value="dis.rate">{{dis.rate}} %</ion-select-option>
                                      </ion-select> -->
                                             <!-- <label for=""> Discount </label> -->
-                                                        <select v-model="product.discount" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
+                                                        <select v-model="product.discount" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                             <option :value="dis.rate">{{dis.rate}} %</option>
                                                         </select>
                                 </span>
@@ -138,51 +131,64 @@
                              {{product.price * product.quantity}}
                         </ion-col> -->
                         <ion-col>
-                            {{ (product.price * product.quantity)-(((product.price*product.quantity)/100)*product.discount)}}
+                             <ion-input :value="(product.price * product.quantity)-(((product.price*product.quantity)/100)*product.discount)" readonly="readonly" class="text-sm"></ion-input>
+                            <!-- {{ (product.price * product.quantity)-(((product.price*product.quantity)/100)*product.discount)}} -->
                         </ion-col>
 
                         <ion-col>
                             <ion-button type="submit" @click="removeItem(product)" fill="clear"> 
-                                  <ion-icon :icon="trashSharp" slot="icon-only"  color="danger" class="py-3"></ion-icon>
+                                  <ion-icon :icon="trashSharp" slot="icon-only"  color="danger" class="py-3 text-sm"></ion-icon>
                             </ion-button>
                         </ion-col>
                    
                 </ion-row> 
-                <ion-row v-for="foc in focItems" :key="foc.id" class="ion-text-center cell bg-slate-800">
-                        <ion-col> {{ foc.variant.product_name}}</ion-col>
+                <ion-row v-for="foc in focItems" :key="foc.id" class="ion-text-center cell bg-slate-100 text-sm">
+                        <ion-col>
+                            <ion-input :value="foc.variant.product_name" readonly="readonly" class="text-sm"></ion-input> 
+                             <!-- {{ foc.variant.product_name}} -->
+                        </ion-col>
                         <ion-col> 
-                               <ion-item>
-                                      <!-- <label for=""> Unit </label> -->
-                                    <div v-for="u in units" :key="u.id">
+                              
+                                     
+                                    <!-- <div v-for="u in units" :key="u.id">
                                             <div v-if="u.product_id == foc.variant.product_id" >
                                                  <select v-model="foc.unitId" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                             <option :value="u.id">{{u.unit}}</option>
                                                         </select>
                                             </div>
-                                                       
-                                            
-                                       
-                                        
-                                    </div>
-                                       
-
-                                </ion-item>    
-                           
-                                
+                
+                                    </div> -->
+                                      <select v-model="foc.unitId" 
+                                                                    class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
+                                                                        <option v-for=" u in foc.unit" :key="u.id" :value="u.id">
+                                                                            <span> {{u.unit}}  </span>
+                                                                        </option>
+                                                             </select>
+        
                         </ion-col>
-                        <ion-col> FOC Item </ion-col>
-                        <ion-col> 00.00 </ion-col>
-                        <ion-col>{{ foc.quantity }}</ion-col>
-                        <ion-col> 00.00 </ion-col>
+                        <ion-col> 
+                             <ion-input value="foc item" readonly="readonly" class="text-sm"></ion-input> 
+                        </ion-col>
+                        
+                        <ion-col>
+                            <ion-input v-model="foc.quantity" class="text-center text-sm"></ion-input>
+                        </ion-col>
+                        <ion-col> 
+                             <ion-input value="00.00" readonly="readonly" class="text-sm"></ion-input>    
+                        </ion-col>
+                        <ion-col> 
+                             <ion-input value="00.00" readonly="readonly" class="text-sm"></ion-input>    
+                        </ion-col>
+
                           <ion-col>
                             <ion-button type="submit" @click="removeFocs(foc)" fill="clear"> 
-                                  <ion-icon :icon="trashSharp" slot="icon-only"  color="danger" class="py-3"></ion-icon>
+                                  <ion-icon :icon="trashSharp" slot="icon-only"  color="danger" class="py-3 text-sm"></ion-icon>
                             </ion-button>
                         </ion-col>
                 </ion-row>
 
 
-                <ion-row>
+                <ion-row class="text-sm">
                    
                         <ion-col offset-4 class="ion-text-end"> Total </ion-col>
                         <ion-col class="ion-text-center"> {{ getRetailTotal}}</ion-col>
@@ -192,7 +198,7 @@
 
                 <div v-for="cartDis in cartDiscounts" :key="cartDis.id">
                     <div v-if="cartDis.min_amount < getTotal && cartDis.max_amount > getTotal">
-                          <ion-row class="cell">
+                          <ion-row class="text-sm">
                             <ion-col offset-4 class="ion-text-end"> Discount </ion-col>
                             <ion-col class="ion-align-self-center"> 
                                 <!-- <ion-input v-model="discount" type="number" placeholder="add %"></ion-input>  -->
@@ -212,12 +218,20 @@
                 </div>
                
 
-                <ion-row>
+                <ion-row class="text-sm">
                     <ion-col offset-4 class="ion-text-end"> Tax </ion-col>
 
-                    <ion-col class=" px-3"> 
+                    <ion-col class=""> 
+                            
+                             
+                                <select name="" id="" v-model="tax" class=" rounded-md w-3/6 bg-gray-50  px-2 py-2 mx-auto block">
+                                    <option v-for="(t,index) in taxes" :key="index" :value="t.rate"> {{t.name}} </option>
+                                </select>
+                            
+                             
+                                <ion-text class="inputText">  {{addTax}} </ion-text>
                            
-                                <ion-item class=" w-full">
+                                <!-- <ion-item class=" w-full">
                                      <ion-label> Select Tax </ion-label>
                                 <ion-select name="" id="" v-model="tax" class=" rounded-md w-20">
                                     <ion-select-option v-for="t in taxes" :key="t.id" :value="t.rate"> {{t.name}} </ion-select-option>
@@ -225,32 +239,42 @@
                                
                                 </ion-item>
                                
-
-                                <!-- <ion-input type="number" v-model="tax" placeholder="add %"></ion-input> -->
-                                <ion-text class="inputText">  {{addTax}} </ion-text>
+                                <ion-text class="inputText">  {{addTax}} </ion-text> -->
                            
                     </ion-col>
                 </ion-row>
 
-                <ion-row class="cell">
+                <ion-row class="text-sm">
                     <ion-col offset-4 class="ion-text-end"> Deli </ion-col>
-                    <ion-col class="ion-text-center"> <ion-input v-model="saleData.deli"></ion-input></ion-col>
+                    <ion-col class="ion-text-center"> <ion-input v-model="saleData.deli" class="bg-white rounded-md w-3/6 px-2 py-2 mx-auto block"></ion-input></ion-col>
                 </ion-row>
 
-                <ion-row>
+                <ion-row class="text-lg font-thin">
                     <ion-col offset-4 class="ion-text-end"> Grand Total</ion-col>
                     <ion-col class="ion-text-center"> {{ addTotal }}</ion-col>
                 </ion-row>
 
             </ion-grid>
 
-            <ion-item>
-                <ion-button  expand="block" color="secondary" shape="round" 
-                 slot="end" size="" name="star" @click="hide()"> 
+            <div class=" mt-4 text-right">
+                 <ion-button color="danger" shape="round" 
+                         size="" name="star"  @click="clearCart()" class="mx-2"> 
+                    Remove items
+                </ion-button>
+
+                <ion-button color="secondary" shape="round" 
+                 slot="end" size="" name="star" @click="hide()" class="mx-2" :disabled=" addTotal == 0"> 
                     Continue
                  </ion-button>
-            </ion-item>
+            </div>
 
+        </div>
+
+           
+               
+               
+        
+          
            </ion-content>
 
            <!---------------------- sale field end ------------------------>
@@ -260,31 +284,39 @@
            <ion-content v-if="visiable">
             
             <div class="flex justify-center items-center">
-                 <ion-card class=" w-full rounded-lg mx-3 my-4  px-2 py-3 bg-gradient-to-t from-sky-300 to to-blue-50">
+                 <ion-card class=" w-full rounded-lg mx-3 my-4  px-2 py-3 bg-gradient-to-t from-sky-200 to to-lime-50">
                     <ion-card-header>
-                        <div class=" text-left">
-                               <ion-button shape="round"  size="small" color="secondary" @click="show"> <ion-icon :icon="returnUpBack"></ion-icon> <small class="mx-2"> Sale </small> </ion-button>
-                           </div>
-                        <ion-card-title>
-                           <h3 class=" font-semibold text-gray-800 text-center"> Add Required Data </h3>
-                           <div class=" text-right my-3">
-                               <ion-button shape="round" color="secondary" @click="openModal"> Add New Customer</ion-button>
-                           </div>
+                        
+                        <ion-card-title class=" flex justify-between">
+                            <ion-button @click="show" color="secondary" shape="round"> Sale Page </ion-button>
+                               <ion-chip shape="round" color="success" @click="openModal"> 
+                                    <ion-icon :icon="personAddOutline"></ion-icon>
+                               </ion-chip>
+                            
                            
                         </ion-card-title>
                        
                              <ion-searchbar debounce="500" v-model="search" @input="filterCustomer" autocomplete="off" placeholder="search customer ..."></ion-searchbar>
-                             <!-- <ion-button :disabled="cusload" shape="round"  size="small" color="secondary" @click="refresh"> <ion-icon :icon="refreshCircle"></ion-icon></ion-button>
-                             <ion-spinner  name="circles" v-if='cusload' class="mx-3 scroll-mt-3.5"> </ion-spinner> -->
-                      
+                        <ion-list v-if="!(search == '')">
+                             <ion-item v-for="data in filteredCustomer" class=" my-2 rounded" :key="data.id" @click="addData(data)">
+                                    <ion-label :value="data"> {{data.name}}</ion-label>
+                            </ion-item> 
+                        </ion-list>
                        
-               
-                        <ion-item v-for="data in filteredCustomer" class=" my-2 rounded" :key="data.id" @click="addData(data)">
-                                <ion-label :value="data"> {{data.name}}</ion-label>
-                        </ion-item> 
                     </ion-card-header>
 
                     <ion-card-content>
+                         <div class="flex justify-center items-center">
+                               
+                            <div class=" px-3 py-2 rounded-xl w-full mt-2 bg-white">
+                                  <ion-item>
+                                        <ion-label position="floating"> Add Title </ion-label>
+                                        <ion-input input="text" v-model="saleData.customer_title"></ion-input>
+                                    </ion-item>
+
+                                <div class="my-4">
+                                      <h4 class="font-bold text-gray-800"> Customer Infomation </h4>
+                                </div>
                            <ion-item class="my-2 mx-3 rounded-lg ring ring-sky-100">
                              <ion-label position="floating"> Add Customer Name </ion-label>
                             <ion-input input="text" v-model="saleData.customer_name"></ion-input>
@@ -315,41 +347,25 @@
                                  <ion-input input="text" v-model="saleData.description"></ion-input>
                             </ion-item>
                  
-                        <div class="flex justify-center items-center">
-
-                            <div class=" px-3 py-2 rounded-xl w-9/12 mt-2 bg-white">
-                                <ion-card-title>
-                                   <h4 class="font-bold text-gray-800"> Add On </h4>
+                       
+                               <ion-card-title>
+                                    <div class="my-4">
+                                         <h4 class="font-bold text-gray-800"> Invoice Infomation </h4>
+                                    </div>
+                                  
                                 </ion-card-title>
                                 <ion-item class="">
-                                    <!-- <ion-button id="open-modal">Add Invoice Date</ion-button>
-                                    <ion-modal trigger="open-modal">
-                                        <ion-content>
-                                        <ion-datetime  v-model="saleData.inv_date" size="fixed"></ion-datetime>
-                                        </ion-content>
-                                    </ion-modal>
-
-                                    <ion-button id="open-modal1" color="medium">Add Due Date</ion-button>
-                                    <ion-modal trigger="open-modal1">
-                                        <ion-content>
-                                        <ion-datetime  v-model="saleData.inv_date"></ion-datetime>
-                                        </ion-content>
-                                    </ion-modal> -->
-                                    <div>
+                                   
+                                  
                                         <ion-label> Invoice Date </ion-label>
                                          <input type="date" v-model="saleData.inv_date" class=" bg-slate-50 mx-2 px-3 py-2 rounded" placeholder="invoice date" />
-                                    </div>
-                                    
-                                    <div>
+                     
+                                </ion-item>
+                                 <ion-item>
                                         <ion-label> Due Date </ion-label>
                                          <input type="date" v-model="saleData.due_date" class=" bg-slate-50 mx-2 px-3 py-2 rounded" placeholder=" due date"/>
-                                    </div>
-                                   
                                 </ion-item>
-                                <ion-item>
-                                        <ion-label position="floating"> Add Title </ion-label>
-                                        <ion-input input="text" v-model="saleData.customer_title"></ion-input>
-                                    </ion-item>
+               
                                     <ion-item>
                                       <ion-label> Select Payment Method </ion-label>
                                     <ion-select v-model="saleData.payment_method">
@@ -398,28 +414,27 @@
 
 <script>
 import {IonContent,IonGrid,IonRow,IonCol, IonText, IonInput, IonLabel, IonSelect, IonSelectOption,
-        IonSearchbar, IonList, IonItem,   IonButton, IonIcon,
-        IonCard, IonCardHeader, IonCardContent, IonCardTitle,  
-       IonSpinner,
-        modalController} from '@ionic/vue'
+        IonSearchbar, IonList, IonItem, IonButton, IonSpinner, IonChip, IonIcon,
+        IonCard, IonCardHeader, IonCardContent, IonCardTitle,  modalController, alertController} from '@ionic/vue'
 import { mapGetters } from "vuex";
-import { addCircleOutline, removeCircleOutline, trashSharp, returnUpBack, refreshCircle } from 'ionicons/icons';
+import {addCircleOutline, removeCircleOutline, trashSharp, returnUpBack, personAddOutline} from 'ionicons/icons';
 import axios from 'axios';
 //import Customer from '../../component/Sale/CustomerRecord.vue'
 import Create from '../../component/Sale/CreateCustomer.vue'
 import Loader from '../../component/LoaderComponent.vue'
+import moment from 'moment'
 
 const url = "retail/invoice";
 
 export default {
     components:{
-        IonContent,
+       IonContent,
         IonGrid,IonRow,IonCol,
         IonButton,IonText,IonInput,
         IonLabel,IonSelect,IonSelectOption,
-        IonSearchbar, IonList, IonItem,
-        IonCard, IonCardHeader, IonCardContent,  IonCardTitle, 
-        IonIcon, IonSpinner, Loader
+        IonSearchbar, IonList, IonItem, IonSpinner,
+        IonCard, IonCardHeader, IonCardContent,  IonCardTitle,
+         IonChip, IonIcon,Loader
     },
 
     data() {
@@ -428,21 +443,24 @@ export default {
             posting: false,
             loading: false,
             test:'',
-            openItem: false,
+            openItem: true,
             visiable:false,
             unitId:'',
             tax:'',
             deli:'',
             discount:'',
             state:'',
-            search:'',
             searchItem:'',
+            search:'',
+            
             zone_id:'',
+            moment: moment,
 
              payments:[],
             filteredItems:[],
             products:[],
             filteredStates:[],
+            filteredCustomer:[],
             prices:[],
             focs:[],
             itemDiscounts:[],
@@ -454,8 +472,8 @@ export default {
             warehouse:{},
 
             saleData: {
-                inv_date:'',
-                due_date:'',
+                inv_date:moment().format('YYYY-MM-DD'),
+                due_date:moment().add('day', 1) . format('YYYY-MM-DD'),
                 cartItems:'',
                 focs:'',
                 tax_rate:'',
@@ -481,12 +499,27 @@ export default {
 
     setup() {
         return{
-            addCircleOutline, removeCircleOutline, trashSharp, returnUpBack, refreshCircle
+            addCircleOutline, removeCircleOutline, trashSharp, returnUpBack, personAddOutline
         }
         
     },
 
     methods:{
+         async presentAlert() {
+            const alert = await alertController
+                .create({
+                cssClass: 'my-custom-class',
+                header: 'Fail',
+                //subHeader: '',
+                message: 'Need to Fill Complete Data',
+                buttons: ['OK'],
+                });
+            await alert.present();
+
+            const { role } = await alert.onDidDismiss();
+            console.log('onDidDismiss resolved with role', role);
+            },
+
         openItems(){
             this.openItem = true
         },
@@ -536,9 +569,34 @@ export default {
             this.$store.dispatch('removeRetailFoc', foc);
         },
  
-        clearCart(){
-            if(!confirm('Are You Sure To Cancel')) return;
-            this.$store.dispatch("clearRetailCart");
+        async clearCart(){
+             const alert = await alertController
+                .create({
+                cssClass: 'my-custom-class',
+                header: 'Clear Cart',
+                message: '<strong>Are You Sure To Destroy All </strong>',
+                buttons: [
+                    {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    id: 'cancel-button',
+                    handler:() => {
+                        //console.log('Confirm Cancel:', blah)
+                    },
+                    },
+                    {
+                    text: 'Okay',
+                    id: 'confirm-button',
+                    handler: () => {
+                     this.$store.dispatch("clearRetailCart");
+                    },
+                    },
+                ],
+                });
+            return alert.present();
+            
+            
         },
 
         clearCartData(){
@@ -547,6 +605,10 @@ export default {
 
         addFoc(data){
             this.$store.dispatch("addRetailFoc", data)
+        },
+
+         removeRetailFoc(foc){
+            this.$store.dispatch('removeRetailFoc', foc)
         },
 
         filterStates(){
@@ -637,12 +699,21 @@ export default {
 
                 const inv_id = response.data.invoice_id;
 
+                if( inv_id == null){
+                    this.presentAlert();
+                    this.posting = false;
+               }
+
+                else{
+                     this.posting = false ;
+                    this.$router.push({name:'invoice.detail', params:{id :inv_id}});
+                    this.show();
+                    this.reset();
+                    this.clearCartData();
+                }
                 
                
-                this.posting = false ;
-                this.$router.push({name:'invoice.detail', params:{id :inv_id}});
-                 this.reset();
-                this.clearCartData();
+               
 
                 // this.$router.push({name: 'invoice.detail', params:{id :response.data.invoice_id}});
 
@@ -754,3 +825,22 @@ export default {
     
 }
 </script>
+
+<style scoped>
+    .top{
+        position:fixed;
+        top:10;
+        background: white;
+    }
+
+     ion-searchbar{
+        --border-radius:30px;
+
+    }
+
+    ion-col{
+        --max-width:15%;
+        border: 0.5px solid rgba(247, 233, 233, 0.596);
+        
+    }
+</style>

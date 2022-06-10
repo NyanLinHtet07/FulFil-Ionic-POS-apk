@@ -10,22 +10,29 @@
                     
                     <ion-card v-for="record in posts" :key="record.id" class="my-4">
                         <ion-card-header class="text-white bg-emerald-400/60">
+                            
+                            <ion-card-title> <h4> Invoice Number - {{ record.invoice_id}} </h4></ion-card-title>
+                           
                             <ion-card-subtitle class=" text-gray-700">  Invoice Date - {{ record.invoice_date}}  </ion-card-subtitle>
-                            <ion-card-title>Invoice Number - {{ record.invoice_id}}</ion-card-title>
-                            <ion-text v-if="record.cancel == 1 " class="text-right text-red-800 font-bold"> This invoice was canceled</ion-text>
+                            <ion-card-subtitle class=" text-gray-700">  Due Date - {{ record.due_date}}  </ion-card-subtitle>
+                            <div class=" flex ion-justify-content-between">
+                                 <ion-text class="text-gray-600 font-bold"> {{record.inv_type}} </ion-text> 
+                                <div>
+                                    <ion-text v-if="record.cancel == 1 " class="text-right text-red-800 font-bold"> Canceled</ion-text>
+                                    <ion-text v-else class="text-right text-gray-800 font-bold"> {{record.status}}</ion-text>
+                                </div>
+                            </div>
                         </ion-card-header>
                         <ion-card-content class=" text-gray-700 font-medium">
                             <ion-grid>
                                 <ion-row>
                                     <ion-col>
-                                       <ion-label> Name </ion-label>
+                                       <ion-label> Customer Name </ion-label>
                                     </ion-col>
                                     <ion-col>
                                         <ion-text> {{record.customer.name}} </ion-text>
                                     </ion-col>
-                                    <ion-col>
-
-                                    </ion-col>
+                                   
                                 </ion-row>
 
                                  <ion-row>
@@ -35,9 +42,7 @@
                                     <ion-col>
                                         <ion-text> {{record.customer.phone}} </ion-text>
                                     </ion-col>
-                                    <ion-col>
-
-                                    </ion-col>
+                                  
                                 </ion-row>
 
                                  <ion-row>
@@ -47,9 +52,7 @@
                                     <ion-col>
                                         <ion-text>  {{record.billing_address}} </ion-text>
                                     </ion-col>
-                                    <ion-col>
-
-                                    </ion-col>
+                                   
                                 </ion-row>
 
                                   <ion-row class="font-bold text-lg">
@@ -59,9 +62,17 @@
                                     <ion-col>
                                         <ion-text>  {{record.grand_total}} MMK </ion-text>
                                     </ion-col>
-                                    <ion-col>
+                                   
+                                </ion-row>
 
+                                <ion-row class="font-bold text-lg">
+                                    <ion-col>
+                                       <ion-label> Due Amount </ion-label>
                                     </ion-col>
+                                    <ion-col>
+                                        <ion-text>  {{record.due_amount}} MMK </ion-text>
+                                    </ion-col>
+                                   
                                 </ion-row>
                             </ion-grid> 
                             <div class="text-right">   
