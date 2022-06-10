@@ -54,6 +54,8 @@ export default {
             setTimeout(() => {
                 event.target.complete();
             }, 2000);
+
+            window.location.reload();
             }
             return { chevronDownCircleOutline, doRefresh }
         },

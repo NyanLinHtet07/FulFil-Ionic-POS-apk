@@ -5,32 +5,71 @@
         </ion-content>
        <ion-content v-else>
             
-                <ion-list>
+                <ion-list> 
                     
                     
-                    <ion-card v-for="record in posts" :key="record.id">
-                        <ion-card-header>
-                            <ion-card-subtitle>  Invoice Date - {{ record.invoice_date}}  </ion-card-subtitle>
+                    <ion-card v-for="record in posts" :key="record.id" class="my-4">
+                        <ion-card-header class="text-white bg-emerald-400/60">
+                            <ion-card-subtitle class=" text-gray-700">  Invoice Date - {{ record.invoice_date}}  </ion-card-subtitle>
                             <ion-card-title>Invoice Number - {{ record.invoice_id}}</ion-card-title>
-                            <ion-text v-if="record.cancel == 1 " class="text-right text-red-400"> This invoice was canceled</ion-text>
+                            <ion-text v-if="record.cancel == 1 " class="text-right text-red-800 font-bold"> This invoice was canceled</ion-text>
                         </ion-card-header>
-                        <ion-card-content>
-                            <ion-item>
-                                 <ion-label> Customer - {{record.customer.name}}</ion-label>
-                            </ion-item>
+                        <ion-card-content class=" text-gray-700 font-medium">
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col>
+                                       <ion-label> Name </ion-label>
+                                    </ion-col>
+                                    <ion-col>
+                                        <ion-text> {{record.customer.name}} </ion-text>
+                                    </ion-col>
+                                    <ion-col>
 
-                            <ion-item>
-                                <ion-label> Phone - {{record.customer.phone}}</ion-label>
-                            </ion-item> 
+                                    </ion-col>
+                                </ion-row>
 
-                            <ion-item>
-                                <ion-label> Shipping Address - {{record.billing_address}}</ion-label>
-                            </ion-item>
-              
-                            <ion-button  color="secondary" shape="round" 
-                            slot="end" :router-link="`/invoice-detail/${record.id}`"> 
+                                 <ion-row>
+                                    <ion-col>
+                                       <ion-label> Phone </ion-label>
+                                    </ion-col>
+                                    <ion-col>
+                                        <ion-text> {{record.customer.phone}} </ion-text>
+                                    </ion-col>
+                                    <ion-col>
+
+                                    </ion-col>
+                                </ion-row>
+
+                                 <ion-row>
+                                    <ion-col>
+                                       <ion-label> Address </ion-label>
+                                    </ion-col>
+                                    <ion-col>
+                                        <ion-text>  {{record.billing_address}} </ion-text>
+                                    </ion-col>
+                                    <ion-col>
+
+                                    </ion-col>
+                                </ion-row>
+
+                                  <ion-row class="font-bold text-lg">
+                                    <ion-col>
+                                       <ion-label> Total </ion-label>
+                                    </ion-col>
+                                    <ion-col>
+                                        <ion-text>  {{record.grand_total}} MMK </ion-text>
+                                    </ion-col>
+                                    <ion-col>
+
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid> 
+                            <div class="text-right">   
+                                <ion-button  color="secondary" shape="round"  :router-link="`/invoice-detail/${record.id}`"> 
                                Invoice Detail
                             </ion-button>
+                            </div>
+                            
                         </ion-card-content>
 
                     </ion-card>
@@ -46,7 +85,7 @@
 </template>
 <script>
 import {  IonContent,
-         IonList ,IonLabel, IonItem,
+         IonList ,IonLabel,IonText, IonGrid, IonRow, IonCol,
         IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent} from '@ionic/vue';
 
 import Loader from '../component/LoaderComponent.vue'
@@ -62,9 +101,9 @@ export default {
       
         IonLabel,
         IonList,
-        IonItem,
-        // IonGrid,
-        // IonRow, IonCol,
+       IonText,
+        IonGrid,
+        IonRow, IonCol,
         IonButton,
         IonCard, IonCardHeader, IonCardSubtitle, IonCardContent, IonCardTitle,
         Loader
@@ -144,4 +183,10 @@ export default {
         margin-top: 20px;
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     }
+
+     ion-card{
+        border-radius: 20px;
+    }
+
+
 </style>

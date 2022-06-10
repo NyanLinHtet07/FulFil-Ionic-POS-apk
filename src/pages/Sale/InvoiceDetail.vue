@@ -4,7 +4,7 @@
             <ion-content v-if="loading">
                     <Loader/>
             </ion-content>
-            <ion-content v-else>
+            <ion-content v-else> 
                 <ion-item v-if=" invoice.cancel == 1">
                     <ion-text class=" text-red-700 font-bold text-xl"> This invoice was canceled</ion-text>
                 </ion-item>
@@ -18,7 +18,7 @@
                         <ion-button @click="detail()" v-if="visible" color="warning"> Detail </ion-button>
                     </div>
                     <div v-else>
-                        <ion-button disabled color="medium"> Enable To Edit</ion-button>
+                        <ion-button disabled color="medium"> Disable To edit</ion-button>
                     </div>
                     
                     <ion-button color="medium"> Stock Out </ion-button>
@@ -107,8 +107,8 @@
                                             </div>
 
                                     <div class="col-span-2 text-sm text-lime-800">
-                                        <div class=" font-mono"> <span> Invoice Date - </span>  {{moment(invoice.invoice_date).format("MMM Do YYYY")}} </div>
-                                        <div class="font-mono"> <span> Due Date - </span> {{moment(invoice.due_date).format("MMM Do YYYY")}} </div>
+                                        <div class=" font-sans"> <span> Invoice Date - </span>  {{moment(invoice.invoice_date).format("MMM Do YYYY")}} </div>
+                                        <div class="font-sans"> <span> Due Date - </span> {{moment(invoice.due_date).format("MMM Do YYYY")}} </div>
                                     </div>
                                        
                                 </div>
@@ -121,16 +121,16 @@
                         
                     <div class="flex justify-center items-center">
 
-                        <table class="table-auto px-4 mx-2 w-5/6 py-2">
-                            <thead class=" text-center font-bold text-cyan-900 bg-emerald-300 rounded-lg">
+                        <table class="table-auto w-full mx-2 py-2">
+                            <thead class=" text-center font-bold text-cyan-900 bg-emerald-300/60 rounded-lg">
                                 <th class=" py-5"> Name </th>
                                 <th> Unit </th> 
                                 <th> Price </th>
                                 <th> Quantity  </th>
                                 <th> Discount </th>
                                 <th> Total </th>
-                                <th> Sub </th>
-                            
+                                <!-- <th> Sub </th> -->
+                             
                             </thead>
 
                             <tbody v-for="product in items" :key="product.id" class="border-b-2 border-b-slate-300">
@@ -155,9 +155,9 @@
                                     <td class="py-3">
                                         {{product.discount_promotion}} %
                                     </td>
-                                    <td class="py-3">
+                                    <!-- <td class="py-3">
                                         {{product.unit_price * product.quantity}}
-                                    </td>
+                                    </td> -->
                                     <td class="py-3">
                                     {{product.total}}
                                     </td>
@@ -186,7 +186,7 @@
                                 </tr>
                             
                             </tbody>
-                            <tfoot class="text-gray-700 bg-emerald-100">
+                            <tfoot class="text-gray-700 bg-emerald-50">
                                 <tr class=" my-2">
                                     <td colspan="5" class=" text-right"> Total </td>
                                     <td colspan="2" class=" text-center"> {{ invoice.total}}</td>
@@ -218,10 +218,10 @@
                 <!-- <Edit v-if="visible" :invoice="invoice" :items="items" :prices="prices" :units="units" :itemDiscounts="itemDiscounts" :amount_discount="amount_discount" :taxes="taxes"/> -->
                 <div v-if="visible" class=" px-2 my-5">
                     
-                        <ion-title class=" text-center font-bold text-gray-800"> Edit Field </ion-title>
+                        <ion-title class=" font-bold text-gray-800 my-5"> Edit Datas </ion-title>
                     
                                 <div class="flex justify-center items-center">
-                                    <table class="table-auto px-4 mx-2 w-5/6 py-2 my-3 rounded-md">
+                                    <table class="table-auto px-4 mx-2 w-full py-2 my-3 rounded-md">
                                             <thead class=" text-center font-bold text-emerald-900 bg-emerald-300 rounded-lg">
                                                 <th> Name </th>
                                                 <th> Unit </th> 
@@ -233,7 +233,7 @@
                                             
                                             </thead>
 
-                                            <tbody v-for="product in items" :key="product.id" class="border-b-2 border-b-slate-300 bg-gray-100">
+                                            <tbody v-for="product in items" :key="product.id" class="border-b-2 border-b-slate-300 bg-sky-50">
                                                 <tr v-if="product.foc == 0 " class=" text-center text-sm font-bold text-sky-900 mx-2 my-2">
                                                 
                                                     <td> {{ product.variant.product_name }}</td>
@@ -247,7 +247,7 @@
                                                                                         </select>
                                                                     </span>
                                                             </div> -->
-                                                             <select v-model="product.sell_unit" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white">
+                                                             <select v-model="product.sell_unit" class="mx-1 block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white">
                                                                  <option v-for="(u,index) in product.all_unit" :key="index" :value="u.id">{{u.unit}}</option>
                                                              </select>
                                                            
@@ -263,7 +263,7 @@
                                                                 
                                                                         <span v-if=" p.multi_price == 0">
                                                             
-                                                                            <select v-model="product.unit_price" class="block appearance-none w-full  text-gray-700 py-2 px-3 pr-5 rounded leading-tight focus:outline-none bg-gray-200" id="grid-state">
+                                                                            <select v-model="product.unit_price" class=" mx-1 block appearance-none w-full  text-gray-700 py-2 px-3 pr-5 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                                                 <option :value="p.price">{{p.price}}</option>
                                                                             </select>
                                                                         <!-- <ion-input type="text" v-model="product.unit_price" readonly><p :value="p.price"></p> </ion-input> -->
@@ -273,7 +273,7 @@
                                                                             <span v-if="p.min <= product.quantity && ( p.max >= product.quantity || p.max == null ) "> 
                                                                             
                                                                             <!-- <ion-input type="text" v-model="product.unit_price" readonly><p :value="p.price"></p> </ion-input> -->
-                                                                                    <select v-model="product.unit_price" class="block appearance-none w-full  text-gray-700 py-2 px-3 pr-5 rounded leading-tight focus:outline-none bg-gray-200" id="grid-state">
+                                                                                    <select v-model="product.unit_price" class="mx-1 block appearance-none w-full  text-gray-700 py-2 px-3 pr-5 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                                                     
                                                                                         <option :value="p.price">{{p.price}}</option>
                                                                                     </select>
@@ -290,13 +290,13 @@
                                                     </td>
 
                                                     <td>                           
-                                                        <input type="text" v-model="product.quantity" class="block appearance-none w-full  text-gray-700 py-2 px-3 pr-5 rounded leading-tight focus:outline-none bg-gray-200 text-center"> 
+                                                        <input type="text" v-model="product.quantity" class="mx-1 block appearance-none w-full  text-gray-700 py-2 px-3 pr-5 rounded leading-tight focus:outline-none bg-white text-center"> 
                                                     </td>
                                                     <td>
                                                         <div v-for="(dis,index) in itemDiscounts" :key="index">
                                                             <span v-if="product.variant.id == dis.variant_id">
 
-                                                                            <select v-model="product.discount_promotion" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
+                                                                            <select v-model="product.discount_promotion" class="mx-1 block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                                                 <option :value="0"> 0 %</option>
                                                                                 <option :value="dis.rate">{{dis.rate}} %</option>
                                                                             </select>
@@ -320,7 +320,7 @@
                                                     <td>                             
                                                                     <div  v-for="(u,index) in units" :key="index">
                                                                     <span v-if="u.product_id == product.variant.product_id">
-                                                                        <select v-model="product.sell_unit" class=" rounded-md w-3/6 bg-slate-300  px-2 py-2 mx-auto block">
+                                                                        <select v-model="product.sell_unit" class=" rounded-md w-3/6 bg-white px-2 py-2 mx-auto block">
                                                                                                         <option  :value="u.id">
                                                                                                                 {{u.unit}}
                                                                                                         </option>
@@ -356,7 +356,7 @@
                                                             <div v-if="cartDis.min_amount < getTotal && cartDis.max_amount > getTotal">
                                                             
                                                                     
-                                                                        <select v-model="invoice.discount"  class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white">
+                                                                        <select v-model="invoice.discount" class=" rounded-md w-3/6 bg-gray-50  px-2 py-2 mx-auto block">
                                                                             <option value="0"> None </option>
                                                                             <option :value="cartDis.rate">{{cartDis.rate}} %</option>
                                                                         </select>
@@ -372,14 +372,14 @@
                                                 <tr>
                                                     <td colspan="5" class=" text-right my-3"> Tax </td>
                                                     <td colspan="2" class="text-center"> 
-                                                        <select name="" id="" v-model=" invoice.tax_rate" class=" block appearance-none w-full  text-gray-700 mx-3 px-2 py-3 rounded leading-tight focus:outline-none bg-gray-300">
+                                                        <select name="" id="" v-model=" invoice.tax_rate" class=" rounded-md w-3/6 bg-gray-50  px-2 py-2 mx-auto block">
                                                             <option v-for="t in taxes" :key="t.id" :value="t.rate"> {{t.name}} </option>
                                                         </select>
                                                             <p>  {{addTax}} </p>
                                                     
                                                     </td>
                                                 </tr>
-                                                <tr class=" my-5 font-semibold">
+                                                <tr class="text-lg font-thin">
                                                     <td colspan="5" class=" text-right"> Grand Total</td>
                                                     <td colspan="2" class="text-center">{{ addTotal }}</td>
                                                 </tr>
@@ -390,17 +390,14 @@
 
             <!-------------------- customer data ----------------------------------------->
             <div class="flex justify-center items-center">
-                    <ion-card class=" w-full rounded-lg mx-3 my-4  px-2 py-3 bg-gradient-to-t from-sky-300 to to-blue-50">
+                    <ion-card class=" w-full rounded-lg mx-3 my-4  px-2 py-3 bg-gradient-to-t from-sky-200 to to-lime-50">
                         <ion-card-header>
-                            <ion-card-title>
-                            <h3 class=" font-semibold text-gray-800"> Update Customer Data </h3>
-                            
-                            </ion-card-title>
                             <ion-searchbar debounce="500" v-model="search" @input="filterCustomer" autocomplete="off" placeholder="search customer ..."></ion-searchbar>
-                
+                             <ion-list v-if="!(search == '')">
                             <ion-item v-for="data in filteredCustomer" class=" my-2 rounded" :key="data.id" @click="addData(data)">
                                     <ion-label :value="data"> {{data.name}}</ion-label>
                             </ion-item> 
+                            </ion-list>
                         </ion-card-header>
 
                         <ion-card-content>
@@ -437,7 +434,7 @@
                     
                             <div class="flex justify-center items-center">
 
-                                <div class=" px-3 py-2 rounded-xl w-9/12 mt-2 bg-white">
+                                <div class=" px-3 py-2 rounded-xl w-full mt-2 bg-white">
                                     <ion-card-title>
                                     <h4 class="font-bold text-gray-800"> Add On </h4>
                                     </ion-card-title>
@@ -449,7 +446,7 @@
                                         <ion-item>
                                         <ion-label> Select Payment Method </ion-label>
                                         <ion-select v-model="invoice.payment_method">
-                                            <ion-select-option value="Cash"> Cash</ion-select-option>
+                                            <ion-select-option v-for="(p,index) in payment_method" :key="index" :value="p"> {{p}}</ion-select-option>
                                         </ion-select>
                                     </ion-item>
 
@@ -493,7 +490,7 @@
 </template>
 <script>
 import { IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, IonInput,
-        IonSelect, IonSelectOption, IonSearchbar,IonTitle, IonIcon ,modalController} from '@ionic/vue'
+        IonSelect, IonSelectOption, IonSearchbar,IonTitle, IonIcon, IonList,modalController} from '@ionic/vue'
 import { closeCircleOutline, storefrontOutline, phonePortraitOutline, callOutline, mailOpenOutline, locateOutline,
             globeOutline, sendOutline} from 'ionicons/icons';
 import axios from 'axios'
@@ -506,7 +503,7 @@ import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator';
 export default {
     components:{
         IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, IonSearchbar, IonSelect, IonSelectOption,
-        IonTitle, IonInput, IonIcon,
+        IonTitle, IonInput, IonIcon, IonList,
         Loader
     },
 
@@ -626,6 +623,7 @@ export default {
                 },
             });
             this.Data();
+            this.detail();
              //window.location.reload();
              //this.detail();
             //console.log(response)
@@ -662,7 +660,7 @@ export default {
              
                 });
                     this.posting = false ;
-                    window.location.reload();
+                    //window.location.reload();
                     this.Data();
                     this.detail();
                   
@@ -754,3 +752,11 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+        
+     ion-searchbar{
+        --border-radius:30px;
+
+    }
+</style>

@@ -3,18 +3,18 @@
      <ion-content v-if="loading">
             <Loader/>
      </ion-content>
-        <div v-else>
+        <div v-else class=" bg-gradient-to-t from-sky-100 to to-lime-50">
            
             
 
 
             <!------------------  visiable data  ---------------->
 
-            <div v-if="visible" class=" mb-20">
+            <div v-if="visible" class=" mb-14 pb-3">
                 <ion-searchbar debounce="500" v-model="search" placeholder=" search customers ..." animated />  
                
                
-                    <ion-card v-for=" cus in filterCustomers" :key="cus.id" class=" my-3">
+                    <ion-card v-for=" cus in filterCustomers" :key="cus.id" class=" mt-6">
                         <ion-card-header class=" text-center border-b-2 border-gray-200 bg-slate-50">
                             <ion-avatar class=" mx-auto block">
                                  <ion-icon :icon="person" class="text-sky-900/75 text-3xl"></ion-icon>
@@ -27,7 +27,7 @@
                             
                            
                         </ion-card-header>
-                        <ion-card-content class=" text-center text-white bg-sky-900/60">
+                        <ion-card-content class=" text-center text-white bg-emerald-400/60">
                            
                                 <ion-grid>
                                     <ion-row>
@@ -52,11 +52,11 @@
             
             </div>
 
-            <div v-if="! visible" class="flex justify-center items-center h-screen mb-20">
+            <div v-if="! visible" class="flex justify-center items-center h-screen">
                 
                     <ion-content class="ion-padding" > 
                             <form @submit.prevent="submit">
-                                <ion-item>
+                                <ion-item class="  bg-gradient-to-t from-sky-200 to to-lime-50">
                                     <ion-label position="floating"> Enter Name </ion-label>
                                     <ion-input type="text" v-model="form.name" required="required"></ion-input>
                                 </ion-item>
@@ -236,7 +236,11 @@ export default {
        
         async getData(){
             this.loading = true
-            await axios.get(`mobile_invoice/create`)
+            await axios.get(`mobile_invoice/create` ,{ 
+                         headers: {
+                                    'Authorization': "Bearer" + localStorage.getItem('token'),
+                                    },
+                                    })
                         .then( res => {
                                 this.company = res.data.companies;
                                 this.zone = res.data.zone;

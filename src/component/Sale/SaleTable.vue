@@ -33,7 +33,7 @@
            
             <div class=" mt-32">
             <ion-grid class=" w-full">
-                <ion-row class="ion-text-center tableHead text-sm">
+                <ion-row class="ion-text-center bg-emerald-300/60 text-sm">
                     <ion-col> Name </ion-col>
                     <ion-col> Unit </ion-col> 
                     <ion-col> Price </ion-col>
@@ -43,7 +43,7 @@
                     <!-- <ion-col> Sub Total </ion-col> -->
                     <ion-col> Remove </ion-col>
                 </ion-row> 
-                <ion-row v-for="product in cartItems" :key="product.id" class="ion-text-center cell">
+                <ion-row v-for="product in cartItems" :key="product.id" class="ion-text-center bg-sky-50">
                   
                         <ion-col> 
                             <ion-input v-model="product.product_name" readonly="readonly" class="text-sm"></ion-input>
@@ -59,7 +59,7 @@
                                     
                                         <div>
                                             <!-- <label for=""> Unit </label> -->
-                                            <select v-model="product.unitId" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
+                                            <select v-model="product.unitId" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                 <option v-for="u in product.unit" :key="u.id" :value="u.id">{{u.unit}}</option>
                                             </select>
                                         </div>
@@ -79,7 +79,7 @@
                                                              <ion-select-option :value="p.price">{{p.price}}</ion-select-option>
                                                         </ion-select> -->
                                                       <!-- <label for=""> Price </label> -->
-                                                        <select v-model="product.price" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
+                                                        <select v-model="product.price" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                             <option :value="p.price">{{p.price}}</option>
                                                         </select>
                                                         
@@ -88,7 +88,7 @@
                                                         <span v-if="p.min <= product.quantity && ( p.max >= product.quantity || p.max == null ) "> 
                                                                 <!-- <input type="text"  :value= "p.price" > -->
                                                                <!-- <label for=""> Price </label> -->
-                                                                <select v-model="product.price" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
+                                                                <select v-model="product.price" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                                    <!-- <option value=""> Select</option> -->
                                                                     <option :value="p.price">{{p.price}}</option>
                                                                 </select>
@@ -105,7 +105,7 @@
                        
                         <ion-col> 
                           
-                            <ion-input v-model="product.quantity" class=" bg-slate-300 text-sm"></ion-input>
+                            <ion-input v-model="product.quantity" class=" bg-white text-sm"></ion-input>
                           
                         </ion-col>
                          <ion-col>
@@ -116,7 +116,7 @@
                                             <ion-select-option :value="dis.rate">{{dis.rate}} %</ion-select-option>
                                      </ion-select> -->
                                             <!-- <label for=""> Discount </label> -->
-                                                        <select v-model="product.discount" class="block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
+                                                        <select v-model="product.discount" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                             <option :value="dis.rate">{{dis.rate}} %</option>
                                                         </select>
                                 </span>
@@ -182,7 +182,7 @@
 
                 <div v-for="cartDis in cartDiscounts" :key="cartDis.id">
                     <div v-if="cartDis.min_amount < getTotal && cartDis.max_amount > getTotal">
-                          <ion-row class="cell text-sm">
+                          <ion-row class="text-sm">
                             <ion-col offset-4 class="ion-text-end"> Discount </ion-col>
                             <ion-col class="ion-align-self-center"> 
                                 <ion-label> Select Discount Amount</ion-label>
@@ -207,7 +207,7 @@
                     <ion-col class=""> 
                             
                                 
-                                <select name="" id="" v-model="tax" class=" rounded-md w-3/6 bg-slate-300  px-2 py-2 mx-auto block">
+                                <select name="" id="" v-model="tax" class=" rounded-md w-3/6 bg-gray-50  px-2 py-2 mx-auto block">
                                     <option v-for="(t,index) in taxes" :key="index" :value="t.rate"> {{t.name}} </option>
                                 </select>
                             
@@ -217,7 +217,7 @@
                     </ion-col>
                 </ion-row>
 
-                <ion-row class="cell text-sm">
+                <ion-row class="text-sm">
                     <ion-col offset-4 class="ion-text-end"> Deli </ion-col>
                     <ion-col class="ion-text-center"> <ion-input v-model="saleData.deli" class="bg-white rounded-md w-3/6 px-2 py-2 mx-auto block"></ion-input></ion-col>
                 </ion-row>
@@ -227,21 +227,26 @@
                     <ion-col class="ion-text-center"> {{ addTotal }}</ion-col>
                 </ion-row>
 
+                
             </ion-grid>
+                <div class=" mt-4 text-right">
+                    
+                        <ion-button color="danger" shape="round" 
+                       size="" name="star" @click="clearCart()" class="mx-2"> 
+                                            Remove items
+                        </ion-button>
+                    
 
-            <ion-item class="my-8">
-                 
-                <ion-button expand="block" color="danger" shape="round" 
-                 slot="end" size="" name="star" @click="clearCart()"> 
-                                    Remove items
-                </ion-button>
-                      
-        
-                <ion-button  expand="block" color="secondary" shape="round" 
-                 slot="end" size="" name="star" @click="hide()"> 
-                    Continue
-                 </ion-button>
-            </ion-item>
+                    
+                            <ion-button color="secondary" shape="round" 
+                             size="" name="star" @click="hide()" class="mx-2"> 
+                                Continue
+                            </ion-button>
+                   
+                </div>
+
+
+            
             </div>
 
   
@@ -254,19 +259,17 @@
             <!----------------------- customer filed start ------------------->
            <ion-content v-if="visiable">
             <div class="flex justify-center items-center">
-                 <ion-card class=" w-full rounded-lg mx-3 my-4  px-2 py-3 bg-gradient-to-t from-sky-200 to to-lime-50">
+                 <ion-card class=" w-full rounded-lg mx-1 my-2  px-2 py-3 bg-gradient-to-t from-sky-200 to to-lime-50">
                     <ion-card-header>
-                        <div class=" text-left">
-                               <ion-button shape="round"  size="small"  @click="show"> <ion-icon :icon="returnUpBack"></ion-icon> <small class="mx-2">Sales</small> </ion-button>
-                           </div>
-
-                        <ion-card-title>
+                      
+                        <ion-card-title class=" flex justify-between">
                          
-                           <div class=" text-right my-3">
+                          
+                                <ion-button @click="show" color="secondary" shape="round"> Sale Page </ion-button>
                                <ion-chip shape="round" color="success" @click="openModal"> 
                                     <ion-icon :icon="personAddOutline"></ion-icon>
                                </ion-chip>
-                           </div>
+                           
                         </ion-card-title>
                         <ion-searchbar debounce="500" v-model="search" @input="filterCustomer" autocomplete="off" placeholder="search customer ..."></ion-searchbar>
                         <ion-list v-if="!(search == '')">
@@ -310,23 +313,21 @@
                  
                         <div class="flex justify-center items-center">
 
-                            <div class=" px-3 py-2 rounded-xl w-9/12 mt-2 bg-white">
+                            <div class=" px-3 py-2 rounded-xl w-full mt-2 bg-white">
                                 <ion-card-title>
                                    <h4 class="font-bold text-gray-800"> Add On </h4>
                                 </ion-card-title>
-                                <ion-item>
-                                     
+                                <ion-item>     
                                 <!-- <ion-datetime v-model="saleData.inv_date"> </ion-datetime> -->
-                                     <div>
+                                    
                                         <ion-label> Invoice Date </ion-label>
                                          <input type="date" v-model="saleData.inv_date" class=" bg-slate-50 mx-2 px-3 py-2 rounded" placeholder="invoice date" />
-                                    </div>
-                                    
-                                    <div>
+           
+                                </ion-item>
+
+                                <ion-item>
                                         <ion-label> Due Date </ion-label>
                                          <input type="date" v-model="saleData.due_date" class=" bg-slate-50 mx-2 px-3 py-2 rounded" placeholder=" due date"/>
-                                    </div>
-
                                 </ion-item>
                                 <ion-item>
                                         <ion-label position="floating"> Add Title </ion-label>
