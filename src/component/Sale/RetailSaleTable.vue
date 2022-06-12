@@ -297,6 +297,7 @@
                         </ion-card-title>
                        
                              <ion-searchbar debounce="500" v-model="search" @input="filterCustomer" autocomplete="off" placeholder="search customer ..."></ion-searchbar>
+                            <small v-if="! saleData.customer_id" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Customer Name</small>
                         <ion-list v-if="!(search == '')">
                              <ion-item v-for="data in filteredCustomer" class=" my-2 rounded" :key="data.id" @click="addData(data)">
                                     <ion-label :value="data"> {{data.name}}</ion-label>
@@ -309,22 +310,21 @@
                          <div class="flex justify-center items-center">
                                
                             <div class=" px-3 py-2 rounded-xl w-full mt-2 bg-white">
-                                  <ion-item>
-                                        <ion-label position="floating"> Add Title </ion-label>
-                                        <ion-input input="text" v-model="saleData.customer_title"></ion-input>
-                                    </ion-item>
+                                  
 
                                 <div class="my-4">
                                       <h4 class="font-bold text-gray-800"> Customer Infomation </h4>
                                 </div>
                            <ion-item class="my-2 mx-3 rounded-lg ring ring-sky-100">
-                             <ion-label position="floating"> Add Customer Name </ion-label>
-                            <ion-input input="text" v-model="saleData.customer_name"></ion-input>
+                             <ion-label position="">Customer Name </ion-label>
+                            <!-- <ion-input input="text" v-model="saleData.customer_name"></ion-input> -->
+                            <ion-text> <h4>{{ saleData.customer_name }}</h4></ion-text>
                         </ion-item>
 
                         <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100"> 
-                             <ion-label position="floating"> Add Customer Email </ion-label>
-                            <ion-input input="text" v-model="saleData.customer_email"></ion-input>
+                             <ion-label> Customer Email </ion-label>
+                            <!-- <ion-input input="text" v-model="saleData.customer_email"></ion-input> -->
+                            <ion-text> <h4> {{saleData.customer_email }}</h4> </ion-text>
                         </ion-item>
 
                         <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100">
@@ -335,11 +335,13 @@
                         <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100">
                              <ion-label position="floating"> Add Customer Address </ion-label>
                             <ion-input input="text" v-model="saleData.customer_address"></ion-input>
+                             <small v-if="! saleData.customer_address" class=" text-sm text-ellipsis text-red-800 font-bold">Customer Address Require</small>
                         </ion-item>
 
                         <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100">
                             <ion-label position="floating"> Add Shipping Address </ion-label>
                             <ion-input input="text" v-model="saleData.customer_shipping"></ion-input>
+                            <small v-if="! saleData.customer_shipping" class=" text-sm text-ellipsis text-red-800 font-bold"> Shipping Address Require </small>
                         </ion-item>
 
                             <ion-item class="my-2 mx-3 rounded-lg ring-1 ring-sky-100">
@@ -354,6 +356,13 @@
                                     </div>
                                   
                                 </ion-card-title>
+
+                                <ion-item>
+                                        <ion-label position="floating"> Add Title </ion-label>
+                                        <ion-input input="text" v-model="saleData.customer_title"></ion-input>
+                                          <small v-if="! saleData.customer_title" class=" text-sm text-ellipsis text-red-800 font-bold">Title Require</small>
+                                    </ion-item>
+
                                 <ion-item class="">
                                    
                                   
@@ -371,6 +380,7 @@
                                     <ion-select v-model="saleData.payment_method">
                                         <ion-select-option v-for="(p,index) in payments" :key="index" :value="p"> {{p}}</ion-select-option>
                                     </ion-select>
+                                     <small v-if="! saleData.payment_method" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Payment Method</small>
                                 </ion-item>
 
                                 <ion-item>
@@ -379,6 +389,7 @@
                                         <ion-select-option value="General Invoice"> General Invoice</ion-select-option>
                                         <ion-select-option value=" Cash On Delivery"> Cash On Delivery</ion-select-option>
                                     </ion-select>
+                                     <small v-if="! saleData.invoice_type" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Invoice Type</small>
                                 </ion-item>
 
                                 <ion-item>
@@ -386,6 +397,7 @@
                                     <ion-select v-model="zone_id">
                                         <ion-select-option v-for="z in zones" :key="z.id" :value="z.id"> {{z.name}}</ion-select-option>
                                     </ion-select>
+                                     <small v-if="! zone_id" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Sale Zone</small>
                                 </ion-item>
                             </div>
                         </div>

@@ -19,6 +19,9 @@ axios.interceptors.response.use(undefined, function (error) {
           localStorage.removeItem('token');
           return router.push('/login')
       }
+      if(error.response.status === 422){
+        return window.alert("Need To Fill Require Data");
+      }
     }
  })
 

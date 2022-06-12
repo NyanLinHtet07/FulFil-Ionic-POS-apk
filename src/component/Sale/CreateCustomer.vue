@@ -1,5 +1,8 @@
 <template>
-    <ion-header>
+    <div v-if="loading">
+        <Loader/>
+    </div>
+    <ion-header v-else>
         <ion-toolbar>
         <ion-title> Create New Customer</ion-title>
         </ion-toolbar>
@@ -9,23 +12,28 @@
             <ion-item>
                 <ion-label position="floating"> Enter Name </ion-label>
                  <ion-input type="text" v-model="form.name"></ion-input>
+                 <small v-if="! form.name" class=" text-sm text-ellipsis text-red-800 font-bold">Customer Name Require</small>
+
             </ion-item>
        
             <ion-item>
                 <ion-label position="floating"> Enter Email</ion-label>
                 <ion-input type="text" v-model="form.email"></ion-input>
+                <small v-if="! form.email" class=" text-sm text-ellipsis text-red-800 font-bold">Customer Email Require</small>
             </ion-item>
         
         <ion-item>
-            <ion-label> Select Company</ion-label>
+            <ion-label> Select Shop</ion-label>
             <ion-select v-model="form.company_id">
                 <ion-select-option v-for="c in company" :key="c.id" :value=c.id> {{c.name}}</ion-select-option>
             </ion-select> 
+            <small v-if="! form.company_id" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Shop</small>
         </ion-item>
        
        <ion-item>
            <ion-label position="floating"> Enter Phone Number</ion-label>
             <ion-input type="text" v-model="form.phone"></ion-input>
+            <small v-if="! form.phone" class=" text-sm text-ellipsis text-red-800 font-bold">Customer Phone Number Require</small>
        </ion-item>
       
       <ion-item>
@@ -33,6 +41,7 @@
             <ion-select v-model="form.customer_type">
                 <ion-select-option value="customer"> Customer </ion-select-option>
             </ion-select>
+             <small v-if="! form.customer_type" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Type</small>
       </ion-item>
 
       <ion-item>
@@ -41,6 +50,7 @@
                 <ion-select-option value="male"> Male </ion-select-option>
                  <ion-select-option value="female"> Female </ion-select-option>
             </ion-select>
+             <small v-if="! form.gender" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Gender</small>
       </ion-item>
 
       <ion-item>
@@ -49,6 +59,7 @@
                 <ion-select-option v-for="z in zone" :key="z.id" :value=z.id> {{z.name}} </ion-select-option>
                 
             </ion-select>
+             <small v-if="! form.zone_id" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Zone</small>
       </ion-item>
 
      
@@ -63,6 +74,7 @@
                 <ion-select-option v-for="r in region" :key="r.id" :value="r.id"> {{r.name}} </ion-select-option>
                 
             </ion-select>
+             <small v-if="! form.region_id" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Region</small>
       </ion-item>
 
      
@@ -87,6 +99,7 @@
  import { IonContent, IonHeader, IonTitle, IonToolbar, IonInput, IonSelect, IonSelectOption, IonItem, IonLabel,
          IonButton, IonSpinner, modalController } from '@ionic/vue';
 import axios from 'axios';
+import Loader from '../LoaderComponent.vue'
 export default {
     //props:['close'],
 
@@ -98,6 +111,7 @@ export default {
 
     data() {
         return {
+            loading: false,
             posting: false,
             form:{
                 name:'',
@@ -113,6 +127,7 @@ export default {
             company:[],
             zone:[],
             region:[],
+            errors:[],
 
             
         }
@@ -122,7 +137,7 @@ export default {
 
     components:{
         IonContent, IonHeader, IonTitle, IonToolbar, IonInput, IonSelect, IonSelectOption, IonItem, IonLabel,
-         IonButton, IonSpinner
+         IonButton, IonSpinner, Loader
     },
  
     methods:{
@@ -152,12 +167,18 @@ export default {
          },
 
         async getData(){
-            await axios.get(`mobile_invoice/create`)
+             this.loading = true
+            await axios.get(`mobile_invoice/create` , {
+            headers: {
+                'Authorization': "Bearer" + localStorage.getItem('token'),
+            },
+            })
                         .then( res => {
                                 this.company = res.data.companies;
                                 this.zone = res.data.zone;
                                 this.region = res.data.region;
                         })
+                        .finally(() => this.loading = false)
         },
 
        async submit(){
@@ -175,10 +196,13 @@ export default {
             headers: {
                 'Authorization': "Bearer" + localStorage.getItem('token'),
             },
-            });
-            this.reset();
-            this.closeModal();
-            this.posting = false;
+            })
+            .then((response) => {
+                     this.reset();
+                    this.closeModal();
+                    this.posting = false;
+                    console.log(response.data);
+                })
 
             //console.log(response)
         } 
