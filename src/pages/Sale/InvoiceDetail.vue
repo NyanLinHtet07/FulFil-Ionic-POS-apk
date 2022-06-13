@@ -22,11 +22,14 @@
                     </div>
                     
                     <ion-button color="medium" shape="round"> Stock Out </ion-button>
-                    <ion-button @click="print()" color="success" shape="round"> print </ion-button>
+                   
 
                     <ion-button @click="destroy()" shape="round" color="danger"> Cancel </ion-button>
-
+                      <ion-button @click="print()" color="success" shape="round"> print </ion-button>
                 </ion-item>
+               
+                   
+            
                 
                 <div class=" bg-white rounded-md shadow-md px-3 py-6 mx-3" v-if="! visible" id="print-wrapper">
                             <div class=" flex justify-between mb-5">
@@ -73,12 +76,7 @@
                                            
 
                                     </div>
-                                    <!-- <div class=" font-semibold py-2">
-                                    </div> -->
-
-
-                                           
-                                        
+                
                                         </div>
 
                                     </div>
@@ -208,6 +206,144 @@
                             </tfoot>
                         </table>
                     </div>
+                </div>
+
+                <div v-if="!disable"
+                    style="max-width: 800px;margin: auto;padding: 30px;border: 1px solid #eee;box-shadow: 0 0 10px rgba(0, 0, 0, .15);font-size: 16px;line-height: 24px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #555;">
+                    <table cellpadding="0" cellspacing="0" style="width: 100%;line-height: inherit;text-align: left;">
+                        <tr>
+                            <td colspan="6" style="padding: 5px;vertical-align: top;">
+                            <table style="width:100%;line-height: inherit;text-align: left; border:none;">
+                                <tr>
+                                <td 
+                                    style="padding: 5px;vertical-align: top;padding-bottom: 20px;font-size: 45px;line-height: 45px;color: #333; border:none">
+                                    <img :src= "`https://fulfilmm.com/img/profiles/` + company.logo">
+                                </td>
+
+                                <td style="padding: 5px;vertical-align: top;text-align: right;padding-bottom: 20px; font-weight:bold; font-size:small;">
+                                    {{company.name}} <br>
+                                    {{company.phone}} <br>
+                                    {{company.mobile_phone}} <br>
+                                     {{company.fax}} <br>
+                                    {{company.email}} <br>
+                                    {{company.web_link}} <br>
+                                    {{company.address}}
+                                </td>
+                                </tr>
+                            </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="6" style="padding: 5px;vertical-align: top;">
+                            <table style="width: 100%;line-height: inherit;text-align: left; border:none; ">
+                                <tr>
+                                <td style="padding: 5px;vertical-align: top;padding-bottom: 40px; font-weight:bold; font-size:small;">
+                                     Name - {{cus.name}}<br>
+                                     Phone.No -  {{cus.phone}} <br>
+                                     Email -  {{invoice.email}}<br>
+                                     Address -  {{invoice.customer_address}} <br>
+                                     Billing - {{invoice.billing_address}} <br>
+                                     Invoice Date -  {{moment(invoice.invoice_date).format("MMM Do YYYY")}}<br>
+                                     Due Data -   {{moment(invoice.due_date).format("MMM Do YYYY")}} 
+                                </td>
+                               
+                                  
+                              
+                              
+                                </tr>
+                            </table>
+                            </td>
+                        </tr>
+
+                       
+
+                        <tr>
+                           <th> Name </th>
+                                <th> Unit </th> 
+                                <th> Price </th>
+                                <th> Quantity  </th>
+                                <th> Discount </th>
+                                <th> Total </th>
+                        </tr>
+
+                        
+
+                       <tbody v-for="product in items" :key="product.id">
+                                <tr v-if="product.foc == 0 ">
+                                
+                                    <td class="py-3"> {{ product.variant.product_name }}</td>
+                                    <!-- <td class="py-3">                             
+                                                        <div v-for="u in units" :key="u.id">
+                                                            <span v-if="u.id == product.sell_unit">{{u.unit}}</span>
+                                                        </div>
+                                    </td> -->
+                                    <td class="py-3">
+                                        {{product.unit.unit}}
+                                    </td>
+                                    <td class="py-3">
+                                        {{product.unit_price}}
+                                    </td>
+
+                                    <td class="py-3">                           
+                                        {{ product.quantity}} 
+                                    </td>
+                                    <td class="py-3">
+                                        {{product.discount_promotion}} %
+                                    </td>
+                                    <!-- <td class="py-3">
+                                        {{product.unit_price * product.quantity}}
+                                    </td> -->
+                                    <td class="py-3">
+                                    {{product.total}}
+                                    </td>
+                                
+                                </tr>
+
+                                
+                                <tr  v-if="product.foc == 1">
+                                
+                                    <td class="py-3"> {{ product.variant.product_name }}</td>
+                                    <td>                             
+                                                        <div v-for="u in units" :key="u.id">
+                                                            <span v-if="u.id == product.sell_unit">{{u.unit}}</span>
+                                                        </div>
+                                    </td>
+                                    <td>
+                                        Foc Item
+                                    </td>
+
+                                    <td>                           
+                                        {{ product.quantity}} 
+                                    </td>
+                                    <td colspan="3">
+                                        {{product.description}}
+                                    </td>
+                                </tr>
+                            
+                            </tbody>
+                            <tfoot style=" text-align:right;">
+                                <tr>
+                                    <td colspan="4"> Total </td>
+                                    <td colspan="3"> {{ invoice.total}}</td>
+                                </tr>
+
+                                <tr class=" my-2">
+                                    <td colspan="4"> Discount </td>
+                                    <td colspan="3"> {{ invoice.discount}}</td>
+                                </tr>
+
+                                <tr class="my-2">
+                                    <td colspan="4"> Tax </td>
+                                    <td colspan="3"> {{ invoice.tax_rate}} %</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"> Grand Total</td>
+                                    <td colspan="3">{{ invoice.grand_total }}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    
                 </div>
                
 
@@ -515,6 +651,7 @@ export default {
 
     data(){
         return{
+            disable: true,
             posting:false,
             loading:false,
             visible:false,
@@ -559,7 +696,7 @@ export default {
                     payment_method : this.payment_method,
                     allData : this.Data(),
                 },
-            });
+            }); 
 
             return modal.present();
         },
@@ -688,7 +825,7 @@ export default {
                     let options = {
                     documentSize: 'A4',
                     type: 'share',
-                    // landscape: 'portrait',
+                    landscape: 'portrait',
                     fileName: 'Invoice.pdf'
                     };
                     this.pdfGenerator.fromData(this.content, options)

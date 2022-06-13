@@ -256,7 +256,7 @@ export default {
             this.reset();
             this.closeModal();
             this.posting = false;
-            this.allData;
+            
             //console.log(response);
         }
 
