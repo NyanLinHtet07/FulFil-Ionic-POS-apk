@@ -11,7 +11,7 @@
                             <ion-text>{{invoice.title}}</ion-text>
                         </ion-item>
                     
-                        <ion-item>
+                        <ion-item> 
 
                               <ion-label> Date </ion-label>
 
@@ -35,6 +35,7 @@
                             <ion-select name="" id="" v-model="form.currency" class="block appearance-none text-gray-700 py-1 px-2 pr-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                                 <ion-select-option value="MMK" selected> MMK</ion-select-option>
                             </ion-select>
+                             <small v-if="! form.currency" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Currency</small>
                         </ion-item>
 
                         <ion-item>
@@ -43,6 +44,7 @@
                                 <ion-select-option value="on"> On</ion-select-option>
                                 <ion-select-option value=""> off</ion-select-option>
                             </ion-select>
+                             <!-- <small v-if="! form.advance" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select advance</small> -->
 
                             <!-- <ion-text v-if=" ! visible"> {{ invoice.customer.advance_balance}}</ion-text> -->
                         </ion-item>
@@ -59,6 +61,7 @@
                                     {{method}}
                                 </ion-select-option>
                             </ion-select>
+                             <small v-if="! form.payment_method" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Payment Method</small>
                        </ion-item>
                        
                        <ion-item>
@@ -68,6 +71,7 @@
                                     {{cashier.name}}
                                 </ion-select-option>
                             </ion-select>
+                             <small v-if="! form.approver_id" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Cashier</small>
                        </ion-item>
                        
                         <ion-item>
@@ -77,6 +81,7 @@
                                     {{category.name}}
                                 </ion-select-option>
                             </ion-select>
+                             <small v-if="! form.category" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Category</small>
                         </ion-item>
 
                         <ion-item>
@@ -91,6 +96,7 @@
                         <ion-item>
                             <ion-label> Input File </ion-label>
                             <input type="file" ref="img" @change="onChangeFileUpload()" />
+                            <label class=" text-sm text-ellipsis text-red-800 font-bold"> you can upload files up to 2MB</label>
                         </ion-item>
                         
                         <div class="text-right my-2">
@@ -112,9 +118,10 @@
 <script>
 
 import { IonContent, IonTitle ,IonHeader, IonItem, IonLabel,  IonText , IonInput, IonButton,
-          IonSelect, IonSelectOption, modalController  } from '@ionic/vue'
+          IonSelect, IonSelectOption, modalController, alertController  } from '@ionic/vue'
 
 import axios from 'axios'
+import moment  from 'moment'
 //import Datepicker from '@vuepic/vue-datepicker';
 //import '@vuepic/vue-datepicker/dist/main.css'
 
@@ -139,9 +146,10 @@ export default {
             img:'',
             m:'',
             due_amt:'',
+            moment: moment,
 
             form:{
-                transaction_date:'',
+                transaction_date:moment().format('YYYY-MM-DD'),
                 attachmment:'',
                 category:'',
                 payment_method:'',
@@ -158,6 +166,20 @@ export default {
    
 
     methods: {
+         async presentAlert() {
+                const alert = await alertController
+                    .create({
+                    cssClass: 'my-custom-class',
+                    header: 'Success Message',
+                    //subHeader: 'Subtitle',
+                    message: 'Sucessfully, Data uploaded',
+                    buttons: ['OK'],
+                    });
+                await alert.present();
+
+                const { role } = await alert.onDidDismiss();
+                console.log('onDidDismiss resolved with role', role);
+                },
 
         reset(){
             this.form = {
@@ -230,9 +252,11 @@ export default {
                     }
                 }
             await axios.post(`revenues`, data, config);
+            //this.presentAlert();
             this.reset();
             this.closeModal();
             this.posting = false;
+            this.allData;
             //console.log(response);
         }
 
@@ -243,6 +267,6 @@ export default {
         this.amount();
     },
 
-    props:["invoice", "cashiers", "payment_category", "payment_method"]
+    props:["invoice", "cashiers", "payment_category", "payment_method", "allData"]
 }
 </script>

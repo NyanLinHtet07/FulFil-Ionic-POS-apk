@@ -4,11 +4,11 @@
                 <Loader/>
         </ion-content>
        <ion-content v-else>
-            
+              <ion-searchbar debounce="500" v-model="search" placeholder=" search invoice ..." animated /> 
                 <ion-list> 
                     
                     
-                    <ion-card v-for="record in posts" :key="record.id" class="my-4">
+                    <ion-card v-for="record in filteredInvoice" :key="record.id" class="my-4">
                         <ion-card-header class="text-white bg-emerald-400/60">
                             
                             <ion-card-title> <h4> Invoice Number - {{ record.invoice_id}} </h4></ion-card-title>
@@ -96,7 +96,7 @@
 </template>
 <script>
 import {  IonContent,
-         IonList ,IonLabel,IonText, IonGrid, IonRow, IonCol,
+         IonList ,IonLabel,IonText, IonGrid, IonRow, IonCol, IonSearchbar,
         IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent} from '@ionic/vue';
 
 import Loader from '../component/LoaderComponent.vue'
@@ -117,6 +117,7 @@ export default {
         IonRow, IonCol,
         IonButton,
         IonCard, IonCardHeader, IonCardSubtitle, IonCardContent, IonCardTitle,
+        IonSearchbar,
         Loader
        
         
@@ -127,6 +128,8 @@ export default {
           loading: false,
           retails:[],
           posts:[],
+
+          search:'',
         }
     },
 
@@ -153,6 +156,12 @@ export default {
         records(){
             return this.$store.state.saleDatas;
         },
+
+        filteredInvoice(){
+            return this.posts.filter((post) => {
+                return post.invoice_id.toLowerCase().match(this.search.toLowerCase())
+            })
+        }
 
          //...mapGetters(['sale.retail_product']),
     },
@@ -198,6 +207,8 @@ export default {
      ion-card{
         border-radius: 20px;
     }
-
+      ion-searchbar{
+        --border-radius:30px;
+    }
 
 </style>

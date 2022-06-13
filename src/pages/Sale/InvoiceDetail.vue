@@ -13,7 +13,7 @@
                 
                     <ion-button @click="openPayment()" class="mx-2" color="tertiary" shape="round"> Make Paymeny </ion-button>
                     
-                    <div v-if="invoice.mark_sent == 0">
+                    <div v-if="invoice.status == 'Draft' && invoice.mark_sent == 0">
                         <ion-button @click="edit()" v-if=" !visible"  color="secondary" shape="round"> Edit </ion-button>
                         <ion-button @click="detail()" v-if="visible" color="warning" shape="round"> Detail </ion-button>
                     </div>
@@ -556,7 +556,8 @@ export default {
                     invoice : this.invoice,
                     cashiers : this.cashiers,
                     payment_category : this.payment_category,
-                    payment_method : this.payment_method
+                    payment_method : this.payment_method,
+                    allData : this.Data(),
                 },
             });
 
