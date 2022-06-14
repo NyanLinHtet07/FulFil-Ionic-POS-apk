@@ -5,16 +5,19 @@
      </ion-content>
         <div v-else class=" bg-gradient-to-t from-sky-100 to to-lime-50">
            
-            
+            <div class=" flex justify-end px-2 py-2 fixed top-14 bg-white z-30 w-full">
+                <ion-chip color="medium" router-link="/wholesales"> Wholesales </ion-chip>
+                <ion-chip color="secondary" router-link="/retails"> Retails</ion-chip>
+            </div>
 
 
             <!------------------  visiable data  ---------------->
 
             <div v-if="visible" class=" mb-14 pb-3">
-                <ion-searchbar debounce="500" v-model="search" placeholder=" search customers ..." animated />  
-               
-               
-                    <ion-card v-for=" cus in filterCustomers" :key="cus.id" class=" mt-6">
+             
+                    <ion-searchbar debounce="500" v-model="search" placeholder=" search customers ..." animated class="fixed top-28 bg-white z-30 w-full"/> 
+             <div class=" mt-28">
+                  <ion-card v-for=" cus in filterCustomers" :key="cus.id" class="mt-6">
                         <ion-card-header class=" text-center border-b-2 border-gray-200 bg-slate-50">
                             <ion-avatar class=" mx-auto block">
                                  <ion-icon :icon="person" class="text-sky-900/75 text-3xl"></ion-icon>
@@ -46,13 +49,15 @@
                          
                         </ion-card-content>
                     </ion-card>
+             </div>
+                  
                
             
             
             
             </div>
 
-            <div v-if="! visible" class="flex justify-center items-center h-screen">
+            <div v-if="! visible" class="flex justify-center items-center h-screen mt-12">
                 
                     <ion-content class="ion-padding" > 
                             <form @submit.prevent="submit">
@@ -164,7 +169,7 @@
 </template>
 <script>
 import {IonAvatar,IonContent, IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonSegment, IonSegmentButton, IonSearchbar,
-         IonButton, IonSpinner, IonFooter, IonToolbar, IonIcon,
+         IonButton, IonSpinner, IonFooter, IonToolbar, IonIcon, IonChip,
          IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonText, IonGrid, IonRow, IonCol, alertController } from '@ionic/vue';
 
 import { personAddOutline, personOutline , person, mail, call} from 'ionicons/icons';
@@ -209,7 +214,7 @@ export default {
    
 
     components:{
-         IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonAvatar,
+         IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonAvatar, IonChip,
          IonButton, IonSpinner, Loader, IonContent, IonSegment, IonSegmentButton, IonFooter, IonToolbar, IonIcon,
          IonSearchbar, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonText, IonGrid, IonRow, IonCol
     },
@@ -327,8 +332,9 @@ export default {
 <style scoped>
       .top{
          position: fixed;
-         top: 10;
+         top: 30;
          background: white;
+        
       
     }
     ion-searchbar{

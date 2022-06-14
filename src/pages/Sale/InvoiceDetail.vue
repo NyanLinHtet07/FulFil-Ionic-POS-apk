@@ -11,7 +11,7 @@
                 <ion-item v-else>
                     <ion-button class="mx-2" @click="markSent()" :disabled="invoice.mark_sent == 1" shape="round"> Mark Send </ion-button>
                 
-                    <ion-button @click="openPayment()" class="mx-2" color="tertiary" shape="round"> Make Paymeny </ion-button>
+                    <ion-button @click="openPayment()" class="mx-2" color="tertiary" shape="round" :disabled=" invoice.due_amount == 0"> Make Paymeny </ion-button>
                     
                     <div v-if="invoice.status == 'Draft' && invoice.mark_sent == 0">
                         <ion-button @click="edit()" v-if=" !visible"  color="secondary" shape="round"> Edit </ion-button>

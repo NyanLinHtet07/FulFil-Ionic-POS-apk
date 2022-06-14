@@ -256,6 +256,7 @@ export default {
             this.reset();
             this.closeModal();
             this.posting = false;
+            window.location.reload();
             
             //console.log(response);
         }

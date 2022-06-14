@@ -4,7 +4,7 @@
                 <Loader/>
         </ion-content>
        <ion-content v-else>
-              <ion-searchbar debounce="500" v-model="search" placeholder=" search invoice ..." animated /> 
+              <ion-searchbar debounce="500" v-model="search" placeholder=" search invoice ..." animated class=" fixed top-11 bg-white z-20"/> 
                 <ion-list> 
                     
                     
@@ -193,7 +193,7 @@ export default {
 }
 </script>
 
-<style scope>
+<style scoped>
     .emptycart{
       margin-top: 60px;
     }
