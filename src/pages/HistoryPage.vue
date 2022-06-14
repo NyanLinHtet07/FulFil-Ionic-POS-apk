@@ -4,8 +4,8 @@
                 <Loader/>
         </ion-content>
        <ion-content v-else>
-              <ion-searchbar debounce="500" v-model="search" placeholder=" search invoice ..." animated class=" fixed top-11 bg-white z-20"/> 
-                <ion-list> 
+              <ion-searchbar debounce="500" v-model="search" placeholder=" search invoice ..." animated class=" fixed top-14 bg-white z-20"/> 
+                <ion-list class=" mt-20"> 
                     
                     
                     <ion-card v-for="record in filteredInvoice" :key="record.id" class="my-4">

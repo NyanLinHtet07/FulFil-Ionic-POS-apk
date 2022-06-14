@@ -179,7 +179,7 @@ export default {
             this.form = {
                 name:'',
                 email:'',
-                company_id:'',
+                company_id:'', 
                 phone:'',
                 customer_type:'',
                 gender:'',
