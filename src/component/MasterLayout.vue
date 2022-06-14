@@ -16,7 +16,10 @@
             </ion-refresher>
              <slot></slot>
                
-           
+            <!-- <div class=" z-40 fixed bottom-0 right-0 shadow-lg shadow-slate-100 mx-3 my-2 ">
+                <ion-button @click="rotate()"> rotate</ion-button>
+            </div> -->
+            
            
         </ion-content>
     </ion-page>
@@ -29,6 +32,8 @@ import {
     IonButtons, IonIcon, IonRefresher, IonRefresherContent,
     menuController
 } from '@ionic/vue';
+
+//import { ScreenOrientation} from '@awesome-cordova-plugins/screen-orientation'
 
 import { chevronDownCircleOutline } from 'ionicons/icons'
 
@@ -43,7 +48,8 @@ export default {
 
     data(){
         return {
-            menu
+            menu,
+           
         }
     },
 
@@ -61,9 +67,11 @@ export default {
         },
 
     methods: {
-        openMenu(){
+         openMenu(){
             menuController.open("app-menu");
-        }
-    }
+        },
+    },
+
+    
 }
 </script>

@@ -31,7 +31,7 @@
                    
             
                 
-                <div class=" bg-white rounded-md shadow-md px-3 py-6 mx-3" v-if="! visible" id="print-wrapper">
+                <div class=" bg-white rounded-md shadow-md px-3 py-6 mx-3" v-if="! visible">
                             <div class=" flex justify-between mb-5">
                                 <div>
                                      <img :src= "`https://fulfilmm.com/img/profiles/` + company.logo" class="" />
@@ -208,9 +208,10 @@
                     </div>
                 </div>
 
-                <div v-if="!disable"
+                <div class=" invisible">
+                <div  id="print-wrapper"
                     style="max-width: 800px;margin: auto;padding: 30px;border: 1px solid #eee;box-shadow: 0 0 10px rgba(0, 0, 0, .15);font-size: 16px;line-height: 24px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #555;">
-                    <table cellpadding="0" cellspacing="0" style="width: 100%;line-height: inherit;text-align: left;">
+                    <table cellpadding="0" cellspacing="0" style="width: 100%;line-height: inherit;text-align: left; border:none;">
                         <tr>
                             <td colspan="6" style="padding: 5px;vertical-align: top;">
                             <table style="width:100%;line-height: inherit;text-align: left; border:none;">
@@ -219,8 +220,22 @@
                                     style="padding: 5px;vertical-align: top;padding-bottom: 20px;font-size: 45px;line-height: 45px;color: #333; border:none">
                                     <img :src= "`https://fulfilmm.com/img/profiles/` + company.logo">
                                 </td>
+                               
+                              
+                               
+                                </tr>
+                            </table>
+                            </td>
+                             <td>
+                                     <h2 style=" font-size: bold; padding:10px">{{invoice.invoice_id}}</h2>
+                                </td>
+                        </tr>
 
-                                <td style="padding: 5px;vertical-align: top;text-align: right;padding-bottom: 20px; font-weight:bold; font-size:small;">
+                       
+                          
+                           
+                                <tr>
+                                     <td colspan="6" style="padding: 5px; vertical-align: top ;padding-bottom: 20px; font-weight:bold; font-size:small;">
                                     {{company.name}} <br>
                                     {{company.phone}} <br>
                                     {{company.mobile_phone}} <br>
@@ -228,17 +243,9 @@
                                     {{company.email}} <br>
                                     {{company.web_link}} <br>
                                     {{company.address}}
-                                </td>
-                                </tr>
-                            </table>
-                            </td>
-                        </tr>
+                                    </td>
 
-                        <tr>
-                            <td colspan="6" style="padding: 5px;vertical-align: top;">
-                            <table style="width: 100%;line-height: inherit;text-align: left; border:none; ">
-                                <tr>
-                                <td style="padding: 5px;vertical-align: top;padding-bottom: 40px; font-weight:bold; font-size:small;">
+                                      <td style="padding: 5px; vertical-align: top;padding-bottom: 40px; font-weight:bold; font-size:small;">
                                      Name - {{cus.name}}<br>
                                      Phone.No -  {{cus.phone}} <br>
                                      Email -  {{invoice.email}}<br>
@@ -246,30 +253,26 @@
                                      Billing - {{invoice.billing_address}} <br>
                                      Invoice Date -  {{moment(invoice.invoice_date).format("MMM Do YYYY")}}<br>
                                      Due Data -   {{moment(invoice.due_date).format("MMM Do YYYY")}} 
-                                </td>
-                               
-                                  
-                              
-                              
+                                     </td>
                                 </tr>
-                            </table>
-                            </td>
-                        </tr>
+                          
+                           
+                        
 
                        
 
                         <tr>
-                           <th> Name </th>
-                                <th> Unit </th> 
-                                <th> Price </th>
-                                <th> Quantity  </th>
-                                <th> Discount </th>
-                                <th> Total </th>
-                        </tr>
-
-                        
-
-                       <tbody v-for="product in items" :key="product.id">
+                            <td colspan="8">
+                                <table style="width:100%;line-height: inherit;text-align: left; border:none;">
+                                    <thead>
+                                         <th> Name </th>
+                                        <th> Unit </th> 
+                                        <th> Price </th>
+                                        <th> Quantity  </th>
+                                        <th> Discount </th>
+                                        <th> Total </th>
+                                    </thead>
+                                    <tbody v-for="product in items" :key="product.id">
                                 <tr v-if="product.foc == 0 ">
                                 
                                     <td class="py-3"> {{ product.variant.product_name }}</td>
@@ -342,8 +345,14 @@
                                     <td colspan="3">{{ invoice.grand_total }}</td>
                                 </tr>
                             </tfoot>
+                                   
+                                </table>
+                            </td>
+                           
+                        </tr>
                         </table>
                     
+                </div>
                 </div>
                
 
@@ -820,7 +829,7 @@ export default {
         },
 
          print(){
-           
+        //    this.disable = false; 
             this.content = document.getElementById('print-wrapper').innerHTML;
                     let options = {
                     documentSize: 'A4',
