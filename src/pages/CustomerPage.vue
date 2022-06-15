@@ -46,7 +46,7 @@
                                         </ion-col>
                                         <ion-col>
                                             <div>
-                                                <ion-text class="font-bold text-sm"> Customer Invoices </ion-text>   <br>   
+                                                <ion-text class="font-semibold text-sm"> Customer Invoices </ion-text>   <br>   
                                                 <ion-button :router-link="`/customers/invoices/${cus.id}`" color="light" shape="round" class=" text-lime-800 font-bold"> View </ion-button>
                                             </div>
                                         </ion-col>

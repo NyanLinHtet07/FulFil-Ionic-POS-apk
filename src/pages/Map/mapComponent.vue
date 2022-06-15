@@ -1,45 +1,34 @@
 <template>
     <master-layout pageTitle="Map">
-        <capacitor-google-map id="map">    
-        </capacitor-google-map>
+            
+             <capacitor-google-map id="map">    
+                </capacitor-google-map>
+      
+       <ion-button @click="createMap()"> Click</ion-button>
 
-        <button @click="createMap()"> Create Map</button>
     </master-layout>
 </template>
 <script>
 
 import { GoogleMap } from '@capacitor/google-maps'
+//import { CapacitorGoogleMaps } from '@capacitor-community/capacitor-googlemaps-native'
+import { IonButton } from '@ionic/vue'
 export default {
+    components:{
+        IonButton
+    },  
     methods:{
-        // async newMap(){
-        //     const apiKey ='AIzaSyCpxwLv8i7LHVxKVyAKaHFalzt_3B70wvw';
-
-        //     const mapRef = document.getElementById('map');
-
-        //     await GoogleMap.create({
-        //         id : 'my-map',
-        //         element: mapRef,
-        //         apiKey: apiKey,
-
-        //         config: {
-        //             center: {
-        //                 lat:33.6,
-        //                 lng: -117.9,
-        //             },
-
-        //             zoom: 8,
-        //         }
-        //     })
-        // }
+     
 
         async createMap(){
             const mapRef = document.getElementById('map');
 
-            const newMap = await GoogleMap.create({
+             await GoogleMap.create({
                 id:'my-map',
                 element: mapRef,
                 apiKey: 'AIzaSyCM0ZdauyzVy2mYk0SeH9SUGIeQwF045vM',
-
+                //apiKey: '0l4sCTTyRmXTNo7k8DREHvEaLar2UmHGwnhZVHQ', 
+                
                 config: {
                     center: {
                         lat: 33.6,
@@ -50,21 +39,21 @@ export default {
                 }
             })
 
-            console.log(newMap);
+            //console.log(newMap);
         }
     },
 
-    mounted() {
-        this.createMap()
-    },
+    // mounted() {
+    //     this.createMap()
+    // },
 }
 </script>
 
 <style>
     capacitor-google-map{
         display: inline-block;
-        width: 100%;
-        height: 100%;
+        width: 300px;
+        height: 400px;
     }
     
 </style>
