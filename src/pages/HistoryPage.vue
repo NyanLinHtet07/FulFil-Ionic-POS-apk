@@ -13,8 +13,8 @@
                             
                             <ion-card-title> <h4> Invoice Number - {{ record.invoice_id}} </h4></ion-card-title>
                            
-                            <ion-card-subtitle class=" text-gray-700">  Invoice Date - {{ record.invoice_date}}  </ion-card-subtitle>
-                            <ion-card-subtitle class=" text-gray-700">  Due Date - {{ record.due_date}}  </ion-card-subtitle>
+                            <ion-card-subtitle class=" text-gray-700">  Invoice Date - {{moment(record.invoice_date).format("MMM Do YYYY")}}  </ion-card-subtitle>
+                            <ion-card-subtitle class=" text-gray-700">  Due Date - {{moment(record.due_date).format("MMM Do YYYY")}}  </ion-card-subtitle>
                             <div class=" flex ion-justify-content-between">
                                  <ion-text class="text-gray-600 font-bold"> {{record.inv_type}} </ion-text> 
                                 <div>
@@ -80,7 +80,7 @@
                                Invoice Detail
                             </ion-button>
                             </div>
-                            
+                             
                         </ion-card-content>
 
                     </ion-card>
@@ -100,6 +100,7 @@ import {  IonContent,
         IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent} from '@ionic/vue';
 
 import Loader from '../component/LoaderComponent.vue'
+import moment from 'moment';
 
 // import {mapGetters} from 'vuex';
 
@@ -130,6 +131,7 @@ export default {
           posts:[],
 
           search:'',
+          moment: moment
         }
     },
 

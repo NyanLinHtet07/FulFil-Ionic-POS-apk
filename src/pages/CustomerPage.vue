@@ -30,7 +30,7 @@
                             
                            
                         </ion-card-header>
-                        <ion-card-content class=" text-center text-white bg-emerald-400/60">
+                        <ion-card-content class=" text-center text-white bg-emerald-400/80">
                            
                                 <ion-grid>
                                     <ion-row>
@@ -43,6 +43,12 @@
                                            <div> <ion-text class=" font-bold text-lg"> {{ cus.credit_limit }} </ion-text> </div>
                                             <ion-label>Credit Limit </ion-label>
 
+                                        </ion-col>
+                                        <ion-col>
+                                            <div>
+                                                <ion-text class="font-bold text-sm"> Customer Invoices </ion-text>   <br>   
+                                                <ion-button :router-link="`/customers/invoices/${cus.id}`" color="light" shape="round" class=" text-lime-800 font-bold"> View </ion-button>
+                                            </div>
                                         </ion-col>
                                     </ion-row>
                                 </ion-grid>
@@ -189,7 +195,7 @@ export default {
         return {
             loading: false,
             posting: false,
-            visible: false,
+            visible: true,
             form:{
                 name:'',
                 email:'',
@@ -288,7 +294,7 @@ export default {
         //                     this.customers = res.data.customer
         //                 })
         // },
-
+ 
        async submit(){
            this.posting = true;
              await axios.post(`api_customers`, {

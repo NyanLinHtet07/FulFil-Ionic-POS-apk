@@ -38,7 +38,7 @@ export default {
             const newMap = await GoogleMap.create({
                 id:'my-map',
                 element: mapRef,
-                apiKey: 'AIzaSyCpxwLv8i7LHVxKVyAKaHFalzt_3B70wvw',
+                apiKey: 'AIzaSyCM0ZdauyzVy2mYk0SeH9SUGIeQwF045vM',
 
                 config: {
                     center: {

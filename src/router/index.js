@@ -64,6 +64,12 @@ const routes = [
   },
 
   {
+    path:'/customers/invoices/:id',
+    name: 'customer.detail',
+    component:() => import('@/pages/CustomerInv.vue'),
+  },
+
+  {
     path:'/invoice-detail/:id',
     name: 'invoice.detail',
     component:() => import('@/pages/Sale/InvoiceDetail.vue'),

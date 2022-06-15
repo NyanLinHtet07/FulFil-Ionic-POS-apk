@@ -17,11 +17,11 @@
 </template>
 <script>
 
-import {IonPage, IonContent, IonHeader, IonButtons, IonBackButton, IonTitle} from '@ionic/vue'
+import {IonPage, IonContent, IonToolbar,IonHeader, IonButtons, IonBackButton, IonTitle} from '@ionic/vue'
 import Sale from '../../../component/Sale/SaleTable.vue'
 export default {
     components:{
-        IonPage, IonContent, Sale, 
+        IonPage, IonContent, Sale, IonToolbar,
         IonHeader, IonButtons, IonBackButton, IonTitle
     }     
 }
