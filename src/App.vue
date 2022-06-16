@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { IonApp, IonRouterOutlet,  IonButton } from '@ionic/vue';
+import { IonApp, IonRouterOutlet, IonButton} from '@ionic/vue';
 import { defineComponent } from 'vue';
 import Menu from './component/MenuSide.vue';
 import { ScreenOrientation} from '@awesome-cordova-plugins/screen-orientation'

@@ -1,55 +1,65 @@
 <template>
-       
+        <master-layout>
              <ion-content>
                  <capacitor-google-map id="map">    
                 </capacitor-google-map>
             </ion-content>
-        
-       
-        
-      
+        </master-layout>
+            
         <!-- <ion-button @click="createMap()"> Click</ion-button> -->
  
-    
-           
-       
-            
-            
-
    
 </template>
 <script>
 
 import { GoogleMap } from '@capacitor/google-maps'
-//import { CapacitorGoogleMaps } from '@capacitor-community/capacitor-googlemaps-native'
 import {IonContent } from '@ionic/vue'
 export default {
     components:{
      IonContent
     },  
+
+    data() {
+        return {
+            newMap:  GoogleMap,
+
+        }
+    },
     methods:{
      
 
         async createMap(){
-            const mapRef = document.getElementById('map');
-
-             await GoogleMap.create({
-                id:'my-map',
-                element: mapRef,
-                apiKey: 'AIzaSyCM0ZdauyzVy2mYk0SeH9SUGIeQwF045vM',
-                //apiKey: '0l4sCTTyRmXTNo7k8DREHvEaLar2UmHGwnhZVHQ', 
-                
-                config: {
-                    center: {
+                const mapRef = document.getElementById('map')
+                this.newMap = await GoogleMap.create({
+                    id: 'my-cool-map',
+                    element: mapRef,
+                    apiKey: 'AIzaSyCM0ZdauyzVy2mYk0SeH9SUGIeQwF045vM' ,
+                    config: {
+                        center: {
                         lat: 33.6,
                         lng: -117.9,
+                        },
+                        zoom: 8,
                     },
+                    });
+                //console.log(newMap)
 
-                    zoom:8
-                }
-            })
 
-            //console.log(newMap);
+            //     const newMap = await GoogleMap.create({
+            //     id: 'my-map', // Unique identifier for this map instance
+            //     element: mapRef, // reference to the capacitor-google-map element
+            //     apiKey: 'AIzaSyCM0ZdauyzVy2mYk0SeH9SUGIeQwF045vM', // Your Google Maps API Key
+            //     config: {
+            //         center: {
+            //         // The initial position to be rendered by the map
+            //         lat: 33.6,
+            //         lng: -117.9,
+            //         },
+            //         zoom: 8, // The initial zoom level to be rendered by the map
+            //     },
+            //     });
+
+            // console.log(newMap);
         }
     },
 
@@ -59,19 +69,18 @@ export default {
 }
 </script>
 
-<style scoped>    
+<style scoped>
+  
     capacitor-google-map{
         display: inline-block;
-        width: 300px;
+        width: 600px;
         height: 100vh;
-        border: 1px solid;
+        /* border: 1px solid; */
     }
 
   
         ion-content{
         --background: none !important;
     }
-    
-    
     
 </style>

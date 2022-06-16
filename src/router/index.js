@@ -7,7 +7,7 @@ import Login from '../pages/Auth/LoginAdmin.vue';
 const routes = [
 {
   path:'/',
-  redirect:'/map',
+  redirect:'/login',
 },
 {
   path:'/login',
