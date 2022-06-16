@@ -1,21 +1,31 @@
 <template>
-    <master-layout pageTitle="Map">
-            
-             <capacitor-google-map id="map">    
+       
+             <ion-content>
+                 <capacitor-google-map id="map">    
                 </capacitor-google-map>
+            </ion-content>
+        
+       
+        
       
-       <ion-button @click="createMap()"> Click</ion-button>
+        <!-- <ion-button @click="createMap()"> Click</ion-button> -->
+ 
+    
+           
+       
+            
+            
 
-    </master-layout>
+   
 </template>
 <script>
 
 import { GoogleMap } from '@capacitor/google-maps'
 //import { CapacitorGoogleMaps } from '@capacitor-community/capacitor-googlemaps-native'
-import { IonButton } from '@ionic/vue'
+import {IonContent } from '@ionic/vue'
 export default {
     components:{
-        IonButton
+     IonContent
     },  
     methods:{
      
@@ -43,17 +53,25 @@ export default {
         }
     },
 
-    // mounted() {
-    //     this.createMap()
-    // },
+    mounted() {
+        this.createMap()
+    },
 }
 </script>
 
-<style>
+<style scoped>    
     capacitor-google-map{
         display: inline-block;
         width: 300px;
-        height: 400px;
+        height: 100vh;
+        border: 1px solid;
     }
+
+  
+        ion-content{
+        --background: none !important;
+    }
+    
+    
     
 </style>
