@@ -1,5 +1,5 @@
-<template>
-        <master-layout>
+<template style=" background: transparent;">
+        <master-layout style=" background: transparent;">
              <ion-content>
                  <capacitor-google-map id="map">    
                 </capacitor-google-map>
@@ -69,12 +69,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style  scoped>
   
     capacitor-google-map{
-        display: inline-block;
-        width: 600px;
+        display: block !important;
+        width: 400px;
         height: 100vh;
+        z-index: 1000;
         /* border: 1px solid; */
     }
 

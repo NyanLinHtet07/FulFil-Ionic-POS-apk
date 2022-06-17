@@ -5,9 +5,13 @@ import MasterLayout from './component/MasterLayout.vue'
 //import {BluetoothSerial} from '@ionic-native/bluetooth-serial';
 import store from './store';
 import HighchartsVue from './chart';
+
+//for map
+import  VueGoogleMaps from '@fawmi/vue-google-maps'
 import './axios';
 //import { File } from '@ionic-native/file';
 import './index.css';
+
 //import VSwitch from 'v-switch-case';
 //import './plugin/chart.js'
 //import 'vue3-highcharts';
@@ -38,7 +42,12 @@ const app = createApp(App)
   .use(IonicVue)
   .use(router)
   //.use(BluetoothSerial)
-  .use(HighchartsVue);
+  .use(HighchartsVue)
+  .use(VueGoogleMaps, {
+    load: {
+        key: 'AIzaSyCM0ZdauyzVy2mYk0SeH9SUGIeQwF045vM',
+    },
+    })
 
     app.use(store);
     app.component('master-layout' , MasterLayout);

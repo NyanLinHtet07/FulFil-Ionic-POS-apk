@@ -24,9 +24,16 @@
                  <ion-item @click="menuNavigation('/history')">
                     <ion-label><ion-icon :icon="informationCircleOutline" class="mx-4" />Sale History</ion-label>
                 </ion-item>
+                <ion-item @click="menuNavigation('/shop')">
+                    <ion-label><ion-icon :icon="informationCircleOutline" class="mx-4" />Shops</ion-label>
+                </ion-item>
 
-                <ion-item @click="menuNavigation('/map')">
+                <!-- <ion-item @click="menuNavigation('/map')">
                     <ion-label> <ion-icon :icon="mapOutline" class=" mx-4"></ion-icon> Map</ion-label>
+                </ion-item> -->
+
+                 <ion-item @click="menuNavigation('/map/mark')">
+                    <ion-label> <ion-icon :icon="mapOutline" class=" mx-4"></ion-icon> SaleWay</ion-label>
                 </ion-item>
 
                 <ion-item>

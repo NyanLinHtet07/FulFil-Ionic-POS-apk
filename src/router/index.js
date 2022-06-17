@@ -90,6 +90,21 @@ const routes = [
   {
     path:'/map',
     component:() => import('@/pages/Map/mapComponent.vue'),
+  },
+
+  {
+    path:'/map/mark',
+    component:() => import('@/pages/Map/mapMark.vue'),
+  },
+
+  //for shop
+  {
+    path:'/shop',
+    component:() => import('@/pages/Map/ShopMap.vue'),
+  },
+  {
+    path:'/shops/detail/:id',
+    component:() => import('@/pages/Map/ShopDetail.vue'),
   }
 // ]
 
