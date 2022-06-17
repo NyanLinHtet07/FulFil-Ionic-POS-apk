@@ -30,12 +30,12 @@
            
               
                      <GMapMap
-                    :center = "{lat: Number(location.lat) , lng: Number(location.lng)}"
+                    :center = "{lat:  parseFloat(location.lat) , lng:  parseFloat(location.lng)}"
                     :zoom="15"
                     map-type-id="terrain"
                     class="mx-auto block w-11/12 h-2/4 px-3 py-2 rounded-lg shadow-md">
                     <GMapMarker
-                        :position="{lat: Number(location.lat) , lng: Number(location.lng)}"
+                        :position="{lat: parseFloat(location.lat) , lng: parseFloat(location.lng)}"
                     />
                     </GMapMap>
             

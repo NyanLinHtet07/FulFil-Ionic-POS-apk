@@ -1,5 +1,5 @@
 <template>
-    <master-layout>
+    <master-layout pageTitle="Shops">
         <ion-content v-if="loading">
             <Loader/>
         </ion-content>
@@ -7,14 +7,14 @@
              <div v-else>
                  <div v-if="visible" class=" mb-14 pb-3">
              
-                    <ion-searchbar debounce="500" v-model="search" placeholder=" search customers ..." animated class="fixed top-28 bg-white z-30 w-full"/> 
+                    <ion-searchbar debounce="500" v-model="search" placeholder=" search shops ..." animated class="fixed top-28 bg-white z-30 w-full"/> 
                     <div class=" mt-28">
 
                         <ion-list>
-                            <ion-item v-for=" shop in shops" :key="shop.id">
+                            <ion-item v-for=" shop in filteredShop" :key="shop.id">
                                 <ion-label> <ion-text class=" mr-4 font-medium"> {{shop.name}} </ion-text> </ion-label>
                                  <ion-label> <ion-icon :icon="call"></ion-icon> <ion-text class=" mr-4 font-medium"> {{shop.phone}} </ion-text></ion-label> 
-                                 <ion-button :router-link="`/shops/detail/${shop.id}`" color="light" shape="round" class=" text-lime-800 font-bold"> Details </ion-button>
+                                 <ion-button :router-link="`/shops/detail/${shop.id}`" color="primary" shape="round" class=" text-lime-800 font-bold"> Details </ion-button>
                             </ion-item>
                         </ion-list>
                     <!-- <ion-card v-for=" shop in shops" :key="shop.id" class="mt-6">
@@ -50,6 +50,16 @@
 
                 <div  v-if="! visible" class="flex justify-center items-center h-screen mt-12">
                          <ion-content class="ion-padding" > 
+                             <GMapMap
+                                :center = "center"
+                                :zoom="15"
+                                map-type-id="terrain"
+                                class="mx-auto block w-11/12 h-2/4 px-3 py-2 rounded-lg shadow-md"
+                                @click="mark">
+                                <GMapMarker
+                                    :position="{lat: Number(marker.lat) , lng: Number(marker.lng)}"
+                                />
+                            </GMapMap>
                             <form @submit.prevent="submit">
                                
 
@@ -74,7 +84,7 @@
                         
                         <ion-item>
                                 <ion-label> Select Branch</ion-label>
-                                <ion-select v-model="form.branch">
+                                <ion-select v-model="form.branch_id">
                                     <ion-select-option v-for="branch in branches" :key="branch.id" :value="branch.id"> {{branch.name}}</ion-select-option>
                                 </ion-select>
                                 <small v-if="! form.branch" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Type</small>
@@ -88,16 +98,8 @@
                                     <small v-if="! form.phone" class=" text-sm text-ellipsis text-red-800 font-bold">Customer Phone Number Require</small>
                          
                         </ion-item>
-                        
-                      
-                        
-                     
-                           
-                        
-
-                  
-
-                        <div class="text-center mt-5">
+               
+                        <div class="text-center mt-5 mb-10">
                             
                             <ion-button :disabled="posting" type="submit"  shape="round" color="secondary"> Submit </ion-button>
                             <ion-spinner  name="circles" v-if='posting' class="mx-3"></ion-spinner>
@@ -107,13 +109,9 @@
                         
 
                         </form>
-                            <GMapMap
-                                :center = "center"
-                                :zoom="15"
-                                map-type-id="terrain"
-                                class="mx-auto block w-11/12 h-2/4 px-3 py-2 rounded-lg shadow-md"
-                                @click="mark">
-                            </GMapMap>
+
+                        
+                            
                         </ion-content>
                 </div>
 
@@ -154,12 +152,17 @@ export default {
             visible: true,
             shops:[],
             branches:[],
+            search:'',
+            marker:{
+                lat:'',
+                lng:'',
+            },
             form:{
                 name:'',
-                location:'',
                 pictrue:'',
                 contact:'',
                 phone:'',
+                branch_id:'',
                 description:'',
             }
         }
@@ -204,16 +207,46 @@ export default {
         mark(event){
              console.log(event.latLng.lat());
             console.log(event.latLng.lng());
+
+            this.marker.lat = event.latLng.lat();
+            this.marker.lng = event.latLng.lng();
+
+             console.log(this.marker.lat +','+ this.marker.lng);
            
+        },
+
+        async submit(){
+            let location = this.marker.lat +','+ this.marker.lng;
+            this.posting = true
+            const res = await axios.post(`shops`,{
+                name: this.form.name,
+                location: location,
+                branch_id: this.form.branch_id,
+                pictrue: null,
+                contact: this.form.contact,
+                phone: this.form.phone,
+                description: this.form.description,
+                
+            },{
+             headers: {
+                'Authorization': "Bearer" + localStorage.getItem('token'),
+            },});
+
+            console.log(res);
         }
     },
 
     computed:{
-          
+        filteredShop(){
+            return this.shops.filter( (s) => {
+               return  s.name.toLowerCase().match(this.search.toLowerCase());
+            })
+        }
     },
 
     created() {
         this.getData();
+      
     },
 
 }
