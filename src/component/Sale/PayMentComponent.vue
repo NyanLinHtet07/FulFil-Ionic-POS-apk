@@ -144,7 +144,7 @@ export default {
             visiable:false,
             date: null ,
             img:'',
-            m:'',
+            err:'',
             due_amt:'',
             moment: moment,
 
@@ -251,14 +251,22 @@ export default {
                         
                     }
                 }
-            await axios.post(`revenues`, data, config);
-            //this.presentAlert();
-            this.reset();
-            this.closeModal();
-            this.posting = false;
-            window.location.reload();
+            await axios.post(`revenues`, data, config)
+                    .then( response => {
+                        this.err = response.message;
+                       
+                           this.posting = false;
+                           this.reset();
+                           this.closeModal();
+                           window.location.reload();
+                    })
+                    .catch( error => {
+                        console.log(error);
+                        this.posting = false;
+                    });
+           
             
-            //console.log(response);
+           
         }
 
         

@@ -212,6 +212,7 @@ export default {
             region:[],
             customers:[],
             search:'',
+            err:'',
 
             
         }
@@ -310,12 +311,22 @@ export default {
             headers: {
                 'Authorization': "Bearer" + localStorage.getItem('token'),
             },
+            }). then(
+                response => {
+                    this.err = response.message;
+                   
+                     this.posting = false;
+                     this.reset();
+                     this.cus();
+                     this.getData();
+                     this.presentAlert();
+                    //  this.datas();
+                }
+            ). catch( error => {
+                console.log(error);
+                this.posting = false;
             });
-            this.reset();
-            this.presentAlert();
-            this.posting = false;
-            this.cus();
-            this.getData();
+           
             //window.location.reload();
             //console.log(response)
         } 

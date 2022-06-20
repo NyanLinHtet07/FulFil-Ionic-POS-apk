@@ -458,6 +458,7 @@ export default {
             customers:[],
             zones:[],
             warehouse:{},
+            d:[],
 
             saleData: {
                 inv_date: moment().format('YYYY-MM-DD'),
@@ -636,6 +637,7 @@ export default {
             //cssClass: 'my-custom-class',
             componentProps: {
                 title: 'New Title',
+                datas:() => this.wholeSales(),
             },
             });
             return modal.present();
@@ -728,6 +730,7 @@ export default {
                  },
                 })
                     .then(res => {
+                        this.d = res.data;
                         this.payments = res.data.payment_method;
                         this.products = res.data.aval_product;
                         this.prices = res.data.prices

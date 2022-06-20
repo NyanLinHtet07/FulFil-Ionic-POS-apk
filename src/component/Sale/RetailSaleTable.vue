@@ -666,6 +666,7 @@ export default {
             //cssClass: 'my-custom-class',
             componentProps: {
                 title: 'New Title',
+                datas:() => this.wholeSales(),
                 // close:() => this.closeModal(),
             },
             });

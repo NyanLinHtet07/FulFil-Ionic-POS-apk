@@ -107,4 +107,5 @@ export default {
         padding: auto;
         margin-top: 100px;
     }
+
 </style>

@@ -113,7 +113,9 @@
 import axios from 'axios';
 import Loader from '../LoaderComponent.vue'
 export default {
-    //props:['close'],
+    props:{
+        datas:{type: Function}
+    },
 
     setup(){
         return{
@@ -135,6 +137,8 @@ export default {
                 zone_id:'',
                 //region_id:'',
             },
+
+            err:'',
 
             company:[],
             zone:[],
@@ -224,12 +228,19 @@ export default {
             },
             })
             .then((response) => {
+                     this.err = response.message
+                     this.posting = false;
                      this.reset();
+                     this.datas();
+                    
                      this.presentAlert();
-                    this.closeModal();
-                    this.posting = false;
-                    console.log(response.data);
+                     this.closeModal();
+                     
                 })
+            .catch( error => {
+                console.log(error);
+                this.posting = false;
+            })
 
             //console.log(response)
         } 
