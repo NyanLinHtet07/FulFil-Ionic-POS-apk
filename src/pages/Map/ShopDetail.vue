@@ -5,35 +5,31 @@
                     <ion-buttons slot="start">
                         <ion-back-button default-href="/shop"></ion-back-button>
                     </ion-buttons>
-                    <ion-title slot="end"> Shop</ion-title>
+                    <ion-title slot="end"> Shop Detail</ion-title>
                 </ion-toolbar>
             </ion-header>
              <ion-content v-if="loading">
             <Loader/>
         </ion-content>
         <ion-content v-else>
-            <ion-grid>
+            <ion-grid class=" mt-3">
                 <ion-row>
                     <ion-col>
-                        <ion-text>Shop</ion-text> <br>
-                        <ion-text> Phone </ion-text> <br>
-                        <ion-text> Contact </ion-text> <br>
+                        <ion-text class=" mx-4"> <ion-icon :icon="storefrontOutline"></ion-icon></ion-text>  <ion-text class=" text-gray-700">{{shop.name}}</ion-text> <br>
+                        <ion-text class=" mx-4"> <ion-icon :icon="callOutline"></ion-icon> </ion-text> <ion-text class=" text-gray-700"> {{shop.phone}} </ion-text><br>
+                        <ion-text class=" mx-4"> <ion-icon :icon="businessOutline"></ion-icon> </ion-text>  <ion-text class=" text-gray-700"> {{shop.contact}} </ion-text> <br>
                     </ion-col>
-                    <ion-col>
-                         <ion-text>{{shop.name}}</ion-text> <br>
-                        <ion-text> {{shop.phone}} </ion-text> <br>
-                        <ion-text> {{shop.contact}} </ion-text> <br>
-                    </ion-col>
+             
                 </ion-row>
             </ion-grid>
 
            
               
                      <GMapMap
-                    :center = "{lat:  parseFloat(location.lat) , lng:  parseFloat(location.lng)}"
-                    :zoom="15"
+                    :center = "{lat: parseFloat(location.lat) , lng:  parseFloat(location.lng)}"
+                    :zoom="16"
                     map-type-id="terrain"
-                    class="mx-auto block w-11/12 h-2/4 px-3 py-2 rounded-lg shadow-md">
+                    class="mx-auto block w-11/12 h-3/4 px-3 py-2 rounded-lg shadow-md">
                     <GMapMarker
                         :position="{lat: parseFloat(location.lat) , lng: parseFloat(location.lng)}"
                     />
@@ -48,7 +44,9 @@
 <script>
 
 import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent,
-        IonGrid, IonRow, IonCol, IonText} from '@ionic/vue'
+        IonGrid, IonRow, IonCol, IonText, IonIcon} from '@ionic/vue'
+
+import { storefrontOutline, callOutline, businessOutline} from 'ionicons/icons';
 import Loader from '../../component/LoaderComponent.vue'
 import axios from 'axios'
 
@@ -61,9 +59,16 @@ export default {
             location:{},
         }
     },
+
+    setup() {
+        return{
+            storefrontOutline, callOutline, businessOutline
+        }
+    },
+
     components:{
         IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent,
-        IonGrid, IonRow, IonCol, IonText,
+        IonGrid, IonRow, IonCol, IonText, IonIcon,
         Loader
     },
 

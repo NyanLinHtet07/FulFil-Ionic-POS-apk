@@ -7,14 +7,14 @@
              <div v-else>
                  <div v-if="visible" class=" mb-14 pb-3">
              
-                    <ion-searchbar debounce="500" v-model="search" placeholder=" search shops ..." animated class="fixed top-28 bg-white z-30 w-full"/> 
+                    <ion-searchbar debounce="500" v-model="search" placeholder=" search shops ..." animated class="fixed top-16 bg-white z-30 w-full"/> 
                     <div class=" mt-28">
 
                         <ion-list>
                             <ion-item v-for=" shop in filteredShop" :key="shop.id">
-                                <ion-label> <ion-text class=" mr-4 font-medium"> {{shop.name}} </ion-text> </ion-label>
-                                 <ion-label> <ion-icon :icon="call"></ion-icon> <ion-text class=" mr-4 font-medium"> {{shop.phone}} </ion-text></ion-label> 
-                                 <ion-button :router-link="`/shops/detail/${shop.id}`" color="primary" shape="round" class=" text-lime-800 font-bold"> Details </ion-button>
+                                <ion-label> <ion-text class=" mr-4 font-medium text-sm text-gray-700 "> {{shop.name}} </ion-text> </ion-label>
+                                 <ion-label> <ion-icon :icon="call" class="text-sm text-gray-700"></ion-icon> <ion-text class=" mr-4 font-medium text-sm text-gray-500"> {{shop.phone}} </ion-text></ion-label> 
+                                 <ion-button :router-link="`/shops/detail/${shop.id}`" color="primary" shape="round" class=" text-lime-800 font-bold" size="small"> Details </ion-button>
                             </ion-item>
                         </ion-list>
                     <!-- <ion-card v-for=" shop in shops" :key="shop.id" class="mt-6">
@@ -66,19 +66,19 @@
                                 <ion-item>
                                     <ion-label position="floating"> Enter Name </ion-label>
                                     <ion-input type="text" v-model="form.name" required="required"></ion-input>
-                                    <small v-if="! form.name" class="text-sm text-ellipsis text-red-800 font-bold">Customer Name Required</small>
+                                    <small v-if="! form.name" class="text-sm text-ellipsis text-red-800 font-bold">Shop Name Required</small>
                                 </ion-item>
                         
                                 <ion-item>
                                     <ion-label position="floating"> Enter Contact</ion-label>
                                     <ion-input type="text" v-model="form.contact" required="required"></ion-input>
-                                     <small v-if="! form.contact" class="text-sm text-ellipsis text-red-800 font-bold">Customer Email Required</small>
+                                     <small v-if="! form.contact" class="text-sm text-ellipsis text-red-800 font-bold">Contact Required</small>
                                 </ion-item>
 
                             <ion-item>
                                 <ion-label position="floating"> Enter Phone Number</ion-label>
                                     <ion-input type="text" v-model="form.phone" required="required"></ion-input>
-                                    <small v-if="! form.phone" class=" text-sm text-ellipsis text-red-800 font-bold">Customer Phone Number Require</small>
+                                    <small v-if="! form.phone" class=" text-sm text-ellipsis text-red-800 font-bold">Phone Number Require</small>
                             </ion-item>
                         
                         
@@ -87,16 +87,22 @@
                                 <ion-select v-model="form.branch_id">
                                     <ion-select-option v-for="branch in branches" :key="branch.id" :value="branch.id"> {{branch.name}}</ion-select-option>
                                 </ion-select>
-                                <small v-if="! form.branch" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Type</small>
+                                <small v-if="! form.branch_id" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Type</small>
                         </ion-item>
 
                        
 
                         <ion-item>
                             <ion-label position="floating"> Enter Description</ion-label>
-                                    <ion-input type="text" v-model="form.description" required="required"></ion-input>
-                                    <small v-if="! form.phone" class=" text-sm text-ellipsis text-red-800 font-bold">Customer Phone Number Require</small>
+                                    <ion-input type="text" v-model="form.description"></ion-input>
+                                    <!-- <small v-if="! form.description" class=" text-sm text-ellipsis text-red-800 font-bold">Customer Phone Number Require</small> -->
                          
+                        </ion-item>
+
+                        <ion-item>
+                            <ion-label> Input File </ion-label>
+                            <input type="file" ref="img" @change="onChangeFileUpload()" />
+                            <label class=" text-sm text-ellipsis text-red-800 font-bold"> you can upload files up to 2MB</label>
                         </ion-item>
                
                         <div class="text-center mt-5 mb-10">
@@ -164,7 +170,8 @@ export default {
                 phone:'',
                 branch_id:'',
                 description:'',
-            }
+            },
+            img:'',
         }
     },
 
@@ -182,6 +189,18 @@ export default {
     },
 
     methods: {
+
+        reset(){
+            this.form = {
+                name:'',
+                img:'',
+                contact:'',
+                phone:'',
+                branch_id:'',
+                description:'',
+            }
+        },
+
          async getData(){
             this.loading = true;
             await axios.get(`shops` , {
@@ -205,34 +224,50 @@ export default {
         },  
 
         mark(event){
-             console.log(event.latLng.lat());
-            console.log(event.latLng.lng());
+            //  console.log(event.latLng.lat());
+            // console.log(event.latLng.lng());
 
             this.marker.lat = event.latLng.lat();
             this.marker.lng = event.latLng.lng();
 
-             console.log(this.marker.lat +','+ this.marker.lng);
+             //console.log(this.marker.lat +','+ this.marker.lng);
            
         },
 
+        onChangeFileUpload(){
+            this.form.img = this.$refs.img.files[0];
+        },
+
         async submit(){
+             this.posting = true
+             
             let location = this.marker.lat +','+ this.marker.lng;
-            this.posting = true
-            const res = await axios.post(`shops`,{
-                name: this.form.name,
-                location: location,
-                branch_id: this.form.branch_id,
-                pictrue: null,
-                contact: this.form.contact,
-                phone: this.form.phone,
-                description: this.form.description,
-                
-            },{
+            var data = new FormData();
+
+            data.append('name' , this.form.name);
+            data.append('location', location);
+            data.append('picture', this.form.img);
+            data.append('contact', this.form.contact);
+            data.append('phone', this.form.phone);
+            data.append('branch_id', this.form.branch_id);
+            data.append('description', this.form.description);
+
+           
+               await axios.post(`shops`, data,{
              headers: {
+                 'content-type': 'multipart/form-data',
                 'Authorization': "Bearer" + localStorage.getItem('token'),
             },});
+            this.reset();
+            this.shop();
+            this.getData();
+            this.posting = false;
+            this.marker = {
+                lat :'',
+                lng:'',
+            }
 
-            console.log(res);
+            //console.log(res);
         }
     },
 
