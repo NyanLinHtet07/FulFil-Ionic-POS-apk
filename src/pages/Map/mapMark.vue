@@ -1,12 +1,12 @@
 <template>
   
     <master-layout pageTitle="SalesWay">
-        <ion-content class=" bg-white">
+        <ion-content class=" bg-white w-auto h-full">
          <GMapMap
             :center="center"
             :zoom="13"
             map-type-id="terrain"
-           class=" w-5/6 h-5/6 rounded mx-auto mt-6"
+           class="w-full h-full rounded mx-auto mt-6"
         >
               <GMapMarker
               :key="marker.id"
@@ -20,9 +20,11 @@
               </GMapMarker>
         </GMapMap>
     
-            <!-- <capacitor-google-map id="map"></capacitor-google-map> -->
-           <div class=" text-right">
-                <ion-button @click="printCurrentPosition"> Click</ion-button>
+          
+           <div class=" relative inline bottom-20 left-20">
+              
+                <ion-button @click="openPin()" shape="round" color="secondary"> Lists</ion-button>
+               
            </div>
              
            
@@ -34,9 +36,10 @@
 </template>
 
 <script>
-import { IonContent,  IonButton } from '@ionic/vue';
+import { IonContent,  IonButton, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { Geolocation } from '@capacitor/geolocation';
+import Modal from '../../component/Map/PinModel.vue'
 // import axios from 'axios';
 //import { GoogleMap} from '@capacitor/google-maps'
 
@@ -44,7 +47,7 @@ export default defineComponent({
   name: 'HomePage',
   components: {
     IonContent,
-    IonButton
+    IonButton,
   },
 
   data(){
@@ -53,46 +56,49 @@ export default defineComponent({
       center: {lat: 16.932521760828777, lng: 96.15880038438864},
       markers: [
         {
-          id: 'Me',
+          id: 'me',
           name:'Nyan',
           position: {
             lat: 16.932521760828777, lng: 96.15880038438864
           },
         },
 
-        {
-          id: 'You',
-          name:'Loream',
-          position: {
-            lat: 17.932521760828777, lng: 96.15880038438864
-          },
-        }
+        // {
+        //   id: 'you',
+        //   name:'Loream',
+        //   position: {
+        //     lat: 17.932521760828777, lng: 96.15880038438864
+        //   },
+        // }
       ]
     }
   },
 
+  
   methods: {
 
-     async printCurrentPosition() {
+     async currentPosition() {
         const coordinates = await Geolocation.getCurrentPosition();
 
-        console.log('Current position:', coordinates);
+        //console.log('Current position:', coordinates);
 
         window.alert(coordinates.coords.latitude +','+ coordinates.coords.longitude);
       },
 
-    //  async getData(){
-    //         //this.loading = true;
-    //         await axios.get(`shops` , {
-    //             headers: {
-    //             'Authorization': "Bearer" + localStorage.getItem('token'),
-    //              },
-    //             }) 
-    //             .then( (res) => {
-    //               this.result = res.data.shops;
-    //             })
-    //             //.finally(() => this.loading = false)
-    //     }
+      async openPin(){
+        const modal = await modalController.create({
+          component: Modal,
+          componentProps:{
+              markers: this.markers,
+          },
+          breakpoints:[0,0.3,0.5,0.8],
+          initialBreakpoint: 0.5
+        });
+
+        await modal.present();
+      }
+
+   
   },
 
   created(){

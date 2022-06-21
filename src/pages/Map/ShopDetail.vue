@@ -32,7 +32,17 @@
                     class="mx-auto block w-11/12 h-3/4 px-3 py-2 rounded-lg shadow-md">
                     <GMapMarker
                         :position="{lat: parseFloat(location.lat) , lng: parseFloat(location.lng)}"
-                    />
+                    >
+
+                           <GMapInfoWindow
+                      :opened="true"
+                    >
+                      <div> {{shop.name}}</div>
+                    </GMapInfoWindow>
+
+                    </GMapMarker>
+
+                  
                     </GMapMap>
             
                 

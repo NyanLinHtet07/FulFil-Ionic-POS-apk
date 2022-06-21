@@ -818,7 +818,7 @@ export default {
 
         },
 
-        async destroy(){
+        async destroy(){ 
             if(!confirm('Are You Sure To Cancel')) return;
             await axios.post(`invoice/cancel/${this.$route.params.id}`,{
                 headers : {

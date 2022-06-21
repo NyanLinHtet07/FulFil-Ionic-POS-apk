@@ -105,7 +105,7 @@
                             <label class=" text-sm text-ellipsis text-red-800 font-bold"> you can upload files up to 2MB</label>
                         </ion-item>
                
-                        <div class="text-center mt-5 mb-10">
+                        <div class="text-center mt-5 mb-36">
                             
                             <ion-button :disabled="posting" type="submit"  shape="round" color="secondary"> Submit </ion-button>
                             <ion-spinner  name="circles" v-if='posting' class="mx-3"></ion-spinner>

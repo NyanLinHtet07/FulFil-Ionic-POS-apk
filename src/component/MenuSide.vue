@@ -73,7 +73,7 @@ export default ({
        },
 
        logout(){
-        if(!confirm('Are You Sure To Logout'));
+        if(!confirm('Are You Sure To Logout')) return;
         menuController.close("app-menu")
         localStorage.removeItem('token');
         this.$router.push('/login')

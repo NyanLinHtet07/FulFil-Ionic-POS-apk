@@ -1,18 +1,19 @@
 <template>
    <ion-page>
        <ion-content>
-                <div class="flex justify-center items-center h-screen bg-gradient-to-b from-white to-blue-100">
-                    <div class=" w-4/6">
-                          <ion-title class=" text-gray-700 font-bold text-2xl text-center mb-6"> Login Here </ion-title>
-             
+                <div class="flex justify-center items-center h-screen bg-gradient-to-b from-white to-blue-50">
+                    <div class=" w-5/6">
+                          <!-- <ion-title class=" text-gray-700 font-bold text-2xl text-center mb-6"> Login Here </ion-title> -->
+                          
+                          <img src="/assets/fulfil.png" alt="" class="mx-auto block top-5" />
               
                         <form @submit.prevent="login">
                         <ion-item class="my-3">
-                            <ion-label position="floating">Email</ion-label>
-                            <ion-input type="email" v-model="userInfo.email" class=" bg-transparent"></ion-input>
+                            <ion-label position="floating" class=" font-semibold">Email</ion-label>
+                            <ion-input type="email" v-model="userInfo.email"></ion-input>
                         </ion-item>
                         <ion-item class="my-3">
-                            <ion-label position="floating">Password</ion-label>
+                            <ion-label position="floating" class=" font-semibold">Password</ion-label>
                             <ion-input type="password" v-model="userInfo.password"></ion-input>
                         </ion-item>
                         <div class="text-center">
@@ -106,6 +107,10 @@ export default {
         margin: auto;
         padding: auto;
         margin-top: 100px;
+    }
+
+    ion-item, ion-input{
+       background: transparent !important;
     }
 
 </style>
