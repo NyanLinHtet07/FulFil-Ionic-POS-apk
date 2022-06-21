@@ -88,7 +88,7 @@ const store = createStore({
         }
     },
 
-    actions: {
+    actions: { 
 
    
         addToCart: (context, payload) => {
@@ -105,6 +105,10 @@ const store = createStore({
 
         addFoc: ( context, payload) => {
             context.commit("addFoc" , payload)
+        },
+
+        removeFocItems: ( context, payload) => {
+            context.commit("removeFocItems", payload)
         },
         
         removeFoc: (context, payload) => {
@@ -190,6 +194,25 @@ const store = createStore({
                 else{
                     state.foc.push(item)
                 }
+          },
+
+          removeFocItems(state, payload){
+               if(state.foc.length > 0){
+                  let bool = state.foc.some( i => i.id === payload.id)
+
+                  if(bool){
+                      let index = state.foc.findIndex( el => el.id === payload.id)
+
+                      if(state.foc[index]["quantity"] !== 0 ){
+                          state.foc[index]["quantity"] -= 1
+                          //state.foc --
+    
+                      }
+                      if(state.foc[index]["qunatity"] === 0){
+                          state.foc.splice(index, 1)
+                      }
+                  }
+              }
           },
 
           removeFoc( state, foc){

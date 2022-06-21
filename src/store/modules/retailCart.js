@@ -66,9 +66,9 @@ const actions = {
         context.commit("addRetailFoc", payload)
     },
 
-    // removeRetailFoc: (context, payload) => {
-    //     context.commit('removeRetailFoc', payload)
-    // },
+    removeRetailItemFoc: (context, payload) => {
+        context.commit('removeRetailFoc', payload)
+    },
 
     clearRetailCart({commit}){
         commit('clearRetailCart', []);

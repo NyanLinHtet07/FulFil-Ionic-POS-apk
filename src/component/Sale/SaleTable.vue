@@ -14,7 +14,7 @@
                 <div v-if=" !openItem" >
                     <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off" placeholder="search foc ..." animated></ion-searchbar>
                                         <ion-list v-if="!(state == '')">
-                                            <ion-item v-for=" data in filteredStates" :key="data.id" @click="addFoc(data)">
+                                            <ion-item v-for=" data in filteredStates" :key="data.id" @click="addFoc(data)" button="true">
                                                     <ion-label> {{ data.variant.product_name }} </ion-label>
                                             </ion-item>
                                         </ion-list>
@@ -24,7 +24,7 @@
                 <div v-if="openItem">
                     <ion-searchbar debounce="500" v-model="searchItem" @input="filterItems" placeholder="search Products ..." animated></ion-searchbar>
                                     <ion-list v-if="!(searchItem == '')">
-                                        <ion-item v-for=" data in filteredItems" :key="data.id" @click="addProduct(data)">
+                                        <ion-item v-for=" data in filteredItems" :key="data.id" @click="addProduct(data)" button="true">
                                                 <ion-label> {{ data.variant.product_name }} </ion-label>
                                         </ion-item>
                                     </ion-list>
@@ -105,7 +105,7 @@
                        
                         <ion-col> 
                           
-                            <ion-input v-model="product.quantity" class=" bg-white text-sm"></ion-input>
+                            <ion-input type="number" v-model="product.quantity" class=" bg-white text-sm"></ion-input>
                           
                         </ion-col>
                          <ion-col>
@@ -155,8 +155,13 @@
                         <ion-col> 
                              <ion-input value="foc item" readonly="readonly" class="text-sm"></ion-input>
                         </ion-col>
-                        <ion-col>
-                            <ion-input v-model="foc.quantity" class="text-center text-sm"></ion-input>
+                        <ion-col class=" flex">
+                           
+                            <ion-button @click="addFoc(foc)" shape="round" size="small" color="success" :disabled=" foc.quantity == foc.qty"> <ion-icon :icon="addCircleOutline"  slot="icon-only"></ion-icon> </ion-button>
+                            <ion-input v-model="foc.quantity" class="text-center text-sm font-bold w-11" readonly></ion-input>
+                            <ion-button @click="removeFocitems(foc)" shape="round" color="danger" size="small"> <ion-icon :icon="removeCircleOutline"  slot="icon-only"  class=""></ion-icon></ion-button>
+                           
+                           
                         </ion-col>
                         <ion-col>
                              <ion-input value="00.00" readonly="readonly" class="text-sm"></ion-input>
@@ -588,6 +593,10 @@ export default {
  
         addFoc(data){
             this.$store.dispatch("addFoc", data)
+        },
+
+        removeFocitems(foc){
+            this.$store.dispatch("removeFocItems", foc)
         },
 
         removeFoc(foc){

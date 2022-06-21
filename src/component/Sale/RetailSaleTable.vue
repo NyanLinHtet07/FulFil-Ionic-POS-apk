@@ -16,7 +16,7 @@
                     <div v-if="openItem">
                             <ion-searchbar debounce="500" v-model="searchItem" @input="filterItems" autocomplete="off" placeholder="search Products ..."></ion-searchbar>
                                             <ion-list v-if=" !(searchItem == '')">
-                                                <ion-item v-for=" d in filteredItems" :key="d.id" @click="addProduct(d)">
+                                                <ion-item v-for=" d in filteredItems" :key="d.id" @click="addProduct(d)" button="true">
                                                         <ion-label> {{ d.variant.product_name }} </ion-label>
                                                 </ion-item>
                                             </ion-list>
@@ -24,7 +24,7 @@
                     <div v-if=" ! openItem">
                         <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off" placeholder="search foc ..."></ion-searchbar>
                                             <ion-list v-if=" !(state == '')">
-                                                <ion-item v-for=" data in filteredStates" :key="data.id" @click="addFoc(data)">
+                                                <ion-item v-for=" data in filteredStates" :key="data.id" @click="addFoc(data)" button="true">
                                                         <ion-label> {{ data.variant.product_name }} </ion-label>
                                                 </ion-item>
                                             </ion-list>
@@ -106,11 +106,11 @@
                                     <!-- </p> -->
                                   
                                 </div>
-                        </ion-col>
+                        </ion-col> 
                        
                         <ion-col> 
                             
-                            <ion-text> <ion-input v-model="product.quantity" class=" bg-white text-sm"></ion-input> </ion-text>
+                            <ion-text> <ion-input v-model="product.quantity" class=" bg-white text-sm" type="number"></ion-input> </ion-text>
                            
                         </ion-col>
                          <ion-col>
@@ -169,10 +169,19 @@
                         <ion-col> 
                              <ion-input value="foc item" readonly="readonly" class="text-sm"></ion-input> 
                         </ion-col>
-                        
-                        <ion-col>
-                            <ion-input v-model="foc.quantity" class="text-center text-sm"></ion-input>
+
+                        <ion-col class=" flex">
+                           
+                            <ion-button @click="addFoc(foc)" shape="round" size="small" color="success" :disabled=" foc.quantity == foc.qty"> <ion-icon :icon="addCircleOutline"  slot="icon-only"></ion-icon> </ion-button>
+                            <ion-input v-model="foc.quantity" class="text-center text-sm font-bold w-11" readonly></ion-input>
+                            <ion-button @click="removeFocitems(foc)" shape="round" color="danger" size="small"> <ion-icon :icon="removeCircleOutline"  slot="icon-only"  class=""></ion-icon></ion-button>
+                           
+                           
                         </ion-col>
+                        
+                        <!-- <ion-col>
+                            <ion-input v-model="foc.quantity" class="text-center text-sm"></ion-input>
+                        </ion-col> -->
                         <ion-col> 
                              <ion-input value="00.00" readonly="readonly" class="text-sm"></ion-input>    
                         </ion-col>
@@ -619,8 +628,8 @@ export default {
             this.$store.dispatch("addRetailFoc", data)
         },
 
-         removeRetailFoc(foc){
-            this.$store.dispatch('removeRetailFoc', foc)
+         removeFocitems(foc){
+            this.$store.dispatch('removeRetailItemFoc', foc)
         },
 
         filterStates(){

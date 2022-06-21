@@ -39,6 +39,10 @@
                 <ion-item>
                     <a :href="`https://fulfilmm.com/employee/login`" class=" text-black hover:text-blue-600"> <ion-icon :icon="linkOutline" class=" mx-4"></ion-icon> Back Office</a>
                 </ion-item>
+
+                <ion-item @click="logout()">
+                    <ion-label> <ion-icon :icon="mapOutline" class=" mx-4"></ion-icon> Logout</ion-label>
+                </ion-item>
             </ion-list>
             </ion-content>
         </ion-menu>
@@ -66,6 +70,14 @@ export default ({
        menuNavigation(url){
            menuController.close("app-menu")
            this.$router.push(url);
+       },
+
+       logout(){
+        if(!confirm('Are You Sure To Logout'));
+        menuController.close("app-menu")
+        localStorage.removeItem('token');
+        this.$router.push('/login')
+        //window.reload();
        } 
     }
 })

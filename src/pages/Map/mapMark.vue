@@ -4,7 +4,7 @@
         <ion-content class=" bg-white">
          <GMapMap
             :center="center"
-            :zoom="20"
+            :zoom="13"
             map-type-id="terrain"
            class=" w-5/6 h-5/6 rounded mx-auto mt-6"
         >
@@ -21,9 +21,11 @@
         </GMapMap>
     
             <!-- <capacitor-google-map id="map"></capacitor-google-map> -->
-            <div class="inline bottom-10 left-0">
-               <ion-button @click="printCurrentPosition"> Click</ion-button>
-            </div>
+           <div class=" text-right">
+                <ion-button @click="printCurrentPosition"> Click</ion-button>
+           </div>
+             
+           
      
     </ion-content>
     </master-layout>
@@ -60,7 +62,7 @@ export default defineComponent({
 
         {
           id: 'You',
-          name:'Moe',
+          name:'Loream',
           position: {
             lat: 17.932521760828777, lng: 96.15880038438864
           },
@@ -76,7 +78,7 @@ export default defineComponent({
 
         console.log('Current position:', coordinates);
 
-        window.alert(coordinates.coords.latitude);
+        window.alert(coordinates.coords.latitude +','+ coordinates.coords.longitude);
       },
 
     //  async getData(){

@@ -22,6 +22,9 @@ axios.interceptors.response.use(undefined, function (error) {
       if(error.response.status === 422 ){
         return window.alert("Need To Fill Require Data");
       }
+      // if(error.response.status === 500 ){
+      //   return window.alert("Check Network or Require Field");
+      // }
     }
  })
 

@@ -154,6 +154,7 @@ export default {
     data(){
         return {
             center: {lat: 16.932521760828777, lng: 96.15880038438864},
+            posting: false,
             loading: false,
             visible: true,
             shops:[],
@@ -172,6 +173,7 @@ export default {
                 description:'',
             },
             img:'',
+            m:'',
         }
     },
 
@@ -246,7 +248,14 @@ export default {
 
             data.append('name' , this.form.name);
             data.append('location', location);
-            data.append('picture', this.form.img);
+
+            if(! this.form.img){
+                 data.append('picture', 0);
+            }
+            else{
+                 data.append('picture', this.form.img);
+            }
+           
             data.append('contact', this.form.contact);
             data.append('phone', this.form.phone);
             data.append('branch_id', this.form.branch_id);
@@ -257,15 +266,24 @@ export default {
              headers: {
                  'content-type': 'multipart/form-data',
                 'Authorization': "Bearer" + localStorage.getItem('token'),
-            },});
-            this.reset();
-            this.shop();
-            this.getData();
-            this.posting = false;
-            this.marker = {
-                lat :'',
-                lng:'',
-            }
+            },}).then(
+                (res) => {
+                    this.m = res.message;
+                     this.posting = false;
+                     this.reset();
+                     this.shop();
+                     this.getData();
+                    
+                        this.marker = {
+                            lat :'',
+                            lng:'',
+                        }
+                }
+            ).catch( error => {
+                console.log(error);
+                this.posting = false;
+            });
+           
 
             //console.log(res);
         }
