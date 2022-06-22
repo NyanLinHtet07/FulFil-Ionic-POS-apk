@@ -25,7 +25,7 @@
                     <ion-label><ion-icon :icon="informationCircleOutline" class="mx-4" />Sale History</ion-label>
                 </ion-item>
                 <ion-item @click="menuNavigation('/shop')">
-                    <ion-label><ion-icon :icon="informationCircleOutline" class="mx-4" />Shops</ion-label>
+                    <ion-label><ion-icon :icon="storefrontOutline" class="mx-4"/>Shops</ion-label>
                 </ion-item>
 
                 <!-- <ion-item @click="menuNavigation('/map')">
@@ -45,7 +45,7 @@
                 </ion-item>
 
                 <ion-item @click="logout()">
-                    <ion-label> <ion-icon :icon="mapOutline" class=" mx-4"></ion-icon> Logout</ion-label>
+                    <ion-label> <ion-icon :icon="closeCircleOutline" class=" mx-4"></ion-icon> Logout</ion-label>
                 </ion-item>
             </ion-list>
             </ion-content>
@@ -57,7 +57,7 @@ import {
   IonMenu,IonHeader,IonContent,IonToolbar,IonTitle,IonItem,IonList,IonLabel,menuController
 } from "@ionic/vue";
 
-import { homeOutline , cartOutline, informationCircleOutline, personOutline, mapOutline, linkOutline } from 'ionicons/icons';
+import { homeOutline , cartOutline, informationCircleOutline, personOutline, mapOutline, linkOutline, storefrontOutline, closeCircleOutline } from 'ionicons/icons';
 
 export default ({
     components: {
@@ -66,7 +66,7 @@ export default ({
 
     data(){
         return{
-            homeOutline, cartOutline, informationCircleOutline, personOutline, mapOutline, linkOutline
+            homeOutline, cartOutline, informationCircleOutline, personOutline, mapOutline, linkOutline, storefrontOutline, closeCircleOutline
         }
     },
 
