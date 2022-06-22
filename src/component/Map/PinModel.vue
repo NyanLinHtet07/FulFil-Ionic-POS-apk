@@ -9,16 +9,14 @@
 
   <ion-list>
       <ion-item v-for=" (m,index) in markers" :key="index">
-          <ion-label> {{m.name}}</ion-label>
-           <ion-button @click="position()">
+          <ion-label> {{m.shop.name}}</ion-label>
+           <ion-button @click="position(m.id)">
               check
         </ion-button>
+        <!-- <ion-label>{{location}}</ion-label> -->
       </ion-item>
   </ion-list>
 
- 
-
-  
 
 </ion-content>
 </template>
@@ -27,8 +25,15 @@ import {IonHeader, IonToolbar, IonContent, IonLabel,
         IonItem, IonList, IonButton} from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { Geolocation } from '@capacitor/geolocation';
+import axios from 'axios';
 
 export default defineComponent ({
+
+    data() {
+      return {
+        location:'',
+      }
+    },
     components:{
         IonHeader, IonToolbar, IonContent, IonItem, IonList, IonButton, IonLabel
     },
@@ -43,13 +48,36 @@ export default defineComponent ({
         const coordinates = await Geolocation.getCurrentPosition();
 
         //console.log('Current position:', coordinates);
+        this.location = coordinates.coords.latitude +','+ coordinates.coords.longitude;
 
-        window.alert(coordinates.coords.latitude +','+ coordinates.coords.longitude);
+        //window.alert(coordinates.coords.latitude +','+ coordinates.coords.longitude);
+        //console.log(location);
       },
 
-      position(){
+      async position(id){
         this.currentPosition();
-      }
+
+        //this.posting = true;
+             await axios.post(`check/in/${id}`, {
+                emp_location : this.location,
+               
+              
+            }, {
+            headers: {
+                'Authorization': "Bearer" + localStorage.getItem('token'),
+            },
+            })
+            .then((response) => {
+                  console.log(response)
+                })
+            .catch( error => {
+                console.log(error);
+                //this.posting = false;
+            })
+
+            //console.log(response)
+        } 
+      
     },
 
     });

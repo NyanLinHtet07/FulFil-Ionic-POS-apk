@@ -93,7 +93,12 @@ const routes = [
   },
 
   {
-    path:'/map/mark',
+    path:'/map/assign_way',
+    component:() => import('@/pages/Map/AssignWay.vue'),
+  },
+
+  {
+    path:'/assign/:id',
     component:() => import('@/pages/Map/mapMark.vue'),
   },
 

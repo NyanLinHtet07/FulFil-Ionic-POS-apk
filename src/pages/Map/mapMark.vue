@@ -1,6 +1,16 @@
 <template>
-  
-    <master-layout pageTitle="SalesWay">
+    <ion-page>
+          <ion-header>
+                <ion-toolbar>
+                    <ion-buttons slot="start">
+                        <ion-back-button default-href="/map/assign_way"></ion-back-button>
+                    </ion-buttons>
+                    <ion-title slot="end"> Sale Ways</ion-title>
+                </ion-toolbar>
+            </ion-header>
+             <!-- <ion-content v-if="loading">
+                <Loader/>
+            </ion-content> -->
         <ion-content class=" bg-white w-auto h-full">
          <GMapMap
             :center="center"
@@ -9,44 +19,50 @@
            class="w-full h-full rounded mx-auto mt-6"
         >
               <GMapMarker
-              :key="marker.id"
-              v-for="marker in markers"
-              :position="marker.position">
+              :key="s.id"
+              v-for="s in shops"
+              :position="{lat: parseFloat(s.lat) , lng: parseFloat(s.lng)}">
                     <GMapInfoWindow
                       :opened="true"
                     >
-                      <div> Name : {{marker.name}}</div>
-      </GMapInfoWindow>
-              </GMapMarker>
-        </GMapMap>
-    
-          
-           <div class=" relative inline bottom-20 left-20">
+                      <div> Name : {{s.shop.name}}</div>
+        </GMapInfoWindow>
+                </GMapMarker>
+          </GMapMap>
+      
+            
+            <div class=" relative inline bottom-20 left-3/4">
+                
+                  <ion-button @click="openPin()" shape="round" color="secondary"> <ion-icon :icon="storefrontOutline"></ion-icon> </ion-button>
+                
+            </div>
               
-                <ion-button @click="openPin()" shape="round" color="secondary"> <ion-icon :icon="storefrontOutline"></ion-icon> </ion-button>
-               
-           </div>
-             
-           
-     
-    </ion-content>
-    </master-layout>
-    
+            
+      
+      </ion-content>
+    </ion-page>
+
 
 </template>
 
 <script>
-import { IonContent,  IonButton, modalController, IonIcon } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent,  IonButton, modalController, IonIcon } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { Geolocation } from '@capacitor/geolocation';
 import Modal from '../../component/Map/PinModel.vue'
 import { storefrontOutline} from 'ionicons/icons';
-// import axios from 'axios';
+import axios from 'axios';
 //import { GoogleMap} from '@capacitor/google-maps'
 
 export default defineComponent({
-  name: 'HomePage',
+  name: 'MapPage',
   components: {
+    IonPage,
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonBackButton,
+    IonTitle,
     IonContent,
     IonButton,
     IonIcon
@@ -61,6 +77,8 @@ export default defineComponent({
   data(){
     return{
       result:[],
+      shops:[],
+      assign:{},
       center: {lat: 16.932521760828777, lng: 96.15880038438864},
       markers: [
         {
@@ -85,6 +103,20 @@ export default defineComponent({
   
   methods: {
 
+     async getData(){
+            this.loading = true;
+            await axios.get(`assign_saleway/${this.$route.params.id}` , {
+                headers: {
+                'Authorization': "Bearer" + localStorage.getItem('token'),
+                 },
+                }) 
+                .then( (res) => {
+                  this.shops = res.data.shop;
+                  this.assign = res.data.assignway; 
+                })
+                .finally(() => this.loading = false)
+        },
+
      async currentPosition() {
         const coordinates = await Geolocation.getCurrentPosition();
 
@@ -97,7 +129,7 @@ export default defineComponent({
         const modal = await modalController.create({
           component: Modal,
           componentProps:{
-              markers: this.markers,
+              markers: this.shops,
           },
           breakpoints:[0,0.3,0.5,0.8],
           initialBreakpoint: 0.5
@@ -110,7 +142,7 @@ export default defineComponent({
   },
 
   created(){
-    //this.getData();
+    this.getData();
   }
   
 });
