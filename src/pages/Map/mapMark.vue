@@ -8,15 +8,15 @@
                     <ion-title slot="end"> Sale Ways</ion-title>
                 </ion-toolbar>
             </ion-header>
-             <!-- <ion-content v-if="loading">
+             <ion-content v-if="loading">
                 <Loader/>
-            </ion-content> -->
-        <ion-content class=" bg-white w-auto h-full">
+            </ion-content>
+        <ion-content v-else class=" bg-white w-auto h-full">
          <GMapMap
             :center="center"
             :zoom="13"
             map-type-id="terrain"
-           class="w-full h-full rounded mx-auto mt-6"
+           class="w-full h-full rounded mx-auto mt-6 relative"
         >
               <GMapMarker
               :key="s.id"
@@ -31,7 +31,7 @@
           </GMapMap>
       
             
-            <div class=" relative inline bottom-20 left-3/4">
+            <div class=" absolute bottom-40 right-0">
                 
                   <ion-button @click="openPin()" shape="round" color="secondary"> <ion-icon :icon="storefrontOutline"></ion-icon> </ion-button>
                 
@@ -46,12 +46,14 @@
 </template>
 
 <script>
-import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent,  IonButton, modalController, IonIcon } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent,  IonButton, 
+         modalController, IonIcon } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { Geolocation } from '@capacitor/geolocation';
 import Modal from '../../component/Map/PinModel.vue'
 import { storefrontOutline} from 'ionicons/icons';
 import axios from 'axios';
+import Loader from '../../component/LoaderComponent.vue'
 //import { GoogleMap} from '@capacitor/google-maps'
 
 export default defineComponent({
@@ -65,7 +67,8 @@ export default defineComponent({
     IonTitle,
     IonContent,
     IonButton,
-    IonIcon
+    IonIcon,
+    Loader
   },
 
    setup() {
@@ -76,6 +79,7 @@ export default defineComponent({
 
   data(){
     return{
+      loading: false,
       result:[],
       shops:[],
       assign:{},
@@ -112,7 +116,7 @@ export default defineComponent({
                 }) 
                 .then( (res) => {
                   this.shops = res.data.shop;
-                  this.assign = res.data.assignway; 
+                  this.assign = res.data.assignway;
                 })
                 .finally(() => this.loading = false)
         },
@@ -130,6 +134,7 @@ export default defineComponent({
           component: Modal,
           componentProps:{
               markers: this.shops,
+              getData:() => this.getData(),
           },
           breakpoints:[0,0.3,0.5,0.8],
           initialBreakpoint: 0.5

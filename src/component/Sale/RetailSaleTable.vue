@@ -14,7 +14,7 @@
                     
                     
                     <div v-if="openItem">
-                            <ion-searchbar debounce="500" v-model="searchItem" @input="filterItems" autocomplete="off" placeholder="search Products ..."></ion-searchbar>
+                            <ion-searchbar debounce="500" v-model="searchItem"  autocomplete="off" placeholder="search Products ..."></ion-searchbar>
                                             <ion-list v-if=" !(searchItem == '')">
                                                 <ion-item v-for=" d in filteredItems" :key="d.id" @click="addProduct(d)" button="true">
                                                         <ion-label> {{ d.variant.product_name }} </ion-label>
@@ -22,7 +22,7 @@
                                             </ion-list>
                     </div>
                     <div v-if=" ! openItem">
-                        <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off" placeholder="search foc ..."></ion-searchbar>
+                        <ion-searchbar debounce="500" v-model="state"  autocomplete="off" placeholder="search foc ..."></ion-searchbar>
                                             <ion-list v-if=" !(state == '')">
                                                 <ion-item v-for=" data in filteredStates" :key="data.id" @click="addFoc(data)" button="true">
                                                         <ion-label> {{ data.variant.product_name }} </ion-label>
@@ -305,7 +305,7 @@
                            
                         </ion-card-title>
                        
-                             <ion-searchbar debounce="500" v-model="search" @input="filterCustomer" autocomplete="off" placeholder="search customer ..."></ion-searchbar>
+                             <ion-searchbar debounce="500" v-model="search" autocomplete="off" placeholder="search customer ..."></ion-searchbar>
                             <small v-if="! saleData.customer_id" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Customer Name</small>
                         <ion-list v-if="!(search == '')">
                              <ion-item v-for="data in filteredCustomer" class=" my-2 rounded" :key="data.id" @click="addData(data)" button="true">

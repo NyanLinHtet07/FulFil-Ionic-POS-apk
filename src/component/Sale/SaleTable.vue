@@ -22,7 +22,7 @@
             
             
                 <div v-if="openItem">
-                    <ion-searchbar debounce="500" v-model="searchItem" @input="filterItems" placeholder="search Products ..." animated></ion-searchbar>
+                    <ion-searchbar debounce="500" v-model="searchItem" placeholder="search Products ..." animated></ion-searchbar>
                                     <ion-list v-if="!(searchItem == '')">
                                         <ion-item v-for=" data in filteredItems" :key="data.id" @click="addProduct(data)" button="true">
                                                 <ion-label> {{ data.variant.product_name }} </ion-label>
@@ -275,7 +275,7 @@
                                </ion-chip>
                            
                         </ion-card-title>
-                        <ion-searchbar debounce="500" v-model="search" @input="filterCustomer" autocomplete="off" placeholder="search customer ..."></ion-searchbar>
+                        <ion-searchbar debounce="500" v-model="search" autocomplete="off" placeholder="search customer ..."></ion-searchbar>
                         <small v-if="! saleData.customer_id" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Customer Name</small>
                         <ion-list v-if="!(search == '')">
                              <ion-item v-for="data in filteredCustomer" class=" my-2 rounded" :key="data.id" @click="addData(data)" button="true">
