@@ -478,10 +478,10 @@ export default {
             moment: moment,
 
              payments:[],
-            filteredItems:[],
+            //filteredItems:[],
             products:[],
-            filteredStates:[],
-            filteredCustomer:[],
+            //filteredStates:[],
+            //filteredCustomer:[],
             prices:[],
             focs:[],
             itemDiscounts:[],
@@ -632,17 +632,17 @@ export default {
             this.$store.dispatch('removeRetailItemFoc', foc)
         },
 
-        filterStates(){
-            this.filteredStates = this.focs.filter( state => {
-                return state.variant.product_name.toLowerCase().startsWith(this.state.toLowerCase());
-            })
-        },
+        // filterStates(){
+        //     this.filteredStates = this.focs.filter( state => {
+        //         return state.variant.product_name.toLowerCase().startsWith(this.state.toLowerCase());
+        //     })
+        // },
 
-         filterItems(){
-            this.filteredItems = this.products.filter( p => {
-                return p.variant.product_name.toLowerCase().startsWith(this.searchItem.toLowerCase());
-            })
-        },
+        //  filterItems(){
+        //     this.filteredItems = this.products.filter( p => {
+        //         return p.variant.product_name.toLowerCase().startsWith(this.searchItem.toLowerCase());
+        //     })
+        // },
 
         hide(){
             this.visiable = true;
@@ -662,11 +662,11 @@ export default {
                
         },
 
-         filterCustomer(){
-            this.filteredCustomer = this.customers.filter( state => {
-                return state.name.toLowerCase().startsWith(this.search.toLowerCase());
-            })
-        },
+        //  filterCustomer(){
+        //     this.filteredCustomer = this.customers.filter( state => {
+        //         return state.name.toLowerCase().startsWith(this.search.toLowerCase());
+        //     })
+        // },
 
         // for model box
          async openModal() {
@@ -784,13 +784,47 @@ export default {
     },
 
     computed:{
+
+        filteredStates(){
+            if( this.state == ''){
+                return ''
+            }
+            else{
+                return this.focs.filter( state => {
+                    return state.variant.product_name.toLowerCase().match(this.state.toLowerCase());
+            })
+            }
+        },
+
+         filteredItems(){
+                if(this.searchItem == ''){
+                    return ''
+                }
+                    else{
+                        return this.products.filter( p => {
+                        return p.variant.product_name.toLowerCase().match(this.searchItem.toLowerCase());
+                    })
+                }
+            
+        },
+
+        filteredCustomer(){
+            if(this.search == ''){
+                return ''
+            }
+
+            else{
+                 return this.customers.filter( state => {
+                    return state.name.toLowerCase().startsWith(this.search.toLowerCase());
+            })
+            }
+               
+        
+        },
+
         warehouseId(){
             return this.warehouse.id;
         },
-
-        //  customer(){
-        //     return this.$store.state.customer;
-        // },
         
          cartItems(){
             return this.$store.getters.retailItems;

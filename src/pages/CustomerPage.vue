@@ -335,7 +335,7 @@ export default {
     computed:{
         filterCustomers(){
             return this.customers.filter((cus) => {
-                return cus.name.toLowerCase().match(this.search.toLowerCase())
+                return cus.name.toLowerCase().startsWith(this.search.toLowerCase())
             })
         }
     },

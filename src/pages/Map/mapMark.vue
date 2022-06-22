@@ -23,7 +23,7 @@
           
            <div class=" relative inline bottom-20 left-20">
               
-                <ion-button @click="openPin()" shape="round" color="secondary"> Lists</ion-button>
+                <ion-button @click="openPin()" shape="round" color="secondary"> <ion-icon :icon="storefrontOutline"></ion-icon> </ion-button>
                
            </div>
              
@@ -36,10 +36,11 @@
 </template>
 
 <script>
-import { IonContent,  IonButton, modalController } from '@ionic/vue';
+import { IonContent,  IonButton, modalController, IonIcon } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { Geolocation } from '@capacitor/geolocation';
 import Modal from '../../component/Map/PinModel.vue'
+import { storefrontOutline} from 'ionicons/icons';
 // import axios from 'axios';
 //import { GoogleMap} from '@capacitor/google-maps'
 
@@ -48,7 +49,14 @@ export default defineComponent({
   components: {
     IonContent,
     IonButton,
+    IonIcon
   },
+
+   setup() {
+        return{
+            storefrontOutline
+        }
+    },
 
   data(){
     return{

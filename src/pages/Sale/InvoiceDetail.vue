@@ -485,20 +485,13 @@
                     style="max-width: 800px;margin: auto;padding: 30px;border: 1px solid #eee;box-shadow: 0 0 10px rgba(0, 0, 0, .15);font-size: 16px;line-height: 24px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #555;">
                     <table cellpadding="0" cellspacing="0" style="width: 100%;line-height: inherit;text-align: left; border:none;">
                         <tr>
-                            <td colspan="6" style="padding: 5px;vertical-align: top;">
-                            <table style="width:100%;line-height: inherit;text-align: left; border:none;">
-                                <tr>
-                                <td 
-                                    style="padding: 5px;vertical-align: top;padding-bottom: 20px;font-size: 45px;line-height: 45px;color: #333; border:none">
+                            <td colspan="6" style="padding: 5px;vertical-align: top;padding-bottom: 20px;font-size: 45px;line-height: 45px;color: #333; border:none">
                                     <img :src= "`https://fulfilmm.com/img/profiles/` + company.logo">
-                                </td>
-                               
-                              
-                               
-                                </tr>
-                            </table>
+                                
+                           
+                           
                             </td>
-                             <td>
+                             <td style=" border:none;">
                                      <h2 style=" font-size: bold; padding:10px">{{invoice.invoice_id}}</h2>
                                 </td>
                         </tr>
@@ -507,17 +500,16 @@
                           
                            
                                 <tr>
-                                     <td colspan="6" style="padding: 5px; vertical-align: top ;padding-bottom: 20px; font-weight:bold; font-size:small;">
-                                    {{company.name}} <br>
-                                    {{company.phone}} <br>
-                                    {{company.mobile_phone}} <br>
-                                     {{company.fax}} <br>
-                                    {{company.email}} <br>
-                                    {{company.web_link}} <br>
-                                    {{company.address}}
+                                     <td colspan="6" style="padding: 5px; vertical-align: top ;padding-bottom: 20px; font-weight:bold; font-size:small; border:none;">
+                                    <h3>{{company.name}} </h3> <br>
+                                    Phone --- {{company.phone}} / {{company.mobile_phone}} <br>
+                                     Fax ------- {{company.fax}} <br>
+                                    email ---- {{company.email}} <br>
+                                    Website - {{company.web_link}} <br>
+                                    Address - {{company.address}}
                                     </td>
 
-                                      <td style="padding: 5px; vertical-align: top;padding-bottom: 40px; font-weight:bold; font-size:small;">
+                                      <td style="padding: 5px; vertical-align: top;padding-bottom: 40px; font-weight:bold; font-size:small; border:none;">
                                      Name - {{cus.name}}<br>
                                      Phone.No -  {{cus.phone}} <br>
                                      Email -  {{invoice.email}}<br>
@@ -535,9 +527,9 @@
 
                         <tr>
                             <td colspan="8">
-                                <table style="width:100%;line-height: inherit;text-align: left; border:none;">
+                                <table style="width:100%;line-height: inherit;text-align: center; border:2px solid white; background:#f2f7f7; padding:5px; font-size:small;">
                                     <thead>
-                                         <th> Name </th>
+                                         <th  style=" margin-top:5px;"> Name </th>
                                         <th> Unit </th> 
                                         <th> Price </th>
                                         <th> Quantity  </th>
@@ -584,20 +576,20 @@
                                                             <span v-if="u.id == product.sell_unit">{{u.unit}}</span>
                                                         </div>
                                     </td>
-                                    <td>
+                                    <td style=" font-weight:bold;">
                                         Foc Item
                                     </td>
 
                                     <td>                           
                                         {{ product.quantity}} 
                                     </td>
-                                    <td colspan="3">
+                                    <td colspan="3" style=" font-weight:bold;">
                                         {{product.description}}
                                     </td>
                                 </tr>
                             
                             </tbody>
-                            <tfoot style=" text-align:right;">
+                            <tfoot style=" text-align:right; margin-right:5px;">
                                 <tr>
                                     <td colspan="4"> Total </td>
                                     <td colspan="3"> {{ invoice.total}}</td>
