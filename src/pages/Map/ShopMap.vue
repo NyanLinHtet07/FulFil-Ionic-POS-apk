@@ -6,8 +6,20 @@
 
              <div v-else>
                  <div v-if="visible" class=" mb-14 pb-3">
-             
-                    <ion-searchbar debounce="500" v-model="search" placeholder=" search shops ..." animated class="fixed top-16 bg-white z-30 w-full"/> 
+                    
+                    <div class="fixed top-16 bg-white z-30 w-full">
+                        <ion-searchbar debounce="500" v-model="search" placeholder=" search shops ..." animated/> 
+                        <select v-model="search">
+                            <option :value="r.id" v-for="r in regions" :key="r.id">{{r.name}}</option>
+                        </select>
+                         <select v-model="search">
+                            <option :value="z.id" v-for="z in zones" :key="z.id">{{z.name}}</option>
+                        </select>
+                        <select v-model="search">
+                            <option :value="b.id" v-for="b in branches" :key="b.id">{{b.name}}</option>
+                        </select>
+                    </div>
+                    
                     <div class=" mt-28">
 
                         <ion-list>
@@ -48,9 +60,9 @@
                 
                 </div>
 
-                <div  v-if="! visible" class="flex justify-center items-center h-screen mt-12">
+                <div  v-if="! visible" class="flex justify-center items-center h-screen">
                          <ion-content class="ion-padding" > 
-                             <GMapMap
+                             <!-- <GMapMap
                                 :center = "center"
                                 :zoom="15"
                                 map-type-id="terrain"
@@ -59,7 +71,7 @@
                                 <GMapMarker
                                     :position="{lat: Number(marker.lat) , lng: Number(marker.lng)}"
                                 />
-                            </GMapMap>
+                            </GMapMap> -->
                             <form @submit.prevent="submit">
                                
 
@@ -80,6 +92,15 @@
                                     <ion-input type="text" v-model="form.phone" required="required"></ion-input>
                                     <small v-if="! form.phone" class=" text-sm text-ellipsis text-red-800 font-bold">Phone Number Require</small>
                             </ion-item>
+
+                            <ion-item>
+                                <ion-label> Select Type</ion-label>
+                                <ion-select v-model="form.shop_type">
+                                    <ion-select-option value="wholesales"> WholeSales</ion-select-option>
+                                    <ion-select-option value="retailsales"> RetailSales</ion-select-option>
+                                </ion-select>
+                                <small v-if="! form.shop_type" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Type</small>
+                        </ion-item>
                         
                         
                         <ion-item>
@@ -87,9 +108,38 @@
                                 <ion-select v-model="form.branch_id">
                                     <ion-select-option v-for="branch in branches" :key="branch.id" :value="branch.id"> {{branch.name}}</ion-select-option>
                                 </ion-select>
-                                <small v-if="! form.branch_id" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Type</small>
+                                <small v-if="! form.branch_id" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Branch</small>
                         </ion-item>
 
+                        <ion-item>
+                                <ion-label> Select Region</ion-label>
+                                <ion-select v-model="form.region_id">
+                                    <ion-select-option v-for="region in regions" :key="region.id" :value="region.id"> {{region.name}}</ion-select-option>
+                                </ion-select>
+                                <small v-if="! form.region_id" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Region</small>
+                        </ion-item>
+
+                        <ion-item>
+                                <ion-label> Select Zone</ion-label>
+                                <ion-select v-model="form.zone_id">
+                                    <ion-select-option v-for="zone in zones" :key="zone.id" :value="zone.id"> {{zone.name}}</ion-select-option>
+                                </ion-select>
+                                <small v-if="! form.zone_id" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Zone</small>
+                        </ion-item>
+
+                         <ion-item>
+                            <ion-label position="floating"> Enter Township</ion-label>
+                                    <ion-input type="text" v-model="form.township"></ion-input>
+                                    <!-- <small v-if="! form.description" class=" text-sm text-ellipsis text-red-800 font-bold">Customer Phone Number Require</small> -->
+                         
+                        </ion-item>
+
+                         <ion-item>
+                            <ion-label position="floating"> Enter Address</ion-label>
+                                    <ion-input type="text" v-model="form.address"></ion-input>
+                                    <!-- <small v-if="! form.description" class=" text-sm text-ellipsis text-red-800 font-bold">Customer Phone Number Require</small> -->
+                         
+                        </ion-item>
                        
 
                         <ion-item>
@@ -142,8 +192,8 @@
 <script>
 import {IonContent, IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonSegment, IonSegmentButton, IonSearchbar,
          IonButton, IonSpinner, IonFooter, IonToolbar, IonIcon, IonList,
-         IonText } from '@ionic/vue';
-
+         IonText, alertController } from '@ionic/vue';
+import { Geolocation } from '@capacitor/geolocation';
 import Loader from '../../component/LoaderComponent.vue'
 
 import { mail, call} from 'ionicons/icons';
@@ -159,17 +209,27 @@ export default {
             visible: true,
             shops:[],
             branches:[],
+            regions:[],
+            zones:[],
+            d:[],
             search:'',
-            marker:{
-                lat:'',
-                lng:'',
-            },
+            searchRegion:'',
+            // marker:{
+            //     lat:'',
+            //     lng:'',
+            // },
+            location:'',
             form:{
                 name:'',
                 pictrue:'',
                 contact:'',
                 phone:'',
                 branch_id:'',
+                region_id:'',
+                zone_id:'',
+                shop_type:'',
+                township:'',
+                address:'',
                 description:'',
             },
             img:'',
@@ -191,6 +251,20 @@ export default {
     },
 
     methods: {
+        async presentAlert() {
+      const alert = await alertController
+        .create({
+          cssClass: 'my-custom-class',
+          //header: 'Alert',
+          subHeader: 'Location Access',
+          message: 'Please Check GPS or try again',
+          buttons: ['OK'],
+        });
+      await alert.present();
+
+      const { role } = await alert.onDidDismiss();
+      console.log('onDidDismiss resolved with role', role);
+    },
 
         reset(){
             this.form = {
@@ -213,6 +287,9 @@ export default {
                 .then( (res) => {
                   this.shops = res.data.shops;
                   this.branches = res.data.branch;
+                  this.regions = res.data.region;
+                  this.zones = res.data.zone;
+                  this.d = res.data;
                 })
                 .finally(() => this.loading = false)
         },
@@ -225,29 +302,45 @@ export default {
             this.visible = false;
         },  
 
-        mark(event){
-            //  console.log(event.latLng.lat());
-            // console.log(event.latLng.lng());
+        // mark(event){
+        //     //  console.log(event.latLng.lat());
+        //     // console.log(event.latLng.lng());
 
-            this.marker.lat = event.latLng.lat();
-            this.marker.lng = event.latLng.lng();
+        //     this.marker.lat = event.latLng.lat();
+        //     this.marker.lng = event.latLng.lng();
 
-             //console.log(this.marker.lat +','+ this.marker.lng);
+        //      //console.log(this.marker.lat +','+ this.marker.lng);
            
-        },
+        // },
 
         onChangeFileUpload(){
             this.form.img = this.$refs.img.files[0];
         },
 
+
+        //get current position
+
+        async currentPosition() {
+        const coordinates = await Geolocation.getCurrentPosition();
+        this.location = coordinates.coords.latitude +','+ coordinates.coords.longitude;
+      },
+        
         async submit(){
-             this.posting = true
+
+            this.currentPosition();
+
+            if(this.location == ''){
+                this.presentAlert();
+            }
+
+            else{
+                 this.posting = true
              
-            let location = this.marker.lat +','+ this.marker.lng;
+            //let location = this.marker.lat +','+ this.marker.lng;
             var data = new FormData();
 
             data.append('name' , this.form.name);
-            data.append('location', location);
+            data.append('location', this.location);
 
             if(! this.form.img){
                  data.append('picture', 0);
@@ -259,6 +352,11 @@ export default {
             data.append('contact', this.form.contact);
             data.append('phone', this.form.phone);
             data.append('branch_id', this.form.branch_id);
+            data.append('region_id', this.form.region_id);
+            data.append('zone_id', this.form.region_id);
+            data.append('shop_type', this.form.shop_type);
+            data.append('township', this.form.township);
+            data.append('address',  this.form.address);
             data.append('description', this.form.description);
 
            
@@ -283,6 +381,8 @@ export default {
                 console.log(error);
                 this.posting = false;
             });
+            }
+            
            
 
             //console.log(res);
@@ -292,7 +392,12 @@ export default {
     computed:{
         filteredShop(){
             return this.shops.filter( (s) => {
-               return  s.name.toLowerCase().match(this.search.toLowerCase());
+                return  s.name.toLowerCase().match(this.search.toLowerCase()) || 
+               
+                //return s.phone.toLowerCase().match(this.search.toLowerCase())
+                s.region_id.toString().toLowerCase().match(this.search.toLowerCase()) ||
+                 s.zone_id.toString().toLowerCase().match(this.search.toLowerCase()) ||
+                  s.branch_id.toString().toLowerCase().match(this.search.toLowerCase())
             })
         }
     },

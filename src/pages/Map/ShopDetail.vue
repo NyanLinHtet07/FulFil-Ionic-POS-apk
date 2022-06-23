@@ -13,11 +13,17 @@
         </ion-content>
         <ion-content v-else>
             <ion-grid class=" mt-3">
-                <ion-row>
+                <ion-row class="justify-content-between text-sm font-semibold">
                     <ion-col>
                         <ion-text class=" mx-4"> <ion-icon :icon="storefrontOutline"></ion-icon></ion-text>  <ion-text class=" text-gray-700">{{shop.name}}</ion-text> <br>
                         <ion-text class=" mx-4"> <ion-icon :icon="callOutline"></ion-icon> </ion-text> <ion-text class=" text-gray-700"> {{shop.phone}} </ion-text><br>
                         <ion-text class=" mx-4"> <ion-icon :icon="businessOutline"></ion-icon> </ion-text>  <ion-text class=" text-gray-700"> {{shop.contact}} </ion-text> <br>
+                    </ion-col>
+
+                    <ion-col>
+                         <ion-text class=" mx-4"> <ion-icon :icon="navigateOutline"></ion-icon></ion-text>  <ion-text class=" text-gray-700">{{shop.branch.name}}</ion-text> <br>
+                        <ion-text class=" mx-4"> <ion-icon :icon="locateOutline"></ion-icon> </ion-text> <ion-text class=" text-gray-700"> {{shop.region.name}} </ion-text><br>
+                        <ion-text class=" mx-4"> <ion-icon :icon="compassOutline"></ion-icon> </ion-text>  <ion-text class=" text-gray-700"> {{shop.zone.name}} </ion-text> <br>
                     </ion-col>
              
                 </ion-row>
@@ -56,7 +62,7 @@
 import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent,
         IonGrid, IonRow, IonCol, IonText, IonIcon} from '@ionic/vue'
 
-import { storefrontOutline, callOutline, businessOutline} from 'ionicons/icons';
+import { storefrontOutline, callOutline, businessOutline, locateOutline, navigateOutline, compassOutline} from 'ionicons/icons';
 import Loader from '../../component/LoaderComponent.vue'
 import axios from 'axios'
 
@@ -72,7 +78,7 @@ export default {
 
     setup() {
         return{
-            storefrontOutline, callOutline, businessOutline
+            storefrontOutline, callOutline, businessOutline , navigateOutline, locateOutline, compassOutline
         }
     },
 
