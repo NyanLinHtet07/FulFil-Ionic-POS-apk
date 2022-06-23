@@ -1,7 +1,7 @@
 <template>
    <ion-page>
        <ion-content>
-                <div class="flex justify-center items-center h-screen bg-gradient-to-b from-white to-blue-50">
+                <div class="flex justify-center items-center h-screen bg-gradient-to-b from-white to-slate-50">
                     <div class=" w-5/6">
                           <!-- <ion-title class=" text-gray-700 font-bold text-2xl text-center mb-6"> Login Here </ion-title> -->
                           

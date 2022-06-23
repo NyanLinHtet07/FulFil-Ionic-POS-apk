@@ -7,17 +7,17 @@
              <div v-else>
                  <div v-if="visible" class=" mb-14 pb-3">
                     
-                    <div class="fixed top-16 bg-white z-30 w-full">
+                    <div class="fixed top-14 bg-white z-30 w-full">
                         <ion-searchbar debounce="500" v-model="search" placeholder=" search shops ..." animated/> 
-                        <select v-model="search">
-                            <option :value="r.id" v-for="r in regions" :key="r.id">{{r.name}}</option>
+                        <!-- <select v-model="search" class=" py-3 px-2 rounded w-20 bg-slate-50">
+                            <option :value="r.name" v-for="r in regions" :key="r.id">{{r.name}}</option>
                         </select>
-                         <select v-model="search">
-                            <option :value="z.id" v-for="z in zones" :key="z.id">{{z.name}}</option>
+                         <select v-model="searchZone" class=" py-3 px-2 rounded w-20 bg-slate-50">
+                            <option :value="z.name" v-for="z in zones" :key="z.id">{{z.name}}</option>
                         </select>
-                        <select v-model="search">
-                            <option :value="b.id" v-for="b in branches" :key="b.id">{{b.name}}</option>
-                        </select>
+                        <select v-model="search" class=" py-3 px-2 rounded w-30 bg-slate-50">
+                            <option :value="b.name" v-for="b in branches" :key="b.id">{{b.name}}</option>
+                        </select> -->
                     </div>
                     
                     <div class=" mt-28">
@@ -213,7 +213,7 @@ export default {
             zones:[],
             d:[],
             search:'',
-            searchRegion:'',
+            searchZone:'',
             // marker:{
             //     lat:'',
             //     lng:'',
@@ -392,12 +392,11 @@ export default {
     computed:{
         filteredShop(){
             return this.shops.filter( (s) => {
-                return  s.name.toLowerCase().match(this.search.toLowerCase()) || 
-               
-                //return s.phone.toLowerCase().match(this.search.toLowerCase())
-                s.region_id.toString().toLowerCase().match(this.search.toLowerCase()) ||
-                 s.zone_id.toString().toLowerCase().match(this.search.toLowerCase()) ||
-                  s.branch_id.toString().toLowerCase().match(this.search.toLowerCase())
+                return  s.name.toLowerCase().startsWith(this.search.toLowerCase());
+                // return  s.name.toLowerCase().match(this.search.toLowerCase()) || 
+                // s.region.name.toString().toLowerCase().match(this.search.toLowerCase()) ||
+                //  s.zone.name.toString().toLowerCase().match(this.search.toLowerCase()) ||
+                //   s.branch.name.toString().toLowerCase().match(this.search.toLowerCase())
             })
         }
     },

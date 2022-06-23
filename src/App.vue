@@ -15,11 +15,20 @@ import { defineComponent } from 'vue';
 import Menu from './component/MenuSide.vue';
 import { ScreenOrientation} from '@awesome-cordova-plugins/screen-orientation'
 import { refreshCircle } from 'ionicons/icons'
+import { useBackButton, useIonRouter } from '@ionic/vue';
+import { App } from '@capacitor/app';
 
 export default defineComponent({
   name: 'App',
 
   setup() {
+    const ionRouter = useIonRouter();
+    useBackButton(-1, () => {
+      if (!ionRouter.canGoBack()) {
+        App.exitApp();
+      }
+    });
+    
     return{
        refreshCircle,
     }
