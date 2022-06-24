@@ -2,7 +2,7 @@
   <ion-app>
      <Menu></Menu>
     <ion-router-outlet id="main-content"/>
-    <div class=" z-40 fixed bottom-0 left-0 mx-3 my-2">
+    <div class=" z-40 fixed bottom-6 left-0">
                 <ion-button @click="rotateLamp()" class="" fill="clear" shape="round" size="large"> <ion-icon :icon="refreshCircle" class=" text-lime-700/80 text-4xl" v-if="visible"></ion-icon> </ion-button>
                 <ion-button @click="rotatePort()" class="" fill="clear" shape="round" size="large"> <ion-icon :icon="refreshCircle" class=" text-sky-600/80 text-4xl" v-if="! visible"></ion-icon> </ion-button>      
       </div>

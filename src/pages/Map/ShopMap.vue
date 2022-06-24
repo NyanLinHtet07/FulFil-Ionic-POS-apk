@@ -7,7 +7,7 @@
              <div v-else>
                  <div v-if="visible" class=" mb-14 pb-3">
                     
-                    <div class="fixed top-14 bg-white z-30 w-full">
+                    <div class="fixed top-12 bg-white z-30 w-full">
                         <ion-searchbar debounce="500" v-model="search" placeholder=" search shops ..." animated/> 
                         <!-- <select v-model="search" class=" py-3 px-2 rounded w-20 bg-slate-50">
                             <option :value="r.name" v-for="r in regions" :key="r.id">{{r.name}}</option>
@@ -20,7 +20,7 @@
                         </select> -->
                     </div>
                     
-                    <div class=" mt-28">
+                    <div class=" mt-24">
 
                         <ion-list>
                             <ion-item v-for=" shop in filteredShop" :key="shop.id">
@@ -60,7 +60,7 @@
                 
                 </div>
 
-                <div  v-if="! visible" class="flex justify-center items-center h-screen">
+                <div  v-if="! visible" class="flex justify-center items-center h-screen mt-6">
                          <ion-content class="ion-padding" > 
                              <!-- <GMapMap
                                 :center = "center"

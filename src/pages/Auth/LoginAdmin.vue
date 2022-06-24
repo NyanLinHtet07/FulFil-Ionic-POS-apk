@@ -39,7 +39,7 @@
 <script>
 
 import { IonPage, IonContent,  
-         IonItem, IonLabel, IonInput,IonButton, IonSpinner} from '@ionic/vue';
+         IonItem, IonLabel, IonInput,IonButton, IonSpinner, alertController} from '@ionic/vue';
 //import { mapGetters,mapActions} from "vuex";
 import axios from "axios";
 export default {
@@ -59,17 +59,42 @@ export default {
     },
 
     methods: {
+
+         async presentAlert() {
+            const alert = await alertController
+                .create({
+                cssClass: 'my-custom-class',
+                //header: 'Alert',
+                subHeader: 'Somethimd Wrong',
+                message: 'Please check email and password or network',
+                buttons: ['OK'],
+                });
+            await alert.present();
+
+            const { role } = await alert.onDidDismiss();
+            console.log('onDidDismiss resolved with role', role);
+            },
+
         async login(){
             this.posting = true;
-            const response = await axios.post('login' , {
+                 await axios.post('login' , {
                 email: this.userInfo.email,
                 password: this.userInfo.password
-            });
+            }).then(
+                response => {
+                     this.posting = false ;
+                    localStorage.setItem('token', response.data.access_token);
+                
+                    this.$router.push('/select-sales');
+                }
+            ) .catch(
+                error => {
+                    this.presentAlert();
+                    console.log(error);
+                }
+            );
             
-            this.posting = false ;
-            localStorage.setItem('token', response.data.access_token);
            
-            this.$router.push('/select-sales');
            
 
             //console.log(response)

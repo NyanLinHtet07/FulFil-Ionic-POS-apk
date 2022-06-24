@@ -1,14 +1,14 @@
  <template>
     <ion-page>
         <ion-content>
-            <ion-button @click="getCurrentPosition()"> Click Me </ion-button>
+            
              <GMapMap
                     :center = "center"
                     :zoom="16"
                     map-type-id="terrain"
                     class="mx-auto block w-11/12 h-3/4 px-3 py-2 rounded-lg shadow-md">
                     <GMapMarker
-                        :position="{lat: lat , lng: lng}"
+                        :position="{lat: current.lat , lng: current.lng}"
                     >
                     </GMapMarker>
             </GMapMap>
@@ -17,15 +17,18 @@
  </template>
 
  <script>
-    import {IonPage, IonContent, IonButton} from '@ionic/vue'
+    import {IonPage, IonContent} from '@ionic/vue'
     import { Geolocation } from '@capacitor/geolocation';
 
     export default {
 
         data(){
             return{
-                lat:'',
-                lng:'',
+                current:{
+                     lat:0,
+                    lng:0,
+                },
+               
 
                 center:{
                     lat:0,
@@ -36,16 +39,11 @@
         },
 
         components:{
-            IonPage, IonContent, IonButton
+            IonPage, IonContent
         },
 
         methods:{
-            async getCurrentPosition() {
-                const coordinates = await Geolocation.getCurrentPosition();
-                console.log('Current', coordinates);
-                this.lat = coordinates.coords.latitude;
-                this.lng = coordinates.coords.longitude;
-            },
+           
              getPosition() {
                 Geolocation.getCurrentPosition().then(position => {
                 console.log('Current', position)
@@ -54,6 +52,12 @@
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                     })
+                
+                 this.current = Object.assign({}, this.center, {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                    })
+
                 })
             },
         
