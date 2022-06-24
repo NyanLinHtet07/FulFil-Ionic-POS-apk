@@ -4,7 +4,7 @@
             
              <GMapMap
                     :center = "center"
-                    :zoom="16"
+                    :zoom="20" 
                     map-type-id="terrain"
                     class="mx-auto block w-11/12 h-3/4 px-3 py-2 rounded-lg shadow-md">
                     <GMapMarker
@@ -61,7 +61,7 @@
                 })
             },
         
-        },
+        }, 
 
         mounted() {
             this.getPosition();
