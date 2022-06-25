@@ -28,10 +28,10 @@ const routes = [
   //     redirect:'/sales',
   // },
 
-  // {
-  //   path:'/test',
-  //   component:() => import('@/pages/testComponent.vue'),
-  // },
+  {
+    path:'/test',
+    component:() => import('@/pages/testComponent.vue'),
+  },
  
   {
     path:'/home',
@@ -101,10 +101,10 @@ const routes = [
     path:'/assign/:id',
     component:() => import('@/pages/Map/mapMark.vue'),
   },
-  {
-    path:'/test',
-    component:() => import('@/pages/Map/testMap.vue'),
-  },
+  // {
+  //   path:'/test',
+  //   component:() => import('@/pages/Map/testMap.vue'),
+  // },
   //for shop
   {
     path:'/shop',

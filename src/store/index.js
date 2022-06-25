@@ -175,6 +175,8 @@ const store = createStore({
                 state.cartItems = state.cartItems.filter( item => {
                     return item.id !== product.id;
                 })
+
+                state.cartItemCount--;
           },
 
           addFoc(state, payload){

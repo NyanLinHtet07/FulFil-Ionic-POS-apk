@@ -90,6 +90,7 @@ export default {
             ) .catch(
                 error => {
                     this.presentAlert();
+                    this.posting = false ;
                     console.log(error);
                 }
             );

@@ -122,6 +122,7 @@ const mutations = {
             state.retailItems = state.retailItems.filter( item => {
                 return item.id !== product.id;
             })
+            state.retailItemCount --
       },
 
       Remove_Retail_Foc(state, foc){

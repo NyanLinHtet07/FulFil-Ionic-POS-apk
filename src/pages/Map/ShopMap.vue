@@ -152,7 +152,7 @@
                         <ion-item>
                             <ion-label> Input File </ion-label>
                             <input type="file" ref="img" @change="onChangeFileUpload()" />
-                            <label class=" text-sm text-ellipsis text-red-800 font-bold"> you can upload files up to 2MB</label>
+                            <label class=" text-sm text-ellipsis text-red-800 font-bold"> you can upload files up to 8MB</label>
                         </ion-item>
                
                         <div class="text-center mt-5 mb-36">

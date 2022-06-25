@@ -26,7 +26,7 @@
             return{
                 current:{
                      lat:0,
-                    lng:0,
+                     lng:0,
                 },
                
 
@@ -53,7 +53,7 @@
                     lng: position.coords.longitude
                     })
                 
-                 this.current = Object.assign({}, this.center, {
+                 this.current = Object.assign({}, this.current, {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                     })

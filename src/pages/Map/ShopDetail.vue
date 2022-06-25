@@ -44,6 +44,7 @@
                       :opened="true"
                     >
                       <div> {{shop.name}}</div>
+                      <div>{{ shop.phone}}</div>
                     </GMapInfoWindow>
 
                     </GMapMarker>

@@ -60,7 +60,8 @@
                                         <div>
                                             <!-- <label for=""> Unit </label> -->
                                             <select v-model="product.unitId" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
-                                                <option v-for="u in product.unit" :key="u.id" :value="u.id">{{u.unit}}</option>
+                                                <option :value="''" disabled selected>Select your option</option>
+                                                <option v-for="u in product.unit" :key="u.id" :value="u.id" @click="pricing(product.id , u.id)">{{u.unit}}</option>
                                             </select>
                                         </div>
 
@@ -68,28 +69,29 @@
                                 
                         </ion-col>
                         <ion-col>
-                                <div v-for="(p,index) in prices" :key="index">
+                             <ion-input v-model="product.price" readonly="readonly" class="text-sm"></ion-input>
+                                <!-- <div v-for="(p,index) in prices" :key="index">
                                     <span v-if="product.variant.id == p.product_id">
                                          <span v-if="p.unit_id === product.unitId"> 
                                             <span v-if="product.variant.pricing_type == p.multi_price">
                                             
-                                                    <span v-if=" p.multi_price == 0">
+                                                    <span v-if=" p.multi_price == 0"> -->
                                                         <!-- <ion-label for="price"> Price </ion-label>
                                                          <ion-select name="price" id="" v-model="product.price">
                                                              <ion-select-option :value="p.price">{{p.price}}</ion-select-option>
                                                         </ion-select> -->
                                                       <!-- <label for=""> Price </label> -->
-                                                        <select v-model="product.price" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
+                                                        <!-- <select v-model="product.price" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                             <option :value="p.price">{{p.price}}</option>
                                                         </select>
                                                         
                                                     </span>
                                                     <span v-else>
-                                                        <span v-if="p.min <= product.quantity && ( p.max >= product.quantity || p.max == null ) "> 
+                                                        <span v-if="p.min <= product.quantity && ( p.max >= product.quantity || p.max == null ) ">  -->
                                                                 <!-- <input type="text"  :value= "p.price" > -->
                                                                <!-- <label for=""> Price </label> -->
-                                                                <select v-model="product.price" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
-                                                                   <!-- <option value=""> Select</option> -->
+                                                                <!-- <select v-model="product.price" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
+                                                                  
                                                                     <option :value="p.price">{{p.price}}</option>
                                                                 </select>
                                                         </span>
@@ -98,9 +100,9 @@
                                         </span>
                                         </span> 
                                           
-                                    <!-- </p> -->
+                                    
                                   
-                                </div>
+                                </div> -->
                         </ion-col>
                        
                         <ion-col> 
@@ -499,6 +501,37 @@ export default {
     },
 
     methods:{
+
+        pricing(p_id , u_id){
+            // console.log(p_id)
+            console.log(u_id)
+            this.cartItems.map( item => {
+                if(item.id == p_id){
+                    this.prices.map ( price => {
+                        if( item.variant.id == price.product_id){
+                            if( price.unit_id === item.unitId){
+                                if( item.variant.pricing_type == price.multi_price)
+                                {
+                                     if( price.multi_price == 0)
+                                    {
+                                        item.price = price.price
+                                    }
+                                    else{
+                                        if( price.min <= item.quantity && ( price.max >= item.quantity || price.max == null )){
+                                            item.price = price.price
+                                        }
+                                    }
+                                }
+                                   
+                            }
+                            else {
+                                item.price = 0
+                            }
+                        }
+                    })
+                }
+            })
+        },
 
         async presentAlert() {
             const alert = await alertController

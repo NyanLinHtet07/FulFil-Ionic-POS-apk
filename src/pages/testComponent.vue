@@ -39,7 +39,7 @@ export default {
     },
 
     data(){
-        // let loream = 'noob';
+        // let loream = 'noob'; 
         return{
             text:'',
             loream:'noo',
