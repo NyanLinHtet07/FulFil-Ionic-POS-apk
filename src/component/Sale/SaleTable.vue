@@ -524,10 +524,11 @@ export default {
                                 }
                                    
                             }
-                            else {
-                                item.price = 0
-                            }
+                            // else {
+                            //     item.price = 0
+                            // }
                         }
+
                     })
                 }
             })

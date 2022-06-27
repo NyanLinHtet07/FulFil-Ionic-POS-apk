@@ -554,12 +554,19 @@ export default {
                                 }
                                    
                             }
-                            else {
-                                item.price = 0
-                            }
+                            // else {
+                            //     item.price = 0
+                            // }
                         }
+                        // else{
+                        //     console.log("hello")
+                        // }
+
+                        
                     })
                 }
+
+              
             })
         },
             // this.cartItems.map(item => {
