@@ -16,8 +16,19 @@
             <div v-if="visible" class=" mb-14 pb-3">
              
                     <ion-searchbar debounce="500" v-model="search" placeholder=" search customers ..." animated class="fixed top-28 bg-white z-30 w-full"/> 
-             <div class=" mt-28">
-                  <ion-card v-for=" cus in filterCustomers" :key="cus.id" class="mt-6">
+             <div class=" mt-36">
+                <ion-list>
+                    <ion-item v-for=" cus in filterCustomers" :key="cus.id" :router-link="`/customers/invoices/${cus.id}`" button="true" >
+                          <ion-avatar class=" mx-auto block">
+                                 <ion-icon :icon="person" class="text-sky-700/75 text-3xl px-3 py-2 mb-2 rounded-2xl bg-slate-200"></ion-icon>
+                            </ion-avatar>
+
+                            <ion-label class=" ml-8"> {{cus.name}} </ion-label>
+
+                            <ion-label class="text-gray-600/90">  {{cus.phone}} </ion-label>
+                    </ion-item>
+                </ion-list>
+                  <!-- <ion-card v-for=" cus in filterCustomers" :key="cus.id" class="mt-6">
                         <ion-card-header class=" text-center border-b-2 border-gray-200 bg-slate-50">
                             <ion-avatar class=" mx-auto block">
                                  <ion-icon :icon="person" class="text-sky-900/75 text-3xl"></ion-icon>
@@ -54,7 +65,7 @@
                                 </ion-grid>
                          
                         </ion-card-content>
-                    </ion-card>
+                    </ion-card> -->
              </div>
                   
                
@@ -175,8 +186,8 @@
 </template>
 <script>
 import {IonAvatar,IonContent, IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonSegment, IonSegmentButton, IonSearchbar,
-         IonButton, IonSpinner, IonFooter, IonToolbar, IonIcon, IonChip,
-         IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonText, IonGrid, IonRow, IonCol, alertController } from '@ionic/vue';
+         IonButton, IonSpinner, IonFooter, IonToolbar, IonIcon, IonChip, IonList, IonText,
+         alertController } from '@ionic/vue';
 
 import { personAddOutline, personOutline , person, mail, call} from 'ionicons/icons';
 import Loader from '../component/LoaderComponent.vue'
@@ -221,9 +232,9 @@ export default {
    
 
     components:{
-         IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonAvatar, IonChip,
+         IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonAvatar, IonChip, IonText,
          IonButton, IonSpinner, Loader, IonContent, IonSegment, IonSegmentButton, IonFooter, IonToolbar, IonIcon,
-         IonSearchbar, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonText, IonGrid, IonRow, IonCol
+         IonSearchbar, IonList
     },
  
     methods:{
