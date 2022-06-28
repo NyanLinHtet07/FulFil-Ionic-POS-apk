@@ -57,16 +57,17 @@
                                             </ion-select-option>
                                         </ion-select> -->
                                     
-                                        <div>
+                                        
                                             <!-- <label for=""> Unit </label> -->
-                                            <select v-model="product.unitId" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
+                                            <!-- <select v-model="product.unitId" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                 <option :value="''" disabled selected>Select your option</option>
                                                 <option v-for="u in product.unit" :key="u.id" :value="u.id" @click="pricing(product.id , u.id)">{{u.unit}}</option>
-                                            </select>
-                                        </div>
-
-                            
-                                
+                                            </select> -->
+                                        
+                                <ul>
+                                    <li  v-for="u in product.unit" :key="u.id" :value="u.id" @click="pricing(product.id , u.id)"> {{u.unit}} </li>
+                                </ul>   
+       
                         </ion-col>
                         <ion-col>
                              <ion-input v-model="product.price" readonly="readonly" class="text-sm"></ion-input>
@@ -503,34 +504,53 @@ export default {
     methods:{
 
         pricing(p_id , u_id){
-            // console.log(p_id)
-            console.log(u_id)
+            //console.log(u_id)
             this.cartItems.map( item => {
-                if(item.id == p_id){
+                 if(item.id == p_id){
+                     item.unitId = u_id
+
                     this.prices.map ( price => {
-                        if( item.variant.id == price.product_id){
-                            if( price.unit_id === item.unitId){
-                                if( item.variant.pricing_type == price.multi_price)
+
+                        if( price.unit_id == item.unitId && item.variant_id == price.product_id){
+
+                            
+                            
+                                if( item.pricing_type == price.multi_price)
                                 {
-                                     if( price.multi_price == 0)
-                                    {
-                                        item.price = price.price
-                                    }
-                                    else{
-                                        if( price.min <= item.quantity && ( price.max >= item.quantity || price.max == null )){
+                                    
+
+                                        if( price.multi_price == 0)
+                                        {
                                             item.price = price.price
                                         }
-                                    }
+
+                                        else{
+                                            if( price.min <= item.quantity && ( price.max >= item.quantity || price.max == null )){
+                                                item.price = price.price
+                                            }
+                                        }
+ 
+                                 
                                 }
                                    
+                            
+                            else {
+                                item.price = 0
+                               
                             }
-                            // else {
-                            //     item.price = 0
-                            // }
+
+                           
                         }
 
+                        else{
+                            console.log('Hello')
+                           
+                        }
+                    
+                    
                     })
-                }
+                 }
+                
             })
         },
 

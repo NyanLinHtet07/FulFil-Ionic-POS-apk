@@ -532,41 +532,55 @@ export default {
     },
 
     methods:{
-        pricing(p_id , u_id){
-            // console.log(p_id)
-            console.log(u_id)
+         pricing(p_id , u_id){
+            //console.log(u_id)
             this.cartItems.map( item => {
-                if(item.id == p_id){
+                 if(item.id == p_id){
+                     item.unitId = u_id
+
                     this.prices.map ( price => {
-                        if( item.variant.id == price.product_id){
-                            if( price.unit_id === item.unitId){
-                                if( item.variant.pricing_type == price.multi_price)
+
+                        if( price.unit_id == item.unitId && item.variant_id == price.product_id){
+
+                            
+                            
+                                if( item.pricing_type == price.multi_price)
                                 {
-                                     if( price.multi_price == 0)
-                                    {
-                                        item.price = price.price
-                                    }
-                                    else{
-                                        if( price.min <= item.quantity && ( price.max >= item.quantity || price.max == null )){
+                                    
+
+                                        if( price.multi_price == 0)
+                                        {
                                             item.price = price.price
                                         }
-                                    }
+
+                                        else{
+                                            if( price.min <= item.quantity && ( price.max >= item.quantity || price.max == null )){
+                                                item.price = price.price
+                                            }
+                                        }
+ 
+                                 
                                 }
                                    
+                            
+                            else {
+                                window.alert('Helo')
+                                item.price = 0
+                               
                             }
-                            // else {
-                            //     item.price = 0
-                            // }
+
+                           
                         }
-                        // else{
-                        //     console.log("hello")
-                        // }
 
-                        
+                        else{
+                            console.log('Hello')
+                          
+                        }
+                    
+                    
                     })
-                }
-
-              
+                 }
+                
             })
         },
             // this.cartItems.map(item => {

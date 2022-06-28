@@ -33,8 +33,15 @@
                 
                 <div class=" bg-white rounded-md shadow-md px-3 py-6 mx-3" v-if="! visible">
                             <div class=" flex justify-between mb-5">
-                                <div>
-                                     <img :src= "`https://fulfilmm.com/img/profiles/` + company.logo" class="" />
+                                <div v-if="company == null">
+                                    Hello
+                                </div>
+                                <div v-else>
+                                    <div v-if=" ! company.logo"> Noob </div>
+                                    <div v-else>
+                                         <img :src= "`https://fulfilmm.com/img/profiles/` + company.logo" class="" />
+                                    </div>
+                                    
 
                                       <div class=" mt-3 px-3 ml-5">
                                     
@@ -484,9 +491,19 @@
                 <div  id="print-wrapper"
                     style="max-width: 800px;margin: auto;padding: 30px;border: 1px solid #eee;box-shadow: 0 0 10px rgba(0, 0, 0, .15);font-size: 16px;line-height: 24px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #555;">
                     <table cellpadding="0" cellspacing="0" style="width: 100%;line-height: inherit;text-align: left; border:none;">
-                        <tr>
+                        <div v-if=" company == null">
+                            Hello
+                        </div>
+
+                        <div v-else>
+                            <tr>
                             <td colspan="6" style="padding: 5px;vertical-align: top;padding-bottom: 20px;font-size: 45px;line-height: 45px;color: #333; border:none">
-                                    <img :src= "`https://fulfilmm.com/img/profiles/` + company.logo">
+                                   
+                                     <div v-if=" company.logo == null"> Noob </div>
+                                    <div v-else>
+                                         <img :src= "`https://fulfilmm.com/img/profiles/` + company.logo" class="" />
+                                    </div>
+                                    <!-- <img :src= "`https://fulfilmm.com/img/profiles/` + company.logo"> -->
                                 
                            
                            
@@ -495,10 +512,7 @@
                                      <h2 style=" font-size: bold; padding:10px">{{invoice.invoice_id}}</h2>
                                 </td>
                         </tr>
-
-                       
-                          
-                           
+      
                                 <tr>
                                      <td colspan="6" style="padding: 5px; vertical-align: top ;padding-bottom: 20px; font-weight:bold; font-size:small; border:none;">
                                     <h3>{{company.name}} </h3> <br>
@@ -519,6 +533,8 @@
                                      Due Data -   {{moment(invoice.due_date).format("MMM Do YYYY")}} 
                                      </td>
                                 </tr>
+                        </div>
+                        
                           
                            
                         
