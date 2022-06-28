@@ -35,6 +35,7 @@
             <ion-grid class=" w-full">
                 <ion-row class="ion-text-center bg-emerald-300/60 text-sm">
                     <ion-col> Name </ion-col>
+                  
                     <ion-col> Unit </ion-col> 
                     <ion-col> Price </ion-col>
                     <ion-col> Quantity  </ion-col>
@@ -48,6 +49,9 @@
                         <ion-col> 
                             <ion-input v-model="product.product_name" readonly="readonly" class="text-sm"></ion-input>
                         </ion-col>
+
+                        
+
                         <ion-col>         
                                         
                                             <!-- <label for=""> Unit </label> -->
@@ -66,7 +70,7 @@
                                         <li  v-for="u in product.unit" :key="u.id"  @click="pricing(product.id , u.id)" class=" my-2 rounded px-2 py-2 bg-white text-sm"> {{u.unit}} </li>
                                     </ul>  
                                 </div> 
-
+ 
                                      
        
                         </ion-col>
@@ -106,12 +110,12 @@
                                   
                                 </div> -->
                         </ion-col>
-                       
+
                         <ion-col> 
-                          
-                            <ion-input type="number" v-model="product.quantity" class=" bg-white text-sm"></ion-input>
-                          
+                            <ion-input type="number" v-model="product.quantity" @keyup="pricing(product.id , product.unitId)" class=" bg-white text-sm"></ion-input>
                         </ion-col>
+                       
+                        
                          <ion-col>
                             <div v-for="(dis,index) in itemDiscounts" :key="index">
                                 <span v-if="product.variant.id == dis.variant_id">
@@ -517,25 +521,24 @@ export default {
                     this.prices.map ( price => {
 
                         if( price.unit_id == item.unitId && item.variant_id == price.product_id){
-
-                            
-                            
+   
                                 if( item.pricing_type == price.multi_price)
                                 {
-                                    
 
                                         if( price.multi_price == 0)
                                         {
                                             item.price = price.price
                                         }
 
-                                        else{
-                                            if( price.min <= item.quantity && ( price.max >= item.quantity || price.max == null )){
+                                        else if(price.min <= item.quantity && ( price.max >= item.quantity || price.max == null))
+                                            {
                                                 item.price = price.price
                                             }
-                                        }
- 
-                                 
+
+                                        // else{
+                                        //     if(  ))
+                                        // }
+
                                 }
                                    
                             
@@ -543,8 +546,7 @@ export default {
                                 item.price = 0
                                
                             }
-
-                           
+     
                         }
 
                         else{

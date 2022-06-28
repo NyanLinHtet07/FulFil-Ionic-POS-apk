@@ -61,6 +61,12 @@
                                             {{ data.product_name}}
                                         
                                         </ion-text>
+
+                                          <ion-text class=" text-emerald-800 text-sm font-medium leading-none ml-3">
+                                            {{ data.variant.item_code}}
+                                        
+                                        </ion-text>
+                                        
                                         <ion-text slot="end" class="text-sm text-lime-900/80 font-semibold">
                                             {{ data.show_price}} MMK
                                         </ion-text>

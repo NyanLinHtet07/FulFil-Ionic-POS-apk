@@ -24,9 +24,9 @@
                  <ion-item @click="menuNavigation('/history')">
                     <ion-label><ion-icon :icon="informationCircleOutline" class="mx-4" />Sale History</ion-label>
                 </ion-item>
-                <ion-item @click="menuNavigation('/shop')">
+                <!-- <ion-item @click="menuNavigation('/shop')">
                     <ion-label><ion-icon :icon="storefrontOutline" class="mx-4"/>Shops</ion-label>
-                </ion-item>
+                </ion-item> -->
 
                 <!-- <ion-item @click="menuNavigation('/map')">
                     <ion-label> <ion-icon :icon="mapOutline" class=" mx-4"></ion-icon> Map</ion-label>
@@ -36,9 +36,9 @@
                     <ion-label> <ion-icon :icon="mapOutline" class=" mx-4"></ion-icon> SaleWay</ion-label>
                 </ion-item> -->
 
-                 <ion-item @click="menuNavigation('/map/assign_way')">
+                 <!-- <ion-item @click="menuNavigation('/map/assign_way')">
                     <ion-label> <ion-icon :icon="mapOutline" class=" mx-4"></ion-icon> Assign Way</ion-label>
-                </ion-item>
+                </ion-item> -->
 
                 <ion-item>
                     <a :href="`https://fulfilmm.com/employee/login`" class=" text-black hover:text-blue-600"> <ion-icon :icon="linkOutline" class=" mx-4"></ion-icon> Back Office</a>

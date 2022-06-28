@@ -124,7 +124,7 @@
                        
                         <ion-col> 
                             
-                            <ion-text> <ion-input v-model="product.quantity" class=" bg-white text-sm" type="number"></ion-input> </ion-text>
+                              <ion-input type="number" v-model="product.quantity" @keyup="pricing(product.id , product.unitId)" class=" bg-white text-sm"></ion-input>
                            
                         </ion-col>
                          <ion-col>

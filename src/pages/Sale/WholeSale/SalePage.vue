@@ -73,8 +73,12 @@
                                     </div> -->
                                 <ion-item  v-for=" data in filterProducts" :key="data.id"  @click="addToCart(data)" class=" px-3 py-2" button="true">
                                     
-                                        <ion-text class=" text-gray-800/90 text-sm font-medium leading-none">
+                                        <ion-text class=" text-gray-600/90 text-sm font-medium leading-none">
                                             {{ data.product_name}}
+                                        
+                                        </ion-text>
+                                        <ion-text class=" text-emerald-800 text-sm font-medium leading-none ml-3">
+                                            {{ data.variant.item_code}}
                                         
                                         </ion-text>
                                         <ion-text slot="end" class="text-sm text-lime-900/80 font-semibold">
