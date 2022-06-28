@@ -62,14 +62,22 @@
                         <ion-col> 
                             
                                     
-                                        <div>
-                                            <!-- <label for=""> Unit </label> -->
+                                        <!-- <div>
+                                           
                                             <select v-model="product.unitId" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white"  id="grid-state">
                                                  <option :value="''" disabled selected>Select your option</option>
                                                 <option v-for="u in product.unit" :key="u.id" :value="u.id" @click="pricing(product.id , u.id)">{{u.unit}}</option>
                                             </select>
-                                        </div>
-
+                                        </div> -->
+                             <div class="dropdown">
+                                    <p v-if=" product.unitId == 0" class=" mt-2"> Select Unit </p>
+                                    <p v-else v-for="uni in product.unit" :key="uni.id" class="mt-2">
+                                        <span v-if="product.unitId == uni.id"> {{ uni.unit}}</span>    
+                                    </p>   
+                                     <ul class="dropdown-content">
+                                        <li  v-for="u in product.unit" :key="u.id"  @click="pricing(product.id , u.id)" class=" my-2 rounded px-2 py-2 bg-white text-sm"> {{u.unit}} </li>
+                                    </ul>  
+                                </div> 
                             
                                 
                         </ion-col>
@@ -964,4 +972,23 @@ export default {
         border: 0.5px solid rgba(247, 233, 233, 0.596);
         
     }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        }
+
+        .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        padding: 12px 16px;
+        z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+        display: block;
+        }
 </style>

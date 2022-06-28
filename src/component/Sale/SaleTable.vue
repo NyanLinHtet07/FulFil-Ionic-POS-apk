@@ -48,25 +48,26 @@
                         <ion-col> 
                             <ion-input v-model="product.product_name" readonly="readonly" class="text-sm"></ion-input>
                         </ion-col>
-                        <ion-col> 
-                            
-                               <!-- <ion-label> Select Unit</ion-label> -->
-                                        <!-- <ion-select v-model="product.unitId">
-                                            <ion-select-option v-for="u in product.unit" :key="u.id" :value="u.id"> 
-                                                    {{ u.unit}} 
-                                            </ion-select-option>
-                                        </ion-select> -->
-                                    
+                        <ion-col>         
                                         
                                             <!-- <label for=""> Unit </label> -->
                                             <!-- <select v-model="product.unitId" class="text-sm block appearance-none w-full  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none bg-white" id="grid-state">
                                                 <option :value="''" disabled selected>Select your option</option>
                                                 <option v-for="u in product.unit" :key="u.id" :value="u.id" @click="pricing(product.id , u.id)">{{u.unit}}</option>
                                             </select> -->
-                                        
-                                <ul>
-                                    <li  v-for="u in product.unit" :key="u.id" :value="u.id" @click="pricing(product.id , u.id)"> {{u.unit}} </li>
-                                </ul>   
+   
+                                
+                                <div class="dropdown">
+                                    <p v-if=" product.unitId == 0" class=" mt-2"> Select Unit </p>
+                                    <p v-else v-for="uni in product.unit" :key="uni.id" class="mt-2">
+                                        <span v-if="product.unitId == uni.id"> {{ uni.unit}}</span>    
+                                    </p>   
+                                     <ul class="dropdown-content">
+                                        <li  v-for="u in product.unit" :key="u.id"  @click="pricing(product.id , u.id)" class=" my-2 rounded px-2 py-2 bg-white text-sm"> {{u.unit}} </li>
+                                    </ul>  
+                                </div> 
+
+                                     
        
                         </ion-col>
                         <ion-col>
@@ -442,6 +443,7 @@ export default {
             test:'',
             openItem: true,
             visiable:false,
+           
             unitId:'',
             tax:'',
             deli:'',
@@ -495,13 +497,16 @@ export default {
     },
 
     setup() {
+    
         return{
-            addCircleOutline, removeCircleOutline, trashSharp, returnUpBack, personAddOutline
+            addCircleOutline, removeCircleOutline, trashSharp, returnUpBack, personAddOutline,
         }
         
     },
 
     methods:{
+
+      
 
         pricing(p_id , u_id){
             //console.log(u_id)
@@ -937,4 +942,23 @@ export default {
         border: 0.5px solid rgba(247, 233, 233, 0.596);
         
     }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        }
+
+        .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        padding: 12px 16px;
+        z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+        display: block;
+        }
 </style>

@@ -34,7 +34,7 @@
                 <div class=" bg-white rounded-md shadow-md px-3 py-6 mx-3" v-if="! visible">
                             <div class=" flex justify-between mb-5">
                                 <div v-if="company == null">
-                                    Hello
+                                    Error
                                 </div>
                                 <div v-else>
                                     <div v-if=" ! company.logo"> Noob </div>
@@ -492,7 +492,7 @@
                     style="max-width: 800px;margin: auto;padding: 30px;border: 1px solid #eee;box-shadow: 0 0 10px rgba(0, 0, 0, .15);font-size: 16px;line-height: 24px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #555;">
                     <table cellpadding="0" cellspacing="0" style="width: 100%;line-height: inherit;text-align: left; border:none;">
                         <div v-if=" company == null">
-                            Hello
+                            Error
                         </div>
 
                         <div v-else>
