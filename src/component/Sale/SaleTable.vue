@@ -112,6 +112,7 @@
                         </ion-col>
 
                         <ion-col> 
+
                             <ion-input type="number" v-model="product.quantity" @keyup="pricing(product.id , product.unitId)" class=" bg-white text-sm"></ion-input>
                         </ion-col>
                        
@@ -513,47 +514,31 @@ export default {
       
 
         pricing(p_id , u_id){
-            //console.log(u_id)
             this.cartItems.map( item => {
                  if(item.id == p_id){
                      item.unitId = u_id
 
+                     item.unit.map ( u =>{
+                        if( u.id == u_id){
+                            let avl = Number(item.available) / Number(u.unit_convert_rate) 
+                            let qty = Number(item.quantity) / Number(u.unit_convert_rate);
+                            if( qty > avl){
+                                item.quantity = Math.trunc(avl) 
+                            }
+                        }
+                     })
+
                     this.prices.map ( price => {
 
                         if( price.unit_id == item.unitId && item.variant_id == price.product_id){
-   
-                                if( item.pricing_type == price.multi_price)
-                                {
 
-                                        if( price.multi_price == 0)
-                                        {
-                                            item.price = price.price
-                                        }
-
-                                        else if(price.min <= item.quantity && ( price.max >= item.quantity || price.max == null))
+                                    
+                                     if(price.min <= item.quantity )
                                             {
                                                 item.price = price.price
                                             }
-
-                                        // else{
-                                        //     if(  ))
-                                        // }
-
-                                }
-                                   
-                            
-                            else {
-                                item.price = 0
-                               
-                            }
-     
-                        }
-
-                        else{
-                            console.log('Hello')
-                           
-                        }
-                    
+                              
+                        }    
                     
                     })
                  }
