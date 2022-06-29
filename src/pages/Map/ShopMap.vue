@@ -321,9 +321,9 @@ export default {
         //get current position
 
         async currentPosition() {
-        const coordinates = await Geolocation.getCurrentPosition();
-        this.location = coordinates.coords.latitude +','+ coordinates.coords.longitude;
-      },
+                    const coordinates = await Geolocation.getCurrentPosition();
+                    this.location = coordinates.coords.latitude +','+ coordinates.coords.longitude;
+                },
         
         async submit(){
 
