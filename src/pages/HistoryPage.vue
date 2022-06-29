@@ -13,8 +13,8 @@
                             
                             <ion-card-title> <h4> Invoice Number - {{ record.invoice_id}} </h4></ion-card-title>
                            
-                            <ion-card-subtitle class=" text-gray-700">  Invoice Date - {{moment(record.invoice_date).format("MMM Do YYYY")}}  </ion-card-subtitle>
-                            <ion-card-subtitle class=" text-gray-700">  Due Date - {{moment(record.due_date).format("MMM Do YYYY")}}  </ion-card-subtitle>
+                            <!-- <ion-card-subtitle class=" text-gray-700">  Invoice Date - {{moment(record.invoice_date).format("MMM Do YYYY")}}  </ion-card-subtitle>
+                            <ion-card-subtitle class=" text-gray-700">  Due Date - {{moment(record.due_date).format("MMM Do YYYY")}}  </ion-card-subtitle> -->
                             <div class=" flex ion-justify-content-between">
                                  <ion-text class="text-gray-600 font-bold"> {{record.inv_type}} </ion-text> 
                                 <div>
@@ -45,7 +45,7 @@
                                   
                                 </ion-row>
 
-                                 <ion-row>
+                                 <!-- <ion-row>
                                     <ion-col>
                                        <ion-label> Address </ion-label>
                                     </ion-col>
@@ -53,7 +53,7 @@
                                         <ion-text>  {{record.billing_address}} </ion-text>
                                     </ion-col>
                                    
-                                </ion-row>
+                                </ion-row> -->
 
                                   <ion-row class="font-bold text-lg">
                                     <ion-col>
@@ -97,7 +97,7 @@
 <script>
 import {  IonContent,
          IonList ,IonLabel,IonText, IonGrid, IonRow, IonCol, IonSearchbar,
-        IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent} from '@ionic/vue';
+        IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent} from '@ionic/vue';
 
 import Loader from '../component/LoaderComponent.vue'
 import moment from 'moment';
@@ -117,7 +117,7 @@ export default {
         IonGrid,
         IonRow, IonCol,
         IonButton,
-        IonCard, IonCardHeader, IonCardSubtitle, IonCardContent, IonCardTitle,
+        IonCard, IonCardHeader, IonCardContent, IonCardTitle,
         IonSearchbar,
         Loader
        

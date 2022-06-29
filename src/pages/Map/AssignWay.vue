@@ -4,7 +4,11 @@
                 <Loader/>
         </ion-content>
         <ion-content v-else>
-             <ion-list v-for="a in assign" :key="a.id"> 
+            <div v-if="! assign.length" class="">
+                <img src="/assets/direction.svg" alt="" class=" w-60  mx-auto  mt-32 block">
+                <ion-text> <h2 class=" text-center leading-4 space-x-2 font-bold text-gray-600"> There is no Assign Way </h2></ion-text>
+            </div>
+             <ion-list v-else v-for="a in assign" :key="a.id"> 
                     
                     
                     <ion-card   class="my-4">

@@ -7,7 +7,7 @@ import store from './store';
 import HighchartsVue from './chart';
 
 //for map
-import  VueGoogleMaps from '@fawmi/vue-google-maps'
+//import  VueGoogleMaps from '@fawmi/vue-google-maps'
 //import Geolocation from 'vue3-geolocation'
 import './axios';
 //import { File } from '@ionic-native/file';
@@ -44,11 +44,11 @@ const app = createApp(App)
   .use(router)
   //.use(BluetoothSerial)
   .use(HighchartsVue)
-  .use(VueGoogleMaps, {
-    load: {
-        key: 'AIzaSyCM0ZdauyzVy2mYk0SeH9SUGIeQwF045vM',
-    },
-    })
+  // .use(VueGoogleMaps, {
+  //   load: {
+  //       key: 'AIzaSyCM0ZdauyzVy2mYk0SeH9SUGIeQwF045vM',
+  //   },
+  //   })
 
     app.use(store);
     app.component('master-layout' , MasterLayout);

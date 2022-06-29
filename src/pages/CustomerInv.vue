@@ -31,6 +31,12 @@
                         <div class=" text-gray-700 my-2">
                             <ion-icon :icon="callOutline" class=" font-bold mr-3"></ion-icon> <ion-text class=" font-semibold"> {{ customer.phone}}</ion-text>
                         </div>
+                         <div class=" text-gray-700 my-2">
+                            <ion-label> Current Credit  </ion-label> <ion-text class=" font-semibold"> {{ customer.current_credit}}</ion-text>
+                        </div>
+                         <div class=" text-gray-700 my-2">
+                             <ion-label>Credit Limit </ion-label> <ion-text class=" font-semibold"> {{ customer.credit_limit }}</ion-text>
+                        </div>
                     </div>
                     <div>
                           <div class=" text-gray-700 my-2">

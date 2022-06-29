@@ -12,7 +12,8 @@
                 <Loader/>
             </ion-content>
         <ion-content v-else class=" bg-white w-auto h-full">
-         <GMapMap
+            <h1>Helo</h1>
+         <!-- <GMapMap
             :center="center"
             :zoom="13"
             map-type-id="terrain"
@@ -28,10 +29,10 @@
                       <div> Name : {{s.shop.name}}</div>
         </GMapInfoWindow>
                 </GMapMarker>
-          </GMapMap>
+          </GMapMap> -->
       
             
-            <div class=" absolute bottom-40 right-0">
+            <div class=" absolute bg-slate-800">
                 
                   <ion-button @click="openPin()" shape="round" color="secondary"> <ion-icon :icon="storefrontOutline"></ion-icon> </ion-button>
                 

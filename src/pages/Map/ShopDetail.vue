@@ -23,7 +23,7 @@
                     <ion-col>
                          <ion-text class=" mx-4"> <ion-icon :icon="navigateOutline"></ion-icon></ion-text>  <ion-text class=" text-gray-700">{{shop.branch.name}}</ion-text> <br>
                         <ion-text class=" mx-4"> <ion-icon :icon="locateOutline"></ion-icon> </ion-text> <ion-text class=" text-gray-700"> {{shop.region.name}} </ion-text><br>
-                        <ion-text class=" mx-4"> <ion-icon :icon="compassOutline"></ion-icon> </ion-text>  <ion-text class=" text-gray-700"> {{shop.zone.name}} </ion-text> <br>
+                        <!-- <ion-text class=" mx-4"> <ion-icon :icon="compassOutline"></ion-icon> </ion-text>  <ion-text class=" text-gray-700"> {{shop.zone.name}} </ion-text> <br> -->
                     </ion-col>
              
                 </ion-row>
@@ -31,7 +31,7 @@
 
            
               
-                     <GMapMap
+                     <!-- <GMapMap
                     :center = "{lat: parseFloat(location.lat) , lng:  parseFloat(location.lng)}"
                     :zoom="16"
                     map-type-id="terrain"
@@ -51,7 +51,7 @@
 
                   
                     </GMapMap>
-            
+             -->
                 
   
 

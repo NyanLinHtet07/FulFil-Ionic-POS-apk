@@ -1,5 +1,14 @@
 <template>
-    <master-layout pageTitle="Invoice Detail">
+   <ion-page>
+
+             <ion-header>
+                <ion-toolbar>
+                    <ion-buttons slot="start">
+                        <ion-back-button default-href="/history"></ion-back-button>
+                    </ion-buttons>
+                    <ion-title slot="end"> Invoice Detail</ion-title>
+                </ion-toolbar>
+            </ion-header>
         
             <ion-content v-if="loading">
                     <Loader/>
@@ -482,7 +491,7 @@
                             
                     </ion-card>
                 </div>
-                </div>
+                </div> 
 
             <!------------------- end --------------------->
 
@@ -639,14 +648,14 @@
             </ion-content>
         
         
-       
-    </master-layout>
+    </ion-page>
+    
         
    
 </template>
 <script>
-import { IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, IonInput,
-        IonSelect, IonSelectOption, IonSearchbar,IonTitle, IonIcon, IonList,modalController} from '@ionic/vue'
+import { IonPage, IonHeader, IonToolbar, IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, IonInput,
+        IonSelect, IonSelectOption, IonSearchbar,IonTitle, IonIcon, IonList, IonButtons, IonBackButton,modalController} from '@ionic/vue'
 import { closeCircleOutline, storefrontOutline, phonePortraitOutline, callOutline, mailOpenOutline, locateOutline,
             globeOutline, sendOutline} from 'ionicons/icons';
 import axios from 'axios'
@@ -658,8 +667,8 @@ import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator';
 
 export default {
     components:{
-        IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, IonSearchbar, IonSelect, IonSelectOption,
-        IonTitle, IonInput, IonIcon, IonList,
+         IonPage, IonHeader, IonToolbar,IonContent, IonButton, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonItem, IonLabel, IonSearchbar, IonSelect, IonSelectOption,
+        IonTitle, IonInput, IonIcon, IonList, IonButtons, IonBackButton,
         Loader
     },
 

@@ -3,7 +3,7 @@
      <ion-content v-if="loading">
             <Loader/>
      </ion-content>
-        <div v-else class=" bg-gradient-to-t from-sky-100 to to-lime-50">
+        <div v-else class="">
            
             <div class=" flex justify-end px-2 py-2 fixed top-14 bg-white z-30 w-full">
                 <ion-chip color="medium" router-link="/wholesales"> Wholesales </ion-chip>
@@ -18,12 +18,13 @@
                     <ion-searchbar debounce="500" v-model="search" placeholder=" search customers ..." animated class="fixed top-28 bg-white z-30 w-full"/> 
              <div class=" mt-36">
                 <ion-list>
-                    <ion-item v-for=" cus in filterCustomers" :key="cus.id" :router-link="`/customers/invoices/${cus.id}`" button="true" >
-                          <ion-avatar class=" mx-auto block">
-                                 <ion-icon :icon="person" class="text-sky-700/75 text-3xl px-3 py-2 mb-2 rounded-2xl bg-slate-200"></ion-icon>
+                    <ion-item v-for=" cus in filterCustomers" :key="cus.id" :router-link="`/customers/invoices/${cus.id}`" button="true">
+                          <ion-avatar class="">
+                                 <ion-icon v-if="cus.profile == null" :icon="person" class="text-sky-700/75 text-3xl px-2 py-2 mb-2 rounded-3xl bg-slate-200"></ion-icon>
+                                <ion-img v-else :src="`https://fulfilmm.com/img/profiles/` + cus.profile" alt=""> </ion-img>
                             </ion-avatar>
 
-                            <ion-label class=" ml-8"> {{cus.name}} </ion-label>
+                            <ion-label class=" ml-12"> {{cus.name}} </ion-label>
 
                             <ion-label class="text-gray-600/90">  {{cus.phone}} </ion-label>
                     </ion-item>
@@ -124,8 +125,8 @@
                         <ion-item>
                                 <ion-label> Select Gender</ion-label>
                                 <ion-select v-model="form.gender">
-                                    <ion-select-option value="male"> Male </ion-select-option>
-                                    <ion-select-option value="female"> Female </ion-select-option>
+                                    <ion-select-option value="Male"> Male </ion-select-option>
+                                    <ion-select-option value="Female"> Female </ion-select-option>
                                 </ion-select>
                                  <small v-if="! form.gender" class=" text-sm text-ellipsis text-red-800 font-bold">Please Select Gender</small>
                         </ion-item>
@@ -186,7 +187,7 @@
 </template>
 <script>
 import {IonAvatar,IonContent, IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonSegment, IonSegmentButton, IonSearchbar,
-         IonButton, IonSpinner, IonFooter, IonToolbar, IonIcon, IonChip, IonList, IonText,
+         IonButton, IonSpinner, IonFooter, IonToolbar, IonIcon, IonChip, IonList, IonText, IonImg,
          alertController } from '@ionic/vue';
 
 import { personAddOutline, personOutline , person, mail, call} from 'ionicons/icons';
@@ -234,7 +235,7 @@ export default {
     components:{
          IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonAvatar, IonChip, IonText,
          IonButton, IonSpinner, Loader, IonContent, IonSegment, IonSegmentButton, IonFooter, IonToolbar, IonIcon,
-         IonSearchbar, IonList
+         IonSearchbar, IonList, IonImg
     },
  
     methods:{
