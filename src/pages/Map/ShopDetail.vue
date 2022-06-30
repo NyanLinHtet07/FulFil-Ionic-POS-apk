@@ -12,22 +12,42 @@
             <Loader/>
         </ion-content>
         <ion-content v-else>
-            <ion-grid class=" mt-3">
-                <ion-row class="justify-content-between text-sm font-semibold">
-                    <ion-col>
-                        <ion-text class=" mx-4"> <ion-icon :icon="storefrontOutline"></ion-icon></ion-text>  <ion-text class=" text-gray-700">{{shop.name}}</ion-text> <br>
-                        <ion-text class=" mx-4"> <ion-icon :icon="callOutline"></ion-icon> </ion-text> <ion-text class=" text-gray-700"> {{shop.phone}} </ion-text><br>
-                        <ion-text class=" mx-4"> <ion-icon :icon="businessOutline"></ion-icon> </ion-text>  <ion-text class=" text-gray-700"> {{shop.contact}} </ion-text> <br>
-                    </ion-col>
-
-                    <ion-col>
-                         <ion-text class=" mx-4"> <ion-icon :icon="navigateOutline"></ion-icon></ion-text>  <ion-text class=" text-gray-700">{{shop.branch.name}}</ion-text> <br>
-                        <ion-text class=" mx-4"> <ion-icon :icon="locateOutline"></ion-icon> </ion-text> <ion-text class=" text-gray-700"> {{shop.region.name}} </ion-text><br>
-                        <!-- <ion-text class=" mx-4"> <ion-icon :icon="compassOutline"></ion-icon> </ion-text>  <ion-text class=" text-gray-700"> {{shop.zone.name}} </ion-text> <br> -->
-                    </ion-col>
-             
-                </ion-row>
-            </ion-grid>
+           
+                <ion-header class="bg-sky-100/70 bg-opacity-60 backdrop-blur-md backdrop-filter py-6">
+                    <ion-avatar class=" mx-auto block my-10">
+                                    <ion-icon v-if="shop.picture == null" :icon=" storefrontOutline" class=" text-emerald-800 text-5xl px-2 py-2 mb-2 rounded-3xl bg-slate-100"></ion-icon>
+                                    <ion-img v-else :src="`https://fulfilmm.com/img/profiles/` + shop.picture" alt=""> </ion-img>
+                                </ion-avatar>
+                </ion-header>
+                <ion-content>
+                    <ion-list>
+                        <ion-item>
+                            <ion-icon :icon="storefrontOutline" class=" text-2xl my-2 ml-8"></ion-icon>
+                             <ion-label class=" ml-8">  {{shop.name}}</ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-icon :icon="callOutline" class=" text-2xl my-2 ml-8"></ion-icon>
+                            <ion-label class="ml-8">  {{shop.phone}}</ion-label>
+                        </ion-item>
+                        <ion-item>
+                             <ion-icon :icon="navigateOutline" class=" text-2xl my-2 ml-8"></ion-icon>
+                             <ion-label class=" ml-8"> {{shop.branch.name}} </ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-icon :icon="locateOutline" class=" text-2xl my-2 ml-8"></ion-icon>
+                            <ion-label class=" ml-8"> {{shop.region.name}} </ion-label>
+                        </ion-item>
+                        <ion-item>
+                             <ion-icon :icon="compassOutline" class=" text-2xl my-2 ml-8"></ion-icon>
+                            <ion-text v-if="shop.zone == null" class=" ml-8"> There is no Zone </ion-text>
+                            <ion-text class=" ml-8" v-else> {{shop.zone.name}} </ion-text>
+                        </ion-item>
+                    </ion-list>
+                                       
+                             
+                </ion-content>
+          
+           
 
            
               
@@ -60,8 +80,8 @@
 </template>
 <script>
 
-import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent,
-        IonGrid, IonRow, IonCol, IonText, IonIcon} from '@ionic/vue'
+import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonAvatar, IonImg, IonLabel, IonItem, IonList,
+         IonText, IonIcon} from '@ionic/vue'
 
 import { storefrontOutline, callOutline, businessOutline, locateOutline, navigateOutline, compassOutline} from 'ionicons/icons';
 import Loader from '../../component/LoaderComponent.vue'
@@ -84,8 +104,8 @@ export default {
     },
 
     components:{
-        IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent,
-        IonGrid, IonRow, IonCol, IonText, IonIcon,
+        IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonAvatar, IonImg,
+       IonText, IonIcon, IonLabel, IonItem, IonList,
         Loader
     },
 
@@ -114,3 +134,8 @@ export default {
     },
 }
 </script>
+<style scoped>
+    /* ion-icon {
+  font-size: 24px;
+} */
+</style>

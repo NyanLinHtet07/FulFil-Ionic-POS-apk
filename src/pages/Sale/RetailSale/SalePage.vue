@@ -56,8 +56,12 @@
                                  
                               </div> -->
                                   <ion-item  v-for=" data in filterProducts" :key="data.id"  @click="addToCart(data)" class=" px-3 py-2" button="true">
-                                    
-                                        <ion-text class=" text-gray-800/90 text-sm font-medium leading-none">
+                                         <ion-avatar class="">
+                                            <ion-icon v-if="data.image == null" :icon="person" class="text-sky-700/75 text-3xl px-2 py-2 mb-2 rounded-3xl bg-slate-200"></ion-icon>
+                                            <ion-img v-else :src="`https://fulfilmm.com/product_picture/` + data.image" alt=""> </ion-img>
+                                        </ion-avatar>
+
+                                        <ion-text class=" ml-5 text-gray-800/90 text-sm font-medium leading-none">
                                             {{ data.product_name}}
                                         
                                         </ion-text>
@@ -101,7 +105,7 @@
 </template>
 <script>
 
-import { IonHeader,IonContent, IonSearchbar,
+import { IonHeader,IonContent, IonSearchbar, IonAvatar, IonImg, IonIcon,
          IonGrid, IonRow, IonCol,IonText,  IonButton, IonChip, alertController } from '@ionic/vue';
 import { arrowUpCircleOutline, barcodeOutline, cartOutline, removeCircle, personAddOutline } from 'ionicons/icons';
 
@@ -122,6 +126,9 @@ export default {
         IonText,
         IonButton,
         IonChip,
+        IonAvatar,
+        IonImg,
+        IonIcon,
         Loader
 
         //Sale

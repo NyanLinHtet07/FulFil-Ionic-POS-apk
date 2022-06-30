@@ -33,15 +33,6 @@
                                 </ion-col>
                                 
                             
-                                <!-- <ion-col class="ion-align-self-auto">
-                                        <ion-searchbar debounce="500" v-model="state" @input="filterStates" autocomplete="off"></ion-searchbar>
-                                    
-                                        <ion-list>
-                                            <ion-item v-for=" data in filteredStates" :key="data.id" @click="addToCart(data)">
-                                                    <ion-label> {{ data.product_name }} </ion-label>
-                                            </ion-item>
-                                        </ion-list>
-                                </ion-col> -->
                             
 
                                 <ion-searchbar debounce="500" v-model="search" placeholder=" search products ..." animated/>                          
@@ -55,25 +46,15 @@
                
                 <ion-content class=" top-32">
                                    
-                        <!-- <div class=" grid grid-cols-2 gap-4 w-full">
-                                        
-                                            <button @click="addToCart(data)"  v-for=" data in filterProducts" :key="data.id" 
-                                                    class=" px-3 py-2 rounded-lg my-3 mx-2 bg-white text-sky-600 shadow-lg
-                                                        ring-1 ring-sky-300
-                                                        hover:bg-sky-500 hover:text-white hover:shadow-inner
-                                                        transition-colors duration-300">
-                                                        <ion-label> 
-                                                            <h4> {{ data.product_name }} </h4>
-                                                            <h5> {{ data.variant.product_code}} </h5>
-
-                                                        </ion-label>
-                                                    
-                                            </button>
-                                        
-                                    </div> -->
+                        
                                 <ion-item  v-for=" data in filterProducts" :key="data.id"  @click="addToCart(data)" class=" px-3 py-2" button="true">
-                                    
-                                        <ion-text class=" text-gray-600/90 text-sm font-medium leading-none">
+
+                                           <ion-avatar class="">
+                                            <ion-icon v-if="data.image == null" :icon="person" class="text-sky-700/75 text-3xl px-2 py-2 mb-2 rounded-3xl bg-slate-200"></ion-icon>
+                                            <ion-img v-else :src="`https://fulfilmm.com/product_picture/` + data.image" alt=""> </ion-img>
+                                        </ion-avatar>
+
+                                        <ion-text class=" ml-5 text-gray-600/90 text-sm font-medium leading-none">
                                             {{ data.product_name}}
                                         
                                         </ion-text>
@@ -82,7 +63,7 @@
                                         
                                         </ion-text>
                                         <ion-text slot="end" class="text-sm text-lime-900/80 font-semibold">
-                                            {{ data.show_price}} MMK
+                                             {{ data.show_price}} MMK
                                         </ion-text>
                             
                                 
@@ -112,7 +93,7 @@
 
 import { IonHeader, IonContent, IonSearchbar, IonItem,
          IonGrid, IonRow, IonCol,IonButton,
-         IonText, IonChip, alertController} from '@ionic/vue';
+         IonText, IonChip, alertController, IonAvatar, IonImg, IonIcon} from '@ionic/vue';
 import { arrowUpCircleOutline,  barcodeOutline, cartOutline, removeCircle, personAddOutline } from 'ionicons/icons';
 // import Sale from '../component/Sale/SaleTable.vue'
 //import Barcode from '../../../component/Sale/BarCodeData.vue';
@@ -135,6 +116,9 @@ export default {
         IonItem,
         Loader,
         IonChip,
+        IonAvatar,
+        IonImg,
+        IonIcon
     
 
     },

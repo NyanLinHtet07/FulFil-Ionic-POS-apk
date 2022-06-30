@@ -7,7 +7,7 @@
              <div v-else>
                  <div v-if="visible" class=" mb-14 pb-3">
                     
-                    <div class="fixed top-12 bg-white z-30 w-full">
+                    <div class="fixed top-14 bg-white z-30 w-full">
                         <ion-searchbar debounce="500" v-model="search" placeholder=" search shops ..." animated/> 
                         <!-- <select v-model="search" class=" py-3 px-2 rounded w-20 bg-slate-50">
                             <option :value="r.name" v-for="r in regions" :key="r.id">{{r.name}}</option>
@@ -24,7 +24,11 @@
 
                         <ion-list>
                             <ion-item v-for=" shop in filteredShop" :key="shop.id">
-                                <ion-label> <ion-text class=" mr-4 font-medium text-sm text-gray-700 "> {{shop.name}} </ion-text> </ion-label>
+                                 <ion-avatar class="">
+                                    <ion-icon v-if="shop.picture == null" :icon=" storefrontOutline" class=" text-emerald-800 text-3xl px-2 py-2 mb-2 rounded-3xl bg-slate-100"></ion-icon>
+                                    <ion-img v-else :src="`https://fulfilmm.com/img/profiles/` + shop.picture" alt=""> </ion-img>
+                                </ion-avatar>
+                                <ion-label class=" ml-5"> <ion-text class=" mr-4 font-medium text-sm text-gray-700 "> {{shop.name}} </ion-text> </ion-label>
                                  <ion-label> <ion-icon :icon="call" class="text-sm text-gray-700"></ion-icon> <ion-text class=" mr-4 font-medium text-sm text-gray-500"> {{shop.phone}} </ion-text></ion-label> 
                                  <ion-button :router-link="`/shops/detail/${shop.id}`" color="primary" shape="round" class=" text-lime-800 font-bold" size="small"> Details </ion-button>
                             </ion-item>
@@ -192,11 +196,12 @@
 <script>
 import {IonContent, IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonSegment, IonSegmentButton, IonSearchbar,
          IonButton, IonSpinner, IonFooter, IonToolbar, IonIcon, IonList,
-         IonText, alertController } from '@ionic/vue';
+         IonText, IonAvatar, IonImg, alertController } from '@ionic/vue';
+
 import { Geolocation } from '@capacitor/geolocation';
 import Loader from '../../component/LoaderComponent.vue'
 
-import { mail, call} from 'ionicons/icons';
+import {  storefrontOutline, mail, call} from 'ionicons/icons';
 
 import axios from 'axios';
 
@@ -214,10 +219,7 @@ export default {
             d:[],
             search:'',
             searchZone:'',
-            // marker:{
-            //     lat:'',
-            //     lng:'',
-            // },
+          
             location:'',
             form:{
                 name:'',
@@ -239,7 +241,7 @@ export default {
 
     setup() {
         return{
-             mail, call
+             mail, call, storefrontOutline
         }
         
     },  
@@ -247,7 +249,7 @@ export default {
     components:{
          IonInput, IonSelect, IonSelectOption, IonItem, IonLabel, IonList,
          IonButton, IonSpinner, Loader, IonContent, IonSegment, IonSegmentButton, IonFooter, IonToolbar, IonIcon,
-         IonSearchbar, IonText, 
+         IonSearchbar, IonText, IonAvatar, IonImg
     },
 
     methods: {
@@ -343,10 +345,10 @@ export default {
             data.append('location', this.location);
 
             if(! this.form.img){
-                 data.append('picture', 0);
+                 data.append('img', 0);
             }
             else{
-                 data.append('picture', this.form.img);
+                 data.append('img', this.form.img);
             }
            
             data.append('contact', this.form.contact);
