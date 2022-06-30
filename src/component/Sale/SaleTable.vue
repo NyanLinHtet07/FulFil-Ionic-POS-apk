@@ -113,7 +113,7 @@
 
                         <ion-col> 
 
-                            <ion-input type="number" v-model="product.quantity" @keyup="pricing(product.id , product.unitId)" class=" bg-white text-sm"></ion-input>
+                            <ion-input type="text" v-model="product.quantity" @keyup="pricing(product.id , product.unitId)" class=" bg-white text-sm"></ion-input>
                         </ion-col>
                        
                         
@@ -518,15 +518,24 @@ export default {
                  if(item.id == p_id){
                      item.unitId = u_id
 
-                     item.unit.map ( u =>{
+
+                     item.unit.filter ( u =>{
                         if( u.id == u_id){
-                            let avl = Number(item.available) / Number(u.unit_convert_rate) 
-                            let qty = Number(item.quantity) / Number(u.unit_convert_rate);
-                            if( qty > avl){
-                                item.quantity = Math.trunc(avl) 
+                            let avl = Math.trunc(Number(item.available) / Number(u.unit_convert_rate)); 
+                            let qty = Math.trunc(Number(item.quantity) / Number(u.unit_convert_rate));
+                          
+                            let d = avl - qty;
+                            if( d == 0){
+                                item.quantity = avl
+                            }
+                            else{
+                                // window.alert( qty )
+                                item.quantity = qty
                             }
                         }
                      })
+
+                    //window.alert(item.quantity)
 
                     this.prices.map ( price => {
 
