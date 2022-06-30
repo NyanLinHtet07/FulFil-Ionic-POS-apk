@@ -521,16 +521,15 @@ export default {
 
                      item.unit.filter ( u =>{
                         if( u.id == u_id){
-                            let avl = Math.trunc(Number(item.available) / Number(u.unit_convert_rate)); 
-                            let qty = Math.trunc(Number(item.quantity) / Number(u.unit_convert_rate));
-                          
-                            let d = avl - qty;
-                            if( d == 0){
-                                item.quantity = avl
-                            }
-                            else{
-                                // window.alert( qty )
-                                item.quantity = qty
+
+                            let avl = Number(item.available); 
+
+                            let qty = Math.trunc(Number(item.quantity) * Number(u.unit_convert_rate));
+
+                            //window.alert(avl - qty);
+                            if( avl < qty){
+                                item.quantity = Math.trunc( avl /Number(u.unit_convert_rate));
+                                window.alert("Not Enough Quantity, it is only remaining " + item.quantity  + " " + u.unit)
                             }
                         }
                      })

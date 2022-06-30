@@ -541,56 +541,46 @@ export default {
 
     methods:{
          pricing(p_id , u_id){
-            //console.log(u_id)
             this.cartItems.map( item => {
                  if(item.id == p_id){
                      item.unitId = u_id
+
+
+                     item.unit.filter ( u =>{
+                        if( u.id == u_id){
+
+                            let avl = Number(item.available); 
+
+                            let qty = Math.trunc(Number(item.quantity) * Number(u.unit_convert_rate));
+
+                            //window.alert(avl - qty);
+                            if( avl < qty){
+                                item.quantity = Math.trunc( avl /Number(u.unit_convert_rate));
+                                window.alert("Not Enough Quantity, it is only remaining " + item.quantity  + " " + u.unit)
+                            }
+                        }
+                     })
+
+                    //window.alert(item.quantity)
 
                     this.prices.map ( price => {
 
                         if( price.unit_id == item.unitId && item.variant_id == price.product_id){
 
-                            
-                            
-                                if( item.pricing_type == price.multi_price)
-                                {
                                     
-
-                                        if( price.multi_price == 0)
-                                        {
-                                            item.price = price.price
-                                        }
-
-                                        else{
-                                            if( price.min <= item.quantity && ( price.max >= item.quantity || price.max == null )){
+                                     if(price.min <= item.quantity )
+                                            {
                                                 item.price = price.price
                                             }
-                                        }
- 
-                                 
-                                }
-                                   
-                            
-                            else {
-                                window.alert('Helo')
-                                item.price = 0
-                               
-                            }
-
-                           
-                        }
-
-                        else{
-                            console.log('Hello')
-                          
-                        }
-                    
+                              
+                        }    
                     
                     })
                  }
                 
             })
         },
+
             // this.cartItems.map(item => {
             //     if( item.id == p_id){
             //          item.price = price;
