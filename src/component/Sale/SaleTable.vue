@@ -65,7 +65,8 @@
                                     <p v-if=" product.unitId == 0" class=" mt-2"> Select Unit </p>
                                     <p v-else v-for="uni in product.unit" :key="uni.id" class="mt-2">
                                         <span v-if="product.unitId == uni.id"> {{ uni.unit}}</span>    
-                                    </p>   
+                                    </p>  
+                                  
                                      <ul class="dropdown-content">
                                         <li  v-for="u in product.unit" :key="u.id"  @click="pricing(product.id , u.id)" class=" my-2 rounded px-2 py-2 bg-white text-sm"> {{u.unit}} </li>
                                     </ul>  
@@ -526,7 +527,7 @@ export default {
 
                             let qty = Math.trunc(Number(item.quantity) * Number(u.unit_convert_rate));
 
-                            //window.alert(avl - qty);
+                            
                             if( avl < qty){
                                 item.quantity = Math.trunc( avl /Number(u.unit_convert_rate));
                                 window.alert("Not Enough Quantity, it is only remaining " + item.quantity  + " " + u.unit)
@@ -534,20 +535,18 @@ export default {
                         }
                      })
 
-                    //window.alert(item.quantity)
-
+                 
                     this.prices.map ( price => {
 
                         if( price.unit_id == item.unitId && item.variant_id == price.product_id){
-
-                                    
+                            
                                      if(price.min <= item.quantity )
                                             {
                                                 item.price = price.price
                                             }
-                              
-                        }    
-                    
+
+                        } 
+
                     })
                  }
                 

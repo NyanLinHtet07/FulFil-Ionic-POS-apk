@@ -132,7 +132,7 @@ const store = createStore({
         addToCart(state , payload){
 
             let item = payload;
-            item = { ...item, quantity:1 , unitId:0, price:0 , discount:0}
+            item = { ...item, quantity:1 , unitId:0, price:null , discount:0}
   
             if( state.cartItems.length > 0 ) {
               let bool = state.cartItems.some (i => i.id == item.id)
