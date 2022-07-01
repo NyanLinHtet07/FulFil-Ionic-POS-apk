@@ -67,18 +67,21 @@
                                         <span v-if="product.unitId == uni.id"> {{ uni.unit}}</span>    
                                     </p>  
 
-                                    
-                                        <ul class="dropdown-content">
-                                        <li  v-for="(u,index) in product.unit" :key="index"  class=" my-2 rounded px-2 py-2 bg-white text-sm"> 
+                                             <ul class="dropdown-content">
+                                                <li  v-for="u in product.unit" :key="u.id"  @click="pricing(product.id , u.id)" class=" my-2 rounded px-2 py-2 bg-white text-sm"> {{u.unit}} </li>
+                                            </ul>  
+                                        <!-- <li  v-for="(u,index) in product.unit" :key="index"  class=" my-2 rounded px-2 py-2 bg-white text-sm"> 
                                             <div  v-for="p in prices" :key="p.id" >
+                                                <span v-if=" p.active == 1">
                                                 <span  v-show="p.unit_id == u.id"  @click="pricing(product.id , u.id)">
                                                    
                                                     {{u.unit}} 
                                                 </span>
+                                                </span>
                                             </div>
                                                 
-                                        </li>
-                                    </ul>  
+                                        </li> -->
+                               
                                    
                                   
                                      
@@ -547,19 +550,41 @@ export default {
                         }
                      })
 
+
+
                  
-                    this.prices.map ( price => {
-
-                        if( price.unit_id == item.unitId && item.variant_id == price.product_id){
-                            
-                                     if(price.min <= item.quantity )
-                                            {
-                                                item.price = price.price
-                                            }
-
-                        } 
+                    this.prices.map( price => {
+   
+                            if(item.variant_id == price.product_id){
+                                if(price.unit_id == u_id){
+ 
+                                        if(price.min <= item.quantity )
+                                                {
+                                                   return item.price = price.price
+                                                }
+                                    }
+                                else{
+                                    return item.price = 0
+                                }
+      
+                                }
 
                     })
+
+                    this.prices.forEach((price, index) => {
+                                    if(price.unit_id == u_id && item.variant_id == price.product_id){
+                                         if(price.min <= item.quantity )
+                                                {
+                                                    item.price = price.price
+                                                    console.log(price);
+                                                    console.log(index);
+                                                }
+                                            
+                                        
+                                    }
+                                
+                                   
+                                });
                  }
                 
             })
