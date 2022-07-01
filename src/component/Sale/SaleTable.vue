@@ -66,10 +66,22 @@
                                     <p v-else v-for="uni in product.unit" :key="uni.id" class="mt-2">
                                         <span v-if="product.unitId == uni.id"> {{ uni.unit}}</span>    
                                     </p>  
-                                  
-                                     <ul class="dropdown-content">
-                                        <li  v-for="u in product.unit" :key="u.id"  @click="pricing(product.id , u.id)" class=" my-2 rounded px-2 py-2 bg-white text-sm"> {{u.unit}} </li>
+
+                                    
+                                        <ul class="dropdown-content">
+                                        <li  v-for="(u,index) in product.unit" :key="index"  class=" my-2 rounded px-2 py-2 bg-white text-sm"> 
+                                            <div  v-for="p in prices" :key="p.id" >
+                                                <span  v-show="p.unit_id == u.id"  @click="pricing(product.id , u.id)">
+                                                   
+                                                    {{u.unit}} 
+                                                </span>
+                                            </div>
+                                                
+                                        </li>
                                     </ul>  
+                                   
+                                  
+                                     
                                 </div> 
  
                                      

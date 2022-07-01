@@ -2,6 +2,7 @@
     <master-layout pageTitle="test">
         <ion-content>
 
+
             <div class="bg-profile" text-center padding>
                 <img src="/assets/fulfil.png" class=" mx-auto block">
             </div>
@@ -115,6 +116,15 @@
     </ion-item>
   </ion-list>
 
+  <ion-button @click="open" v-if="! isOpen">
+      open
+  </ion-button>
+
+   <ion-button @click="close" v-if="isOpen">
+      close
+  </ion-button>
+  <StreamBarcodeReader @decode="onDecode" @loaded="onLoaded" v-if="isOpen"></StreamBarcodeReader>
+
 
     </ion-content>
    
@@ -128,11 +138,39 @@ import { IonContent, IonCard, IonCardContent, IonItem, IonAvatar, IonLabel,
         IonSelectOption,  } from '@ionic/vue';
 
 
+import { StreamBarcodeReader } from  "vue-barcode-reader" ;
+  //Vue.use(StreamBarcodeReader);
+
+  
+
+
+
 export default {
+
+  data() {
+    return {
+      isOpen: false
+    }
+  },
+
     components:{
         IonContent, IonCard, IonCardContent, IonItem, IonAvatar, IonText, IonButton, IonIcon, IonList, IonListHeader, IonSelect, IonSelectOption,
-        IonLabel
-    }
+        IonLabel, StreamBarcodeReader
+    },
+
+    methods: {
+      open(){
+        this.isOpen = true
+      },
+
+      close(){
+        this.isOpen = false
+      },
+
+      onDecode (result) 
+       { console.log(result) } 
+
+    },
     
 
 

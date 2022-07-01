@@ -497,8 +497,8 @@
 
             <!------------ print ------------------------->
             <div class="invisible">
-                <div  id="print-wrapper"
-                    style="max-width: 800px;margin: auto;padding: 30px;border: 1px solid #eee;box-shadow: 0 0 10px rgba(0, 0, 0, .15);font-size: 16px;line-height: 24px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #555;">
+                <div  id="print"
+                    style="max-width: 800px;margin: auto;padding: 30px;font-size: 16px;line-height: 24px;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;color: #555;">
                     <table cellpadding="0" cellspacing="0" style="width: 100%;line-height: inherit;text-align: left; border:none;">
                         <div v-if=" company == null">
                             <img src="/assets/err.png" alt="" srcset="" style=" width:100px; height:100px; margin:auto; padding:20px;">
@@ -524,7 +524,7 @@
       
                                 <tr>
                                      <td colspan="6" style="padding: 5px; vertical-align: top ;padding-bottom: 20px; font-weight:bold; font-size:small; border:none;">
-                                    <h3>{{company.name}} </h3> <br>
+                                    <h2 style=" color: gray;">{{company.name}} </h2> 
                                     Phone --- {{company.phone}} / {{company.mobile_phone}} <br>
                                      Fax ------- {{company.fax}} <br>
                                     email ---- {{company.email}} <br>
@@ -532,7 +532,7 @@
                                     Address - {{company.address}}
                                     </td>
 
-                                      <td style="padding: 5px; vertical-align: top;padding-bottom: 40px; font-weight:bold; font-size:small; border:none;">
+                                      <td style="padding: 5px; margin-top: 30px; vertical-align: top;padding-bottom: 40px; font-weight:bold; font-size:small; border:none;">
                                      Name - {{cus.name}}<br>
                                      Phone.No -  {{cus.phone}} <br>
                                      Email -  {{invoice.email}}<br>
@@ -552,9 +552,9 @@
 
                         <tr>
                             <td colspan="8">
-                                <table style="width:100%;line-height: inherit;text-align: center; border:2px solid white; background:#f2f7f7; padding:5px; font-size:small;">
+                                <table style="width:100%;line-height: inherit;text-align: center;   padding:5px; font-size:small;">
                                     <thead>
-                                         <th  style=" margin-top:5px;"> Name </th>
+                                         <th> Name </th>
                                         <th> Unit </th> 
                                         <th> Price </th>
                                         <th> Quantity  </th>
@@ -662,7 +662,8 @@ import axios from 'axios'
 import moment from 'moment'
 import Payment from '../../component/Sale/PayMentComponent.vue'
 import Loader from '../../component/LoaderComponent.vue'
-import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator';
+import print from 'print-js'
+//import { PDFGenerator } from '@awesome-cordova-plugins/pdf-generator';
 //import Edit from '../../component/Sale/editInvoice.vue'
 
 export default {
@@ -707,7 +708,7 @@ export default {
             res:'',
 
             //pdf
-            pdfGenerator : PDFGenerator,
+            //pdfGenerator : PDFGenerator,
         }
     },
 
@@ -833,7 +834,7 @@ export default {
                   
                   //console.log(response)
 
-        },
+        }, 
 
         async destroy(){ 
             if(!confirm('Are You Sure To Cancel')) return;
@@ -849,21 +850,31 @@ export default {
         },
 
          print(){
-        //    this.disable = false; 
-            this.content = document.getElementById('print-wrapper').innerHTML;
-                    let options = {
-                    documentSize: 'A4',
-                    type: 'share',
-                    landscape: 'portrait',
-                    fileName: 'Invoice.pdf'
-                    };
-                    this.pdfGenerator.fromData(this.content, options)
-                    .then((base64) => {
-                        console.log('OK', base64);
-                    }).catch((error) => {
-                        console.log('error', error);
-                    });
+            //android print
+            // this.content = document.getElementById('print-wrapper').innerHTML;
+            //         let options = {
+            //         documentSize: 'A4',
+            //         type: 'share',
+            //         landscape: 'portrait',
+            //         fileName: 'Invoice.pdf'
+            //         };
+            //         this.pdfGenerator.fromData(this.content, options)
+            //         .then((base64) => {
+            //             console.log('OK', base64);
+            //         }).catch((error) => {
+            //             console.log('error', error);
+            //         });
                             
+          
+                   
+                print({
+                    printable: "print",
+                    type: "html",
+                    //header: " မြင့်မြတ်"
+                    scanStyles: false,
+                    onPrintDialogClose: () => console.log("The print dialog was closed"),
+                    onError: e => console.log(e)
+                });
             
         }
     
