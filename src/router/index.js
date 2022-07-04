@@ -7,7 +7,7 @@ import Login from '../pages/Auth/LoginAdmin.vue';
 const routes = [
 {
   path:'/',
-  redirect:'/login',
+  redirect:'/select-sales',
 },
 {
   path:'/login',
@@ -123,6 +123,25 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from , next) => {
+  if( to.path == '/login'){
+    next();
+  }
+  else{
+    let auth = localStorage.getItem('token')
+    if(auth){
+      next();
+    }
+
+    else{
+      next('/login')
+    }
+  }
+ 
+  // console.log('Moddleware is working');
+  // next();
 })
 
 export default router

@@ -553,7 +553,7 @@ export default {
 
 
                  
-                    this.prices.map( price => {
+                    this.prices.filter( price => {
    
                             if(item.variant_id == price.product_id){
                                 if(price.unit_id == u_id){
